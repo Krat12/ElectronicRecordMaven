@@ -5,7 +5,8 @@
  */
 package com.mycompany.javafx.electronicrecord.utill;
 
-import com.mycompany.javafx.electronicrecord.model.Group;
+import com.mycompany.javafx.electronicrecord.model.Admin;
+import com.mycompany.javafx.electronicrecord.model.Groupstud;
 import com.mycompany.javafx.electronicrecord.model.Speciality;
 import com.mycompany.javafx.electronicrecord.model.Student;
 import com.mycompany.javafx.electronicrecord.model.Teacher;
@@ -28,8 +29,9 @@ public class HibernateSessionFactoryUtill {
             configuration.addAnnotatedClass(User.class);
             configuration.addAnnotatedClass(Teacher.class);
             configuration.addAnnotatedClass(Student.class);
-            configuration.addAnnotatedClass(Group.class);
+            configuration.addAnnotatedClass(Groupstud.class);
             configuration.addAnnotatedClass(Speciality.class);
+            configuration.addAnnotatedClass(Admin.class);
             StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
             sessionFactory = configuration.buildSessionFactory(builder.build());
         }

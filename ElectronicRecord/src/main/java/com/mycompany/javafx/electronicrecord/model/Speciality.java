@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mycompany.javafx.electronicrecord.model;
 
 import java.io.Serializable;
@@ -20,10 +15,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-/**
- *
- * @author user07
- */
+
 @Entity
 @Table(name = "speciality")
 @NamedQueries({
@@ -38,10 +30,8 @@ public class Speciality implements Serializable {
     private Integer specialityid;
     @Column(name = "nameSpeciality")
     private String nameSpeciality;
-    @OneToMany(mappedBy = "speciality",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<Group> groups;
-     
-    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "specialityId", fetch = FetchType.LAZY)
+    private List<Groupstud> groupstudList;
 
     public Speciality() {
     }
@@ -64,6 +54,14 @@ public class Speciality implements Serializable {
 
     public void setNameSpeciality(String nameSpeciality) {
         this.nameSpeciality = nameSpeciality;
+    }
+
+    public List<Groupstud> getGroupstudList() {
+        return groupstudList;
+    }
+
+    public void setGroupstudList(List<Groupstud> groupstudList) {
+        this.groupstudList = groupstudList;
     }
 
     @Override
@@ -91,18 +89,4 @@ public class Speciality implements Serializable {
         return "com.mycompany.javafx.electronicrecord.model.Speciality[ specialityid=" + specialityid + " ]";
     }
 
-    /**
-     * @return the groups
-     */
-    public List<Group> getGroups() {
-        return groups;
-    }
-
-    /**
-     * @param groups the groups to set
-     */
-    public void setGroups(List<Group> groups) {
-        this.groups = groups;
-    }
-    
 }

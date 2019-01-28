@@ -5,14 +5,14 @@
  */
 package com.mycompany.javafx.electronicrecord.dao.interfaces;
 
-import com.mycompany.javafx.electronicrecord.model.Group;
+import com.mycompany.javafx.electronicrecord.model.Groupstud;
 import java.util.List;
 
 /**
  *
  * @author user07
  */
-public interface GroupDAO extends ObjectDAO<Group>{
+public interface GroupDAO extends ObjectDAO<Groupstud>{
     
-    List<Group> getAllGroups();
+    List<Groupstud> getAllGroups();
 }

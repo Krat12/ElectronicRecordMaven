@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mycompany.javafx.electronicrecord.model;
 
 import java.io.Serializable;
@@ -17,10 +12,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-/**
- *
- * @author Студент
- */
+
 @Entity
 @Table(name = "teacher")
 @NamedQueries({
@@ -101,8 +93,7 @@ public class Teacher implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Teacher[ teacherid=" + teacherid + " ]";
+        return "com.mycompany.javafx.electronicrecord.model.Teacher[ teacherid=" + teacherid + " ]";
     }
-    
-}
 
+}

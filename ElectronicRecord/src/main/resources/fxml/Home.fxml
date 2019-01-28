@@ -52,7 +52,7 @@
             </Button>
             <Button fx:id="btnStudents" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../styles/button.css" text="Список студентов" GridPane.columnIndex="1">
                <graphic>
-                  <FontAwesomeIconView fx:id="test" fill="#2d75e8" glyphName="GRADUATION_CAP" size="50" />
+                  <FontAwesomeIconView fx:id="test" fill="#2d75e8" glyphName="GRADUATION_CAP" size="50" smooth="false" strikethrough="true" underline="true" />
                </graphic>
                <font>
                   <Font size="16.0" />

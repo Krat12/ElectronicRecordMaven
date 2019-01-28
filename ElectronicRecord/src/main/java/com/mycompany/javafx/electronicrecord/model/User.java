@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mycompany.javafx.electronicrecord.model;
 
 import java.io.Serializable;
@@ -19,12 +14,11 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-/**
- *
- * @author Студент
- */
+
 @Entity
 @Table(name = "user")
+@NamedQueries({
+    @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,22 +32,31 @@ public class User implements Serializable {
     @Column(name = "surname")
     private String surname;
     @Column(name = "midleName")
-    private String lastName;
+    private String midleName;
+    @Basic(optional = false)
     @Column(name = "login")
     private String login;
+    @Basic(optional = false)
     @Column(name = "password")
     private String password;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
     private Teacher teacher;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
     private Student student;
-    
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
+    private Admin admin;
 
     public User() {
     }
 
     public User(Integer userId) {
         this.userId = userId;
+    }
+
+    public User(Integer userId, String login, String password) {
+        this.userId = userId;
+        this.login = login;
+        this.password = password;
     }
 
     public Integer getUserId() {
@@ -80,12 +83,12 @@ public class User implements Serializable {
         this.surname = surname;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getMidleName() {
+        return midleName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setMidleName(String midleName) {
+        this.midleName = midleName;
     }
 
     public String getLogin() {
@@ -112,6 +115,22 @@ public class User implements Serializable {
         this.teacher = teacher;
     }
 
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -134,21 +153,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "model.User[ userId=" + userId + " ]";
-    }
-
-    /**
-     * @return the student
-     */
-    public Student getStudent() {
-        return student;
-    }
-
-    /**
-     * @param student the student to set
-     */
-    public void setStudent(Student student) {
-        this.student = student;
+        return "com.mycompany.javafx.electronicrecord.model.User[ userId=" + userId + " ]";
     }
 
 }
