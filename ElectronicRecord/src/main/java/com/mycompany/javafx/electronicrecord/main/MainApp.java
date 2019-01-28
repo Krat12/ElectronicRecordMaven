@@ -1,5 +1,6 @@
 package com.mycompany.javafx.electronicrecord.main;
 
+import com.mycompany.javafx.electronicrecord.utill.HibernateSessionFactoryUtill;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
@@ -7,15 +8,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+
 
 
 public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Home.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Login.fxml"));
         stage.getIcons().add(new Image("/image/round-button-blue-glossy-download-png-93250.png"));
+        HibernateSessionFactoryUtill.getSessionFactory();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setMinHeight(310);
