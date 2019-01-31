@@ -333,7 +333,7 @@
 .custom-alert > *.label.content{
     -fx-font-size: 14px;
     -fx-font-weight: bold;
-    -fx-text-fill: white;
+    -fx-text-fill: #1976D2;
 }
 .custom-alert:header *.header-panel{
     -fx-background-color: #1976D2;

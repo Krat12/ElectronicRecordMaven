@@ -46,7 +46,7 @@
          <children>
             <Button fx:id="btnDashboard" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../styles/button.css" text="Список групп">
                <graphic>
-                  <FontAwesomeIconView fill="#2d75e8" glyphName="INDENT" size="50" />
+                  <FontAwesomeIconView fx:id="icon_table" fill="#2d75e8" glyphName="TABLE" size="50" />
                </graphic>
                <font>
                   <Font size="16.0" />

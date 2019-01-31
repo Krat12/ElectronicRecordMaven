@@ -11,12 +11,14 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -52,16 +54,21 @@ public class StudentsListController implements Initializable {
     @FXML
     private JFXComboBox<String> groupsList;
 
+    @FXML
+    private TextField txt_serch;
+
     private void initCol() {
         numberStudent.setCellValueFactory(new PropertyValueFactory<>("numberStudent"));
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
         numberRecord.setCellValueFactory(new PropertyValueFactory<>("numberRecord"));
         fullName.setCellValueFactory(new PropertyValueFactory<>("fullName"));
         course.setCellValueFactory(new PropertyValueFactory<>("course"));
-        fullName.setMinWidth(300);
-        numberStudent.setMinWidth(15);
+        fullName.setMinWidth(100);
+        numberStudent.setMinWidth(40);
+        numberStudent.setMaxWidth(100);
         numberRecord.setMinWidth(30);
-        course.setMinWidth(15);
+        course.setMinWidth(30);
+
     }
 
     private void loadData() {
@@ -69,20 +76,20 @@ public class StudentsListController implements Initializable {
         groups.clear();
         int i = 1;
         for (com.mycompany.javafx.electronicrecord.model.Student student : StudentDB.getInstance().getAllStudents()) {
-            
-            Integer numberStudent = i;   
+
+            Integer numberStudent = i;
             String fullName = student.getUser().getName() + " " + student.getUser().getSurname() + " " + student.getUser().getMidleName();
             Integer numberRecord = student.getNumberBook();
             Integer id = student.getStudentid();
             Integer course = student.getCourse();
-            listStudents.add(new Student(numberStudent, fullName,numberRecord, id, course));
+            listStudents.add(new Student(numberStudent, fullName, numberRecord, id, course));
             i++;
         }
         for (Groupstud groupstud : GroupDB.getInstance().getAllGroups()) {
             groups.add(groupstud.getGroupname());
-            
+
         }
-         groupsList.setItems(groups);
+        groupsList.setItems(groups);
 
         tableView.setItems(listStudents);
     }
@@ -104,7 +111,7 @@ public class StudentsListController implements Initializable {
 
     @FXML
     void handleBookEditOption(ActionEvent event) {
-     Student selectedForEdit = tableView.getSelectionModel().getSelectedItem();
+        Student selectedForEdit = tableView.getSelectionModel().getSelectedItem();
         if (selectedForEdit == null) {
             AlertMaker.showErrorMessage("Студент не выбран", "Пожалуйста, выберите студента.");
             return;
@@ -121,18 +128,24 @@ public class StudentsListController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         initCol();
         loadData();
-          tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-       
+        tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+    }
+
+    @FXML
+    void serch(ActionEvent event) {
+    
     }
 
     public static class Student {
-        private SimpleIntegerProperty numberStudent; 
+
+        private SimpleIntegerProperty numberStudent;
         private SimpleStringProperty fullName;
         private SimpleIntegerProperty numberRecord;
         private SimpleIntegerProperty id;
         private SimpleIntegerProperty course;
 
-        public Student(Integer numberStudent, String fullName , Integer numberRecord, Integer id, Integer course) {
+        public Student(Integer numberStudent, String fullName, Integer numberRecord, Integer id, Integer course) {
             this.fullName = new SimpleStringProperty(fullName);
             this.numberStudent = new SimpleIntegerProperty(numberStudent);
             this.numberRecord = new SimpleIntegerProperty(numberRecord);
@@ -159,12 +172,6 @@ public class StudentsListController implements Initializable {
         public Integer getCourse() {
             return course.get();
         }
-        
-        
-        
-
-
-
 
     }
 

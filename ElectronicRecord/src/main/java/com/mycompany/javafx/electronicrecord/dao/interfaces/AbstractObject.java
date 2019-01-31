@@ -54,21 +54,6 @@ public abstract class AbstractObject<Entity> implements ObjectDAO<Entity> {
         }
     }
 
-    @Override
-    public void delete(Entity entity) {
-               Session session = HibernateSessionFactoryUtill.getSessionFactory().openSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-            session.delete(entity);
-            transaction.commit();
-        } catch (Exception e) {
-            System.out.println("Exeption " + e);
-            transaction.rollback();
-        } finally {
-            session.close();
-        }
-    }
     
 
 }

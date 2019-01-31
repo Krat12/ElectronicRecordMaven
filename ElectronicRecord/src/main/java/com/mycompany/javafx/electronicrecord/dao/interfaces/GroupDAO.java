@@ -15,4 +15,8 @@ import java.util.List;
 public interface GroupDAO extends ObjectDAO<Groupstud>{
     
     List<Groupstud> getAllGroups();
+    
+    List<Groupstud> getGroupstudsByNameGroup(String name);
+    
+    boolean deleteGroup (int id);
 }

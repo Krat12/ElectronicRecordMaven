@@ -2,8 +2,11 @@ package com.mycompany.javafx.electronicrecord.controllers;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,7 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-public class HomeController {
+public class HomeController implements Initializable{
 
     @FXML
     private Button btnDashboard;
@@ -36,6 +39,11 @@ public class HomeController {
 
     @FXML
     private Button btn_Timetable1;
+    
+    @FXML
+    private FontAwesomeIconView icon_test;
+    
+    
 
     @FXML
     void logout(MouseEvent event) throws IOException {
@@ -43,6 +51,11 @@ public class HomeController {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
         stage.setScene(new Scene(parent));
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        icon_test.setSize(String.valueOf(50));
     }
 
 }

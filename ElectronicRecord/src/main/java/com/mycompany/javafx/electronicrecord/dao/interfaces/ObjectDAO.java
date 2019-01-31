@@ -15,5 +15,5 @@ public interface ObjectDAO <Entity> {
     
     void update(Entity entity);
     
-    void delete (Entity entity);
+    
 }

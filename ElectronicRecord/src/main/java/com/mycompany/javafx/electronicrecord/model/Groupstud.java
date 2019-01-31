@@ -27,14 +27,13 @@ public class Groupstud implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "Group_id")
     private Integer groupid;
     @Column(name = "Group_name")
     private String groupname;
     @Column(name = "setYear")
     private Short setYear;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupid", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupid", fetch = FetchType.LAZY,orphanRemoval = true)
     private List<Student> studentList;
     @JoinColumn(name = "speciality_id", referencedColumnName = "Speciality_id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)

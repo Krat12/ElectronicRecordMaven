@@ -15,7 +15,7 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/StudenList.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/GroupList.fxml"));
         stage.getIcons().add(new Image("/image/round-button-blue-glossy-download-png-93250.png"));
         HibernateSessionFactoryUtill.getSessionFactory();
         Scene scene = new Scene(root);
