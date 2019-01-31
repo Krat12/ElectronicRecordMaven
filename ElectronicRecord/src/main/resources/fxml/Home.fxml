@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="614.0" prefWidth="904.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="AnchorPane" prefHeight="614.0" prefWidth="904.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javafx.electronicrecord.controllers.HomeController">
    <children>
       <Pane prefHeight="182.0" prefWidth="904.0" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -26,6 +26,11 @@
                   <Font size="11.0" />
                </font>
             </Text>
+            <FontAwesomeIconView fill="WHITE" glyphName="SIGN_OUT" layoutX="830.0" layoutY="108.0" onMouseClicked="#logout" size="50">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </FontAwesomeIconView>
          </children>
       </Pane>
       <GridPane alignment="CENTER" hgap="10.0" layoutX="109.0" layoutY="221.0" prefHeight="346.0" prefWidth="686.0" vgap="10.0" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="109.0" AnchorPane.rightAnchor="109.0" AnchorPane.topAnchor="221.0">
