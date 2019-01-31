@@ -36,16 +36,16 @@ public class StudentsListController implements Initializable {
     private TableView<Student> tableView;
 
     @FXML
-    private TableColumn<Student, String> fullName;
+    private TableColumn<Student, Integer> numberStudent;
 
     @FXML
-    private TableColumn<Student, String> group;
+    private TableColumn<Student, String> fullName;
 
     @FXML
     private TableColumn<Student, Integer> id;
 
     @FXML
-    private TableColumn<Student, String> speciality;
+    private TableColumn<Student, Integer> numberRecord;
 
     @FXML
     private TableColumn<Student, Integer> course;
@@ -53,25 +53,30 @@ public class StudentsListController implements Initializable {
     private JFXComboBox<String> groupsList;
 
     private void initCol() {
-        fullName.setCellValueFactory(new PropertyValueFactory<>("fullName"));
+        numberStudent.setCellValueFactory(new PropertyValueFactory<>("numberStudent"));
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
-        speciality.setCellValueFactory(new PropertyValueFactory<>("speciality"));
-        group.setCellValueFactory(new PropertyValueFactory<>("group"));
+        numberRecord.setCellValueFactory(new PropertyValueFactory<>("numberRecord"));
+        fullName.setCellValueFactory(new PropertyValueFactory<>("fullName"));
         course.setCellValueFactory(new PropertyValueFactory<>("course"));
+        fullName.setMinWidth(300);
+        numberStudent.setMinWidth(15);
+        numberRecord.setMinWidth(30);
+        course.setMinWidth(15);
     }
 
     private void loadData() {
         listStudents.clear();
         groups.clear();
-
+        int i = 1;
         for (com.mycompany.javafx.electronicrecord.model.Student student : StudentDB.getInstance().getAllStudents()) {
-
+            
+            Integer numberStudent = i;   
             String fullName = student.getUser().getName() + " " + student.getUser().getSurname() + " " + student.getUser().getMidleName();
-            String speciality = student.getGroupid().getSpecialityId().getNameSpeciality();
+            Integer numberRecord = student.getNumberBook();
             Integer id = student.getStudentid();
-            String group = student.getGroupid().getGroupname();
             Integer course = student.getCourse();
-            listStudents.add(new Student(fullName, speciality, id, group, course));
+            listStudents.add(new Student(numberStudent, fullName,numberRecord, id, course));
+            i++;
         }
         for (Groupstud groupstud : GroupDB.getInstance().getAllGroups()) {
             groups.add(groupstud.getGroupname());
@@ -121,40 +126,45 @@ public class StudentsListController implements Initializable {
     }
 
     public static class Student {
-
+        private SimpleIntegerProperty numberStudent; 
         private SimpleStringProperty fullName;
-        private SimpleStringProperty speciality;
+        private SimpleIntegerProperty numberRecord;
         private SimpleIntegerProperty id;
-        private SimpleStringProperty group;
         private SimpleIntegerProperty course;
 
-        public Student(String fullName, String speciality, Integer id, String group, Integer course) {
+        public Student(Integer numberStudent, String fullName , Integer numberRecord, Integer id, Integer course) {
             this.fullName = new SimpleStringProperty(fullName);
-            this.speciality = new SimpleStringProperty(speciality);
+            this.numberStudent = new SimpleIntegerProperty(numberStudent);
+            this.numberRecord = new SimpleIntegerProperty(numberRecord);
             this.id = new SimpleIntegerProperty(id);
-            this.group = new SimpleStringProperty(group);
             this.course = new SimpleIntegerProperty(course);
+        }
+
+        public Integer getNumberStudent() {
+            return numberStudent.get();
         }
 
         public String getFullName() {
             return fullName.get();
         }
 
-        public String getSpeciality() {
-            return speciality.get();
+        public Integer getNumberRecord() {
+            return numberRecord.get();
         }
 
-        public int getId() {
+        public Integer getId() {
             return id.get();
         }
 
-        public String getGroup() {
-            return group.get();
-        }
-
-        public int getCourse() {
+        public Integer getCourse() {
             return course.get();
         }
+        
+        
+        
+
+
+
 
     }
 
