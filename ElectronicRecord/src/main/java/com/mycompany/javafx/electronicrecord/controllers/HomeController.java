@@ -1,9 +1,7 @@
-package com.mycompany.javafx.electronicrecord.controllers;
+    package com.mycompany.javafx.electronicrecord.controllers;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,7 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-public class HomeController implements Initializable{
+public class HomeController {
 
     @FXML
     private Button btnDashboard;
@@ -53,9 +51,6 @@ public class HomeController implements Initializable{
         stage.setScene(new Scene(parent));
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        icon_test.setSize(String.valueOf(50));
-    }
+  
 
 }

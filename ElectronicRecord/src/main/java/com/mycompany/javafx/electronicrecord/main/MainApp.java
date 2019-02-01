@@ -1,12 +1,12 @@
 package com.mycompany.javafx.electronicrecord.main;
 
+import com.mycompany.javafx.electronicrecord.utill.ElectronicRecordUtill;
 import com.mycompany.javafx.electronicrecord.utill.HibernateSessionFactoryUtill;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 
@@ -15,8 +15,8 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/GroupList.fxml"));
-        stage.getIcons().add(new Image("/image/round-button-blue-glossy-download-png-93250.png"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/AddGroup.fxml"));
+        ElectronicRecordUtill.setStageIcon(stage);
         HibernateSessionFactoryUtill.getSessionFactory();
         Scene scene = new Scene(root);
         stage.setScene(scene);
