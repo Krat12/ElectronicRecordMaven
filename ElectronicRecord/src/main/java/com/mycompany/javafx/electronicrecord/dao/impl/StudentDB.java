@@ -4,6 +4,7 @@ import com.mycompany.javafx.electronicrecord.dao.interfaces.AbstractObject;
 import com.mycompany.javafx.electronicrecord.dao.interfaces.StudentDAO;
 import com.mycompany.javafx.electronicrecord.model.Student;
 import com.mycompany.javafx.electronicrecord.utill.HibernateSessionFactoryUtill;
+import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -58,15 +59,23 @@ public class StudentDB extends AbstractObject<Student> implements StudentDAO {
         Session session = HibernateSessionFactoryUtill.getSessionFactory().openSession();
         List<Student> students = null;
         try {
-            Query query = session.createQuery("from Student s join fetch s.user u join fetch s.group g where g.groupName = :group");
+            Query query = session.createQuery("SELECT s.course,u.midleName,g.groupname FROM Student s join s.user u join s.groupid g where g.groupname = :group");
             query.setParameter("group", group);
-            students = query.getResultList();
+            List<Object> objects = query.list();
+            Iterator itr = objects.iterator();
+            while (itr.hasNext()) {
+                Object[] obj = (Object[]) itr.next();
+                Student student = new Student();
+                //student.setUser(user);
+                
+            }
+
         } catch (Exception e) {
             System.out.println(e);
         } finally {
             session.close();
         }
-        return students;
+        return null;
     }
 
 }
