@@ -62,7 +62,7 @@ public class StudentDB extends AbstractObject<Student> implements StudentDAO {
         List<Student> students =  new ArrayList<Student>();
         try {
             Query query = session.createQuery("SELECT s.studentid,u.name,u.midleName,u.surname,s.numberBook,u.login,u.password "
-                    + "FROM Student s join s.user u join s.groupid g where g.groupname = :group");
+                    + "FROM Student s join s.user u join s.groupid g where g.groupname = :group ORDER BY u.surname");
             query.setParameter("group", group);
             List<Object> objects = query.list();
             Iterator itr = objects.iterator();
@@ -83,6 +83,44 @@ public class StudentDB extends AbstractObject<Student> implements StudentDAO {
                 students.add(student);
             }
 
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            session.close();
+        }
+        return students;
+    }
+
+    @Override
+    public List<Student> getStudentsByNameAndGroup(String name,String group) {
+         Session session = HibernateSessionFactoryUtill.getSessionFactory().openSession();
+        List<Student> students = new ArrayList<>();
+
+        try {
+            Query query = session.createQuery("SELECT s.studentid,u.name,u.midleName,u.surname,s.numberBook,u.login,u.password "
+                    + "FROM Student s join s.user u join s.groupid g "
+                    + "where g.groupname = :group "
+                    + "AND CONCAT(u.surname,' ',u.name,' ',u.midleName) LIKE CONCAT('%', :name ,'%')" );
+            query.setParameter("name",name);
+            query.setParameter("group", group);
+            List<Object> objects = query.list();
+            Iterator itr = objects.iterator();
+            while (itr.hasNext()) {
+                Object[] obj = (Object[]) itr.next();
+                
+                User user = new User();
+                user.setName(String.valueOf(obj[1]));
+                user.setMidleName(String.valueOf(obj[2]));
+                user.setSurname(String.valueOf(obj[3]));
+                user.setLogin(String.valueOf(obj[5]));
+                user.setPassword(String.valueOf(obj[6]));
+                
+                Student student = new Student(Integer.valueOf(String.valueOf(obj[0])));
+                student.setNumberBook(Integer.valueOf(String.valueOf(obj[4])));
+                student.setUser(user);
+                
+                students.add(student);
+            }
         } catch (Exception e) {
             System.out.println(e);
         } finally {

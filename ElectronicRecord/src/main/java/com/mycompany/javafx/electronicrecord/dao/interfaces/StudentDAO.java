@@ -20,4 +20,6 @@ public interface StudentDAO extends ObjectDAO<Student>{
     
     List<Student> getStudentsByGroup(String group);
     
+    List<Student> getStudentsByNameAndGroup(String name,String group);
+    
 }

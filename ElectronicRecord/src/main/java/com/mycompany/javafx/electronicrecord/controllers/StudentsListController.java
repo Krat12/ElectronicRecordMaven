@@ -22,6 +22,8 @@ import javafx.scene.layout.StackPane;
 public class StudentsListController implements Initializable {
 
     ObservableList<Student> listStudents = FXCollections.observableArrayList();
+    ObservableList<Student> sortStudents = FXCollections.observableArrayList();
+    private static String groupName;
 
     @FXML
     private StackPane rootPane;
@@ -71,7 +73,7 @@ public class StudentsListController implements Initializable {
         for (com.mycompany.javafx.electronicrecord.model.Student student : StudentDB.getInstance().getStudentsByGroup(GroupListController.Group.getNameGroup())) {
 
             Integer numberStudent = amount;
-            String fullName = student.getUser().getName() + " " + student.getUser().getSurname() + " " + student.getUser().getMidleName();
+            String fullName = student.getUser().getSurname() + " " + student.getUser().getName() + " " + student.getUser().getMidleName();
             Integer id = student.getStudentid();
             String login = student.getUser().getLogin();
             String password = student.getUser().getPassword();
@@ -94,7 +96,7 @@ public class StudentsListController implements Initializable {
     }
 
     @FXML
-    void handleBookDeleteOption(ActionEvent event) {
+    void handleStudentDeleteOption(ActionEvent event) {
 
     }
 
@@ -129,11 +131,26 @@ public class StudentsListController implements Initializable {
         initCol();
         loadData();
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
+        groupName = GroupListController.Group.getNameGroup();
     }
 
     @FXML
     void serch(ActionEvent event) {
+        sortStudents.clear();
+        int amount = 1;
+        for (com.mycompany.javafx.electronicrecord.model.Student student : StudentDB.getInstance().getStudentsByNameAndGroup(txt_serch.getText(), groupName)) {
+            
+            Integer numberStudent = amount;
+            String fullName = student.getUser().getSurname() + " " + student.getUser().getName() + " " + student.getUser().getMidleName();
+            Integer id = student.getStudentid();
+            String login = student.getUser().getLogin();
+            String password = student.getUser().getPassword();
+            Integer numberRecord = student.getNumberBook();
+            amount++;
+            sortStudents.add(new Student(numberStudent, fullName, id,login,password,numberRecord));
+        }
+        tableView.setItems(sortStudents);
+        
     
     }
 

@@ -19,8 +19,8 @@ public class NewMain {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        List<Student> student = StudentDB.getInstance().getStudentsByGroup("Пр15-04");
-        System.out.println(student.get(0).getUser().getMidleName());
+        List<Student> student = StudentDB.getInstance().getStudentsByNameAndGroup("Романов И","Пр15-04");
+        System.out.println(student);
     }
     
 }

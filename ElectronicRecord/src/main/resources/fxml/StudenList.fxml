@@ -35,7 +35,7 @@
                         <MenuItem mnemonicParsing="false" onAction="#handleRefresh" text="Обновить" />
                       <MenuItem mnemonicParsing="false" onAction="#handleStudentEditOption" text="Изменить" />
                         <MenuItem mnemonicParsing="false" onAction="#handleStudentAddOption" text="Добавить" />
-                        <MenuItem mnemonicParsing="false" onAction="#handleBookDeleteOption" text="Удалить" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleStudentDeleteOption" text="Удалить" />
                     </items>
                   </ContextMenu>
                </contextMenu>

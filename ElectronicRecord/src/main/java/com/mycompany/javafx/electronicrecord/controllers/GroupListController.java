@@ -69,6 +69,7 @@ public class GroupListController implements Initializable {
 
     @FXML
     private TextField txt_serch;
+    
 
     @FXML
     void closeStage(ActionEvent event) {
@@ -252,8 +253,10 @@ public class GroupListController implements Initializable {
 
     @FXML
     void SelectGroup(MouseEvent event) {
-        Group group = tableView.getSelectionModel().getSelectedItem();
-        Group.setNameGroup(group.getGroupName());
+        if (tableView.getSelectionModel().getSelectedItem() != null) {
+            Group group = tableView.getSelectionModel().getSelectedItem();
+            Group.setNameGroup(group.getGroupName());
+        }
 
     }
 
