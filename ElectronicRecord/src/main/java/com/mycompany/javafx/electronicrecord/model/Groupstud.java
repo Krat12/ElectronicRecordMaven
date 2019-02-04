@@ -33,7 +33,7 @@ public class Groupstud implements Serializable {
     private String groupname;
     @Column(name = "setYear")
     private Short setYear;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupid", fetch = FetchType.LAZY,orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupid", fetch = FetchType.LAZY)
     private List<Student> studentList;
     @JoinColumn(name = "speciality_id", referencedColumnName = "Speciality_id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)

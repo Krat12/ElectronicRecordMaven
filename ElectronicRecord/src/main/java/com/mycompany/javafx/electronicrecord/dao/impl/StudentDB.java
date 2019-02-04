@@ -3,7 +3,9 @@ package com.mycompany.javafx.electronicrecord.dao.impl;
 import com.mycompany.javafx.electronicrecord.dao.interfaces.AbstractObject;
 import com.mycompany.javafx.electronicrecord.dao.interfaces.StudentDAO;
 import com.mycompany.javafx.electronicrecord.model.Student;
+import com.mycompany.javafx.electronicrecord.model.User;
 import com.mycompany.javafx.electronicrecord.utill.HibernateSessionFactoryUtill;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -57,17 +59,28 @@ public class StudentDB extends AbstractObject<Student> implements StudentDAO {
     @Override
     public List<Student> getStudentsByGroup(String group) {
         Session session = HibernateSessionFactoryUtill.getSessionFactory().openSession();
-        List<Student> students = null;
+        List<Student> students =  new ArrayList<Student>();
         try {
-            Query query = session.createQuery("SELECT s.course,u.midleName,g.groupname FROM Student s join s.user u join s.groupid g where g.groupname = :group");
+            Query query = session.createQuery("SELECT s.studentid,u.name,u.midleName,u.surname,s.numberBook,u.login,u.password "
+                    + "FROM Student s join s.user u join s.groupid g where g.groupname = :group");
             query.setParameter("group", group);
             List<Object> objects = query.list();
             Iterator itr = objects.iterator();
             while (itr.hasNext()) {
                 Object[] obj = (Object[]) itr.next();
-                Student student = new Student();
-                //student.setUser(user);
                 
+                User user = new User();
+                user.setName(String.valueOf(obj[1]));
+                user.setMidleName(String.valueOf(obj[2]));
+                user.setSurname(String.valueOf(obj[3]));
+                user.setLogin(String.valueOf(obj[5]));
+                user.setPassword(String.valueOf(obj[6]));
+                
+                Student student = new Student(Integer.valueOf(String.valueOf(obj[0])));
+                student.setNumberBook(Integer.valueOf(String.valueOf(obj[4])));
+                student.setUser(user);
+                
+                students.add(student);
             }
 
         } catch (Exception e) {
@@ -75,7 +88,7 @@ public class StudentDB extends AbstractObject<Student> implements StudentDAO {
         } finally {
             session.close();
         }
-        return null;
+        return students;
     }
 
 }

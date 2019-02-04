@@ -6,6 +6,8 @@ import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import com.mycompany.javafx.electronicrecord.dao.impl.GroupDB;
 import com.mycompany.javafx.electronicrecord.model.Groupstud;
 import com.mycompany.javafx.electronicrecord.utill.AlertMaker;
+import com.mycompany.javafx.electronicrecord.utill.ElectronicRecordUtill;
+import com.mycompany.javafx.electronicrecord.utill.HibernateSessionFactoryUtill;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -21,6 +23,8 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
@@ -31,6 +35,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class GroupListController implements Initializable {
 
@@ -77,7 +84,7 @@ public class GroupListController implements Initializable {
     void handleBookDeleteOption(ActionEvent event) {
         Group selectedForDeletion = tableView.getSelectionModel().getSelectedItem();
         if (selectedForDeletion == null) {
-            AlertMaker.showErrorMessage("Студент не выбран", "Пожалуйста, выберите студента.");
+            AlertMaker.showErrorMessage("Группа не выбрана", "Пожалуйста, выберите группу.");
             return;
         }
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -101,6 +108,31 @@ public class GroupListController implements Initializable {
 
     @FXML
     void handleBookEditOption(ActionEvent event) {
+        Group selectedForEdit = tableView.getSelectionModel().getSelectedItem();
+
+        if (selectedForEdit == null) {
+            AlertMaker.showErrorMessage("Группа не выбрана", "Пожалуйста, выберите группу.");
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AddGroup.fxml"));
+            Parent parent = loader.load();
+            GroupCreateController controller = loader.getController();
+            controller.inflateUI(selectedForEdit);
+
+            Stage stage = new Stage(StageStyle.DECORATED);
+            stage.setTitle("Изменение группы");
+            stage.setScene(new Scene(parent));
+            stage.show();
+            ElectronicRecordUtill.setStageIcon(stage);
+            stage.setOnHiding((e) -> {
+                handleRefresh(new ActionEvent());
+            });
+
+        } catch (IOException ex) {
+            Logger.getLogger(GroupListController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
@@ -108,11 +140,21 @@ public class GroupListController implements Initializable {
     void handleRefresh(ActionEvent event) {
         loadData();
     }
-    
-    
+
     @FXML
     void handleGroupAdd(ActionEvent event) {
-
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/AddGroup.fxml"));
+            Stage stage = new Stage();
+            ElectronicRecordUtill.setStageIcon(stage);
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(GroupListController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML
@@ -120,12 +162,11 @@ public class GroupListController implements Initializable {
         sortGroups.clear();
 
         for (Groupstud groupstud : GroupDB.getInstance().getGroupstudsByNameGroup(txt_serch.getText())) {
-
             String groupName = groupstud.getGroupname();
             Short year = groupstud.getSetYear();
             Integer id = groupstud.getGroupid();
-
-            sortGroups.add(new Group(groupName, year, id));
+            String SpecName = groupstud.getSpecialityId().getNameSpeciality();
+            sortGroups.add(new Group(groupName, year, SpecName, id));
         }
         tableView.setItems(sortGroups);
     }
@@ -154,18 +195,18 @@ public class GroupListController implements Initializable {
             String groupName = groupstud.getGroupname();
             Short year = groupstud.getSetYear();
             Integer id = groupstud.getGroupid();
-
-            groups.add(new Group(groupName, year, id));
+            String SpecName = groupstud.getSpecialityId().getNameSpeciality();
+            groups.add(new Group(groupName, year, SpecName, id));
         }
         tableView.setItems(groups);
     }
-    
-    private void initDrawer(){
-     try {
+
+    private void initDrawer() {
+        try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/toolbar.fxml"));
             VBox toolbar = loader.load();
             drawer.setSidePane(toolbar);
-  
+
         } catch (IOException ex) {
             Logger.getLogger(GroupListController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -186,16 +227,49 @@ public class GroupListController implements Initializable {
         });
     }
 
+    @FXML
+    void handleStudentList(ActionEvent event) {
+        Group selectedForEdit = tableView.getSelectionModel().getSelectedItem();
+
+        if (selectedForEdit == null) {
+            AlertMaker.showErrorMessage("Группа не выбрана", "Пожалуйста, выберите группу.");
+            return;
+        }
+
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/StudenList.fxml"));
+            Stage stage = new Stage();
+            ElectronicRecordUtill.setStageIcon(stage);
+            Scene scene = new Scene(root);
+            stage.setTitle(Group.getNameGroup());
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(GroupListController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    @FXML
+    void SelectGroup(MouseEvent event) {
+        Group group = tableView.getSelectionModel().getSelectedItem();
+        Group.setNameGroup(group.getGroupName());
+
+    }
+
     public static class Group {
 
         private SimpleStringProperty groupName;
         private SimpleIntegerProperty year;
         private SimpleIntegerProperty id;
+        private SimpleStringProperty speciality;
+        private static String nameGroup;
 
-        public Group(String groupName, Short year, Integer id) {
+        public Group(String groupName, Short year, String spec, Integer id) {
             this.groupName = new SimpleStringProperty(groupName);
             this.year = new SimpleIntegerProperty(year);
             this.id = new SimpleIntegerProperty(id);
+            speciality = new SimpleStringProperty(spec);
         }
 
         public Integer getId() {
@@ -206,6 +280,10 @@ public class GroupListController implements Initializable {
             return groupName.get();
         }
 
+        public String getSpecName() {
+            return speciality.get();
+        }
+
         /**
          * @return the year
          */
@@ -213,6 +291,19 @@ public class GroupListController implements Initializable {
             return year.get();
         }
 
+        /**
+         * @return the nameGroup
+         */
+        public static String getNameGroup() {
+            return nameGroup;
+        }
+
+        /**
+         * @param aNameGroup the nameGroup to set
+         */
+        public static void setNameGroup(String aNameGroup) {
+            nameGroup = aNameGroup;
+        }
     }
 
 }

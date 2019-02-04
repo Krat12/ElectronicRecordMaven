@@ -8,8 +8,6 @@ import com.mycompany.javafx.electronicrecord.model.Student;
 import com.mycompany.javafx.electronicrecord.model.User;
 import com.mycompany.javafx.electronicrecord.utill.AlertMaker;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

@@ -25,7 +25,6 @@ public class Speciality implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "Speciality_id")
     private Integer specialityid;
     @Column(name = "nameSpeciality")

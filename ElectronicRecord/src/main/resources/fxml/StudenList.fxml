@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXComboBox?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -15,17 +13,18 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="rootPane" prefHeight="644.0" prefWidth="911.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javafx.electronicrecord.controllers.StudentsListController">
+<StackPane fx:id="rootPane" prefHeight="644.0" prefWidth="577.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javafx.electronicrecord.controllers.StudentsListController">
    <children>
       <AnchorPane id="AnchorPane" fx:id="contentPane" prefHeight="525.0" prefWidth="798.0">
          <children>
             <TableView fx:id="tableView" layoutY="105.0" prefHeight="545.0" prefWidth="911.0" stylesheets="@../styles/table.css" AnchorPane.bottomAnchor="-6.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="105.0">
               <columns>
-                <TableColumn fx:id="numberStudent" prefWidth="30.953125" text="№" />
-                <TableColumn fx:id="fullName" maxWidth="2500.0" prefWidth="399.013427734375" text="ФИО" />
-                  <TableColumn fx:id="numberRecord" prefWidth="271.3411865234375" text="Номер зачетки" />
-                  <TableColumn fx:id="course" prefWidth="204.2645263671875" text="Курс" />
+                <TableColumn fx:id="numberStudent" maxWidth="150.0" minWidth="30.0" prefWidth="40.0" resizable="false" text="№" />
+                <TableColumn fx:id="fullName" maxWidth="2500.0" prefWidth="204.46197509765625" text="ФИО" />
+                  <TableColumn fx:id="numberRecord" minWidth="0.0" prefWidth="117.2734375" text="Номер зачетки" />
+                  <TableColumn fx:id="login" maxWidth="2500.0" minWidth="1.57525634765625" prefWidth="66.9383544921875" text="Логин" />
                   <TableColumn fx:id="id" maxWidth="2800.0" prefWidth="75.0" text="Id" visible="false" />
+                  <TableColumn fx:id="password" prefWidth="87.7799072265625" text="Пароль" />
               </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -33,9 +32,10 @@
                <contextMenu>
                   <ContextMenu style="-fx-base: #0e67f7;" styleClass="table-context">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#handleRefresh" text="Refresh" />
-                      <MenuItem mnemonicParsing="false" onAction="#handleBookEditOption" text="Edit" />
-                        <MenuItem mnemonicParsing="false" onAction="#handleBookDeleteOption" text="Delete" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleRefresh" text="Обновить" />
+                      <MenuItem mnemonicParsing="false" onAction="#handleStudentEditOption" text="Изменить" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleStudentAddOption" text="Добавить" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleBookDeleteOption" text="Удалить" />
                     </items>
                   </ContextMenu>
                </contextMenu>
@@ -62,14 +62,6 @@
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <JFXComboBox fx:id="groupsList" focusColor="#beb2dd" prefHeight="48.0" prefWidth="196.0" promptText="Группа" stylesheets="@../styles/table.css" unFocusColor="WHITE">
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </HBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </JFXComboBox>
                </children>
             </HBox>
          </children>

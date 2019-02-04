@@ -26,7 +26,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXHamburger>
-            <TableView fx:id="tableView" layoutY="125.0" prefHeight="525.0" prefWidth="550.0" stylesheets="@../styles/table.css" AnchorPane.bottomAnchor="-6.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="125.0">
+            <TableView fx:id="tableView" layoutY="125.0" onMouseClicked="#SelectGroup" prefHeight="525.0" prefWidth="550.0" stylesheets="@../styles/table.css" AnchorPane.bottomAnchor="-6.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="125.0">
               <columns>
                   <TableColumn fx:id="groupCol" prefWidth="271.3411865234375" text="Группа" />
                   <TableColumn fx:id="yearCol" prefWidth="204.2645263671875" text="Год создание" />
@@ -42,6 +42,7 @@
                       <MenuItem mnemonicParsing="false" onAction="#handleBookEditOption" text="Изменить" />
                         <MenuItem mnemonicParsing="false" onAction="#handleBookDeleteOption" text="Удалить" />
                         <MenuItem mnemonicParsing="false" onAction="#handleGroupAdd" text="Добавить" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleStudentList" text="Список студентов" />
                     </items>
                   </ContextMenu>
                </contextMenu>
