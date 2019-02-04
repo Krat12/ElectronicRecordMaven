@@ -117,13 +117,14 @@ public class StudentsListController implements Initializable {
             AlertMaker.showErrorMessage("Студент не выбран", "Пожалуйста, выберите студента.");
             return;
         }
+        
 
     }
     
 
     @FXML
     void handleRefresh(ActionEvent event) {
-
+        loadData();
     }
 
     @Override
