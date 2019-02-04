@@ -16,7 +16,9 @@ public interface GroupDAO extends ObjectDAO<Groupstud>{
     
     List<Groupstud> getAllGroups();
     
-    List<Groupstud> getGroupstudsByNameGroup(String name);
+    List<Groupstud> getSortGroupstudsByNameGroup(String name);
     
     boolean deleteGroup (int id);
+    
+    Groupstud getGroupstudsByName(String name);
 }

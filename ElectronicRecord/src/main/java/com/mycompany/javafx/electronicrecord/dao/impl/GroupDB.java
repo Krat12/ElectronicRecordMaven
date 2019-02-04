@@ -37,7 +37,7 @@ public class GroupDB extends AbstractObject<Groupstud> implements GroupDAO {
     }
 
     @Override
-    public List<Groupstud> getGroupstudsByNameGroup(String name) {
+    public List<Groupstud> getSortGroupstudsByNameGroup(String name) {
         Session session = HibernateSessionFactoryUtill.getSessionFactory().openSession();
         List<Groupstud> groups = null;
         try {
@@ -58,7 +58,7 @@ public class GroupDB extends AbstractObject<Groupstud> implements GroupDAO {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("delete from Groupstud g where g.groupid = "+id);
+            Query query = session.createQuery("delete from Groupstud g where g.groupid = " + id);
             query.executeUpdate();
             transaction.commit();
             return true;
@@ -70,5 +70,21 @@ public class GroupDB extends AbstractObject<Groupstud> implements GroupDAO {
             session.close();
         }
 
+    }
+
+    @Override
+    public Groupstud getGroupstudsByName(String name) {
+        Session session = HibernateSessionFactoryUtill.getSessionFactory().openSession();
+        Groupstud group = null;
+        try {
+            Query query = session.createQuery("from Groupstud g join fetch g.specialityId where g.groupname = :name");
+            query.setParameter("name",name);
+            group = (Groupstud) query.uniqueResult();
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            session.close();
+        }
+        return group;
     }
 }

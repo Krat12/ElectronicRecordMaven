@@ -2,15 +2,21 @@ package com.mycompany.javafx.electronicrecord.controllers;
 
 import com.mycompany.javafx.electronicrecord.dao.impl.StudentDB;
 import com.mycompany.javafx.electronicrecord.utill.AlertMaker;
+import com.mycompany.javafx.electronicrecord.utill.ElectronicRecordUtill;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -18,12 +24,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class StudentsListController implements Initializable {
 
     ObservableList<Student> listStudents = FXCollections.observableArrayList();
     ObservableList<Student> sortStudents = FXCollections.observableArrayList();
-    private static String groupName;
+    protected static String groupName;
 
     @FXML
     private StackPane rootPane;
@@ -112,13 +120,22 @@ public class StudentsListController implements Initializable {
     
     @FXML
     void handleStudentAddOption(ActionEvent event) {
-        Student selectedForEdit = tableView.getSelectionModel().getSelectedItem();
-        if (selectedForEdit == null) {
-            AlertMaker.showErrorMessage("Студент не выбран", "Пожалуйста, выберите студента.");
-            return;
-        }
-        
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AddStudent.fxml"));
+            Parent parent = loader.load();
 
+            Stage stage = new Stage(StageStyle.DECORATED);
+            stage.setTitle("Добавление студента");
+            stage.setScene(new Scene(parent)); 
+            ElectronicRecordUtill.setStageIcon(stage);
+            stage.show();
+            stage.setOnHiding((e) -> {
+                handleRefresh(new ActionEvent());
+            });
+           
+        } catch (Exception e) {
+             Logger.getLogger(StudentsListController.class.getName()).log(Level.SEVERE, null, e);
+        }
     }
     
 

@@ -7,6 +7,12 @@ package com.mycompany.javafx.electronicrecord.controllers;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import com.mycompany.javafx.electronicrecord.dao.impl.GroupDB;
+import com.mycompany.javafx.electronicrecord.dao.impl.StudentDB;
+import com.mycompany.javafx.electronicrecord.dao.impl.UserDB;
+import com.mycompany.javafx.electronicrecord.model.Groupstud;
+import com.mycompany.javafx.electronicrecord.model.Student;
+import com.mycompany.javafx.electronicrecord.model.User;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -49,7 +55,28 @@ public class StudentCreateController implements Initializable {
 
     @FXML
     void save(ActionEvent event) {
-
+       loadDataUser();
+    }
+    
+    
+    private void loadDataUser(){
+        User user = new User();
+        user.setName(txt_firstNmae.getText());
+        user.setSurname(txt_surname.getText());
+        user.setMidleName(txt_midleName.getText());
+        user.setLogin(txt_login.getText());
+        user.setPassword(txt_password.getText());
+        UserDB.getInstance().insert(user);
+        loadDataStudent(user);
+    }
+    
+    private void loadDataStudent(User user){
+        Student student = new Student(user.getUserId());
+        student.setNumberBook(Integer.valueOf(txt_numberRecord.getText()));
+        Groupstud groupstud = GroupDB.getInstance().getGroupstudsByName(StudentsListController.groupName);
+        student.setGroupid(groupstud);
+        student.setUser(user);
+        StudentDB.getInstance().insert(student);
     }
 
     @Override

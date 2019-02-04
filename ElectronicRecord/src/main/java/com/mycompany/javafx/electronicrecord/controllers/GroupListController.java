@@ -7,7 +7,6 @@ import com.mycompany.javafx.electronicrecord.dao.impl.GroupDB;
 import com.mycompany.javafx.electronicrecord.model.Groupstud;
 import com.mycompany.javafx.electronicrecord.utill.AlertMaker;
 import com.mycompany.javafx.electronicrecord.utill.ElectronicRecordUtill;
-import com.mycompany.javafx.electronicrecord.utill.HibernateSessionFactoryUtill;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -162,7 +161,7 @@ public class GroupListController implements Initializable {
     void serch(ActionEvent event) {
         sortGroups.clear();
 
-        for (Groupstud groupstud : GroupDB.getInstance().getGroupstudsByNameGroup(txt_serch.getText())) {
+        for (Groupstud groupstud : GroupDB.getInstance().getSortGroupstudsByNameGroup(txt_serch.getText())) {
             String groupName = groupstud.getGroupname();
             Short year = groupstud.getSetYear();
             Integer id = groupstud.getGroupid();
