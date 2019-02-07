@@ -33,56 +33,9 @@ public class NewMain {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws FileNotFoundException, IOException {
-        List<Student> students = parseCSVWithHeader("C:\\Users\\user07\\Desktop\\exemple4.csv");
-        String csvFile = "C:\\Users\\user07\\Desktop\\exemple5.csv";  
-        FileWriter writer = new FileWriter(csvFile);
-        CSVUtils.writeLine(writer, Arrays.asList("ФИО","Номер зачетки"),';');
-        
-        for (Student d : students) {
 
-            List<String> list = new ArrayList<>();
-            list.add(d.getFullName());
-            list.add(String.valueOf(d.getNumberBook()));
-            CSVUtils.writeLine(writer, list,';');
-			//try custom separator and quote. 
-			//CSVUtils.writeLine(writer, list, '|', '\"');
-        }
-
-        writer.flush();
-        writer.close();
 
     
-
-      
-//     List<String[]> myEntries = reader.readAll();
-//     int index = 0;
-//        for (String[] myEntry : myEntries) {
-//            if(index != 0){
-//            System.out.println(myEntry[0]);
-//            }
-//            index++;
-//            
-//        }
-//
-//        List<StudentsListController.Student> emps = new ArrayList<>();
-//        HeaderColumnNameMappingStrategy<StudentsListController.Student> beanStrategy = new HeaderColumnNameMappingStrategy<StudentsListController.Student>();
-//        beanStrategy.setType(StudentsListController.Student.class);
-//        // read line by line
-//        String[] record = null;
-//
-//        while ((record = reader.readNext()) != null) {
-//            StudentsListController.Student student = new StudentsListController.Student();
-//            student.setNumberStudent(Integer.valueOf(record[0]));
-//            student.setFullName(record[1]);
-//            student.setNumberRecord(Integer.valueOf(record[2]));
-//
-//            emps.add(student);
-//        }
-//
-//        System.out.println(emps);
-//
-        // reader.close();
-
     }
 
     public static List<Student> parseCSVWithHeader(String URL) throws IOException {
