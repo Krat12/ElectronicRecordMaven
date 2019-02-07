@@ -120,7 +120,7 @@ public class StudentsListController implements Initializable {
     @FXML
     void handleRolback(MouseEvent event) {
         studentsOnUpdateOrInsert = initCollection();
-        if(!studentsOnUpdateOrInsert.isEmpty()){
+        if (!studentsOnUpdateOrInsert.isEmpty()) {
             handleRefresh(new ActionEvent());
             studentsOnUpdateOrInsert.clear();
             resetColor();
@@ -131,6 +131,7 @@ public class StudentsListController implements Initializable {
     void handleImportCSV(ActionEvent event) {
         try {
             String URL = ElectronicRecordUtill.initCSVImport(new Stage());
+            System.out.println(URL);
             if (URL.equals("")) {
                 return;
             }
@@ -146,7 +147,7 @@ public class StudentsListController implements Initializable {
                 String fullname = student.getFullName();
                 smt.setFullName(fullname);
                 splitFullName(smt);
-                smt.setNumberRecord(student.getNumberBook());
+                smt.setNumberRecord(1);
                 smt.setNumberStudent(index);
                 smt.setLogin("");
                 smt.setPassword("");
@@ -271,6 +272,26 @@ public class StudentsListController implements Initializable {
     @FXML
     void exportAsPDF(ActionEvent event) {
 
+       
+    }
+
+    @FXML
+    void exportCSV(ActionEvent event) {
+        String URL = ElectronicRecordUtill.initCSVExport(new Stage());
+        System.out.println(URL);
+        if (URL.equals("")) {
+            return;
+        }
+        if(listStudents.isEmpty()){
+          JFXButton fXButton = new JFXButton("OK");
+          AlertMaker.showMaterialDialog(rootPane, contentPane, Arrays.asList(fXButton), "Пустая таблица!", "Выгрузить не удалось, заполните таблицу!");
+          return;
+        }
+        try {
+            ElectronicRecordUtill.exportStudentCSV(URL, listStudents);
+        } catch (IOException e) {
+              ElectronicRecordUtill.loadAlertError(getClass().getResource("/fxml/AlertError.fxml"), new Stage(), "Ooops...", "Что то пошло не так ");
+        }
     }
 
     @FXML

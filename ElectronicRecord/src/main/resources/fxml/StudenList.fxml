@@ -65,7 +65,7 @@
                         <Menu mnemonicParsing="false" text="Выгрузить">
                           <items>
                               <MenuItem mnemonicParsing="false" onAction="#exportAsPDF" text="Expert as PDF" />
-                              <MenuItem mnemonicParsing="false" onAction="#exportAsPDF" text="Expert as CSV" />
+                              <MenuItem mnemonicParsing="false" onAction="#exportCSV" text="Expert as CSV" />
                               <MenuItem mnemonicParsing="false" onAction="#exportAsPDF" text="Expert as XML" />
                           </items>
                         </Menu>

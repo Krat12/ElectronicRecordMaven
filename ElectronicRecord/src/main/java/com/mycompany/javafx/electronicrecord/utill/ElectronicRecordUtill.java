@@ -2,6 +2,7 @@ package com.mycompany.javafx.electronicrecord.utill;
 
 import com.mycompany.javafx.electronicrecord.controllers.AlertConfrimController;
 import com.mycompany.javafx.electronicrecord.controllers.AlertErrorController;
+import com.mycompany.javafx.electronicrecord.controllers.StudentsListController;
 import com.mycompany.javafx.electronicrecord.model.Student;
 import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvToBean;
@@ -9,8 +10,11 @@ import com.opencsv.bean.HeaderColumnNameMappingStrategy;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -78,10 +82,25 @@ public class ElectronicRecordUtill {
     public static String initCSVImport(Stage stage) {
         final FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter
-                = new FileChooser.ExtensionFilter("CSV (разделители - запятые) (*.csv)", "*.csv");
+                = new FileChooser.ExtensionFilter("CSV (разделители - точка с запятой) (*.csv)", "*.csv");
         fileChooser.getExtensionFilters().add(extFilter);
 
         File file = fileChooser.showOpenDialog(stage);
+        if (file != null) {
+            return file.getAbsolutePath();
+        }
+
+        return "";
+
+    }
+    
+        public static String initCSVExport(Stage stage) {
+        final FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter
+                = new FileChooser.ExtensionFilter("CSV (разделители - точка с запятой) (*.csv)", "*.csv");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        File file = fileChooser.showSaveDialog(stage);
         if (file != null) {
             return file.getAbsolutePath();
         }
@@ -156,4 +175,20 @@ public class ElectronicRecordUtill {
         Stage stage = (Stage) node.getScene().getWindow();
         stage.close();
     }
+    
+   public static void exportStudentCSV(String url,List<StudentsListController.StudentModelTable> students) throws IOException{
+        FileWriter writer = new FileWriter(url);
+        CSVUtils.writeLine(writer, Arrays.asList("ФИО","Номер зачетки"),';');
+        
+        for (StudentsListController.StudentModelTable d : students) {
+
+            List<String> list = new ArrayList<>();
+            list.add(d.getFullName());
+            list.add(String.valueOf(d.getNumberRecord()));
+            CSVUtils.writeLine(writer, list,';');
+        }
+
+        writer.flush();
+        writer.close();
+   }
 }

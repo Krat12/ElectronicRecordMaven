@@ -1,6 +1,7 @@
 package com.mycompany.javafx.electronicrecord.model;
 
 import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvBindByPosition;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -28,7 +29,7 @@ public class Student implements Serializable {
     @Column(name = "Student_id")
     private Integer studentid;
     @Column(name = "number_book")
-    @CsvBindByName(column = "NumberRecord")
+     @CsvBindByName(column = "Номер зачетки")
     private Integer numberBook;
     @Column(name = "course")
     private Integer course;
