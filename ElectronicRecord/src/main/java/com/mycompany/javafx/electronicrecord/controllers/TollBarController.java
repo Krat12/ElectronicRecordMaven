@@ -1,18 +1,10 @@
 package com.mycompany.javafx.electronicrecord.controllers;
 
-import com.mycompany.javafx.electronicrecord.utill.AlertMaker;
 import com.mycompany.javafx.electronicrecord.utill.ElectronicRecordUtill;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class TollBarController {
 

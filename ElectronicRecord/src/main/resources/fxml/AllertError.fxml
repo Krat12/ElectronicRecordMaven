@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="212.0" prefWidth="414.0" style="-fx-background-color: TRANSPARENT;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javafx.electronicrecord.controllers.AlertErrorController">
+   <children>
+      <StackPane prefHeight="212.0" prefWidth="412.0" style="-fx-border-radius: 20px; -fx-background-rdadius: 20px;">
+         <children>
+            <Pane prefHeight="212.0" prefWidth="402.0" style="-fx-border-radius: 20px; -fx-background-color: #FFFF; -fx-background-radius: 20px;">
+               <children>
+                  <FontAwesomeIconView fill="#ff515a" glyphName="EXCLAMATION_TRIANGLE" layoutX="170.0" layoutY="86.0" size="75" wrappingWidth="64.42856979370117" />
+                  <Label fx:id="lbl_title" alignment="CENTER" contentDisplay="CENTER" layoutX="-2.0" layoutY="100.0" prefHeight="36.0" prefWidth="414.0" text="Заголовок" textAlignment="CENTER" textFill="#ff515a">
+                     <font>
+                        <Font name="System Bold" size="25.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbl_content" alignment="CENTER" layoutX="-5.0" layoutY="137.0" prefHeight="27.0" prefWidth="414.0" text="Какой-то длинный текст" textAlignment="CENTER" textFill="#ff515a">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <JFXButton layoutY="174.0" onAction="#handleClose" prefHeight="39.0" prefWidth="414.0" style="-fx-background-radius: 0px 0px 20px 20px; -fx-border-radius: 0px 0px 20px 20px; -fx-background-color: #FF515A;" text="OK" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+               </children>
+            </Pane>
+         </children>
+      </StackPane>
+   </children>
+</AnchorPane>

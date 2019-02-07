@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="459.0" style="-fx-background-color: TRANSPARENT;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javafx.electronicrecord.controllers.AlertConfrimController">
+   <children>
+      <StackPane prefHeight="280.0" prefWidth="459.0" style="-fx-border-radius: 20px; -fx-background-rdadius: 20px;">
+         <children>
+            <Pane prefHeight="276.0" prefWidth="445.0" style="-fx-border-radius: 20px; -fx-background-color: #02cc7d; -fx-background-radius: 20px;">
+               <children>
+                  <Pane layoutY="198.0" prefHeight="82.0" prefWidth="459.0" style="-fx-background-color: white; -fx-background-radius: 0px 0px 20px 20px;;">
+                     <children>
+                        <JFXButton layoutX="157.0" layoutY="19.0" onAction="#handleClose" prefHeight="35.0" prefWidth="138.0" style="-fx-background-radius: 20px; -fx-border-radius: 20px; -fx-background-color: #02cc7d;" text="OK" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
+                     </children>
+                  </Pane>
+                  <FontAwesomeIconView fill="WHITE" glyphName="CHECK_SQUARE_ALT" layoutX="195.0" layoutY="89.0" size="75" wrappingWidth="64.42856979370117" />
+                  <Label fx:id="lbl_title" alignment="CENTER" contentDisplay="CENTER" layoutX="-1.0" layoutY="101.0" prefHeight="36.0" prefWidth="459.0" text="Заголовок" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="25.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbl_content" alignment="CENTER" layoutY="137.0" prefHeight="27.0" prefWidth="459.0" text="Какой-то длинный текст" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+         </children>
+      </StackPane>
+   </children>
+</AnchorPane>

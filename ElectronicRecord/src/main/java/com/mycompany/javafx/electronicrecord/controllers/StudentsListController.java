@@ -1,37 +1,52 @@
 package com.mycompany.javafx.electronicrecord.controllers;
 
+import com.jfoenix.controls.JFXButton;
+import com.mycompany.javafx.electronicrecord.dao.impl.GroupDB;
 import com.mycompany.javafx.electronicrecord.dao.impl.StudentDB;
+import com.mycompany.javafx.electronicrecord.dao.impl.UserDB;
+import com.mycompany.javafx.electronicrecord.model.Groupstud;
+import com.mycompany.javafx.electronicrecord.model.Student;
+import com.mycompany.javafx.electronicrecord.model.User;
 import com.mycompany.javafx.electronicrecord.utill.AlertMaker;
 import com.mycompany.javafx.electronicrecord.utill.ElectronicRecordUtill;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class StudentsListController implements Initializable {
 
-    ObservableList<Student> listStudents = FXCollections.observableArrayList();
-    ObservableList<Student> sortStudents = FXCollections.observableArrayList();
+    ObservableList<StudentModelTable> listStudents = FXCollections.observableArrayList();
+    ObservableList<StudentModelTable> sortStudents = FXCollections.observableArrayList();
     protected static String groupName;
+    protected static int indexSelectRow;
+    private static List<StudentModelTable> studentsOnUpdateOrInsert;
+    private List<Student> studentsParseCSV;
 
     @FXML
     private StackPane rootPane;
@@ -40,29 +55,182 @@ public class StudentsListController implements Initializable {
     private AnchorPane contentPane;
 
     @FXML
-    private TableView<Student> tableView;
+    private TableView<StudentModelTable> tableView;
 
     @FXML
-    private TableColumn<Student, Integer> numberStudent;
+    private TableColumn<StudentModelTable, Integer> numberStudent;
 
     @FXML
-    private TableColumn<Student, String> fullName;
+    private TableColumn<StudentModelTable, String> fullName;
 
     @FXML
-    private TableColumn<Student, Integer> id;
+    private TableColumn<StudentModelTable, Integer> id;
 
     @FXML
-    private TableColumn<Student, Integer> numberRecord;
+    private TableColumn<StudentModelTable, Integer> numberRecord;
 
     @FXML
-    private TableColumn<Student, String> login;
-    
+    private TableColumn<StudentModelTable, String> login;
+
     @FXML
-    private TableColumn<Student, String> password;
-    
+    private TableColumn<StudentModelTable, String> password;
+
+    @FXML
+    private FontAwesomeIconView commit;
+
+    @FXML
+    private FontAwesomeIconView rollback;
 
     @FXML
     private TextField txt_serch;
+
+    @FXML
+    void handleGenerateLogin(ActionEvent event) {
+        int amount = 0;
+        studentsOnUpdateOrInsert = initCollection();
+        for (int i = 0; i < listStudents.size(); i++) {
+
+            StudentModelTable student = listStudents.get(i);
+
+            if (student.getLogin().equals("") || student.getPassword().equals("")) {
+                setColor();
+                student.setLogin(generateLogin(student));
+                student.setPassword(generatePassword());
+                listStudents.set(i, student);
+                studentsOnUpdateOrInsert.add(student);
+                amount++;
+            }
+        }
+        if (amount == 0) {
+            JFXButton button = new JFXButton("OK");
+            AlertMaker.showMaterialDialog(rootPane, contentPane, Arrays.asList(button), "Логин(-ы) и парол(-ь/-и) не были сгенерированы", "Нет пустых полей для автогенерации");
+        }
+
+    }
+
+    @FXML
+    void handleCommit(MouseEvent event) {
+        if (studentsOnUpdateOrInsert != null) {
+            updateOrInsertStudents();
+            resetColor();
+        }
+
+    }
+
+    @FXML
+    void handleRolback(MouseEvent event) {
+        studentsOnUpdateOrInsert = initCollection();
+        if(!studentsOnUpdateOrInsert.isEmpty()){
+            handleRefresh(new ActionEvent());
+            studentsOnUpdateOrInsert.clear();
+            resetColor();
+        }
+    }
+
+    @FXML
+    void handleImportCSV(ActionEvent event) {
+        try {
+            String URL = ElectronicRecordUtill.initCSVImport(new Stage());
+            if (URL.equals("")) {
+                return;
+            }
+            studentsParseCSV = ElectronicRecordUtill.parseCSVWithHeader(URL);
+
+            if (studentsParseCSV.isEmpty()) {
+                ElectronicRecordUtill.loadAlertError(getClass().getResource("/fxml/AlertError.fxml"), new Stage(), "Ooops...", "Похоже файл пустой");
+                return;
+            }
+            for (Student student : studentsParseCSV) {
+                int index = listStudents.size() + 1;
+                StudentModelTable smt = new StudentModelTable();
+                String fullname = student.getFullName();
+                smt.setFullName(fullname);
+                splitFullName(smt);
+                smt.setNumberRecord(student.getNumberBook());
+                smt.setNumberStudent(index);
+                smt.setLogin("");
+                smt.setPassword("");
+                smt.setId(-1);
+                listStudents.add(smt);
+            }
+        } catch (IOException e) {
+            System.out.println("ErrorEmpty");
+        } catch (Exception e) {
+            ElectronicRecordUtill.loadAlertError(getClass().getResource("/fxml/AlertError.fxml"), new Stage(), "Ooops...", "Проверьте споводение типов в Excel ");
+        }
+    }
+
+    private void splitFullName(StudentModelTable studentModelTable) {
+        String delimeter = " ";
+        String fullName = studentModelTable.getFullName();
+        System.out.println(fullName);
+        String[] subString = fullName.split(delimeter);
+
+        studentModelTable.setFirstName(subString[1]);
+        studentModelTable.setSecondName(subString[0]);
+        studentModelTable.setMidleName(subString[2]);
+
+    }
+
+    private void setColor() {
+        commit.setFill(Color.web("#70ff7e"));
+        rollback.setFill(Color.web("#ff6161"));
+        commit.setOpacity(1);
+        rollback.setOpacity(1);
+    }
+
+    private void resetColor() {
+        commit.setFill(Color.web("#b2b2b2"));
+        commit.setOpacity(0.5);
+        rollback.setFill(Color.web("#b2b2b2"));
+        rollback.setOpacity(0.5);
+    }
+
+    private void updateOrInsertStudents() {
+        if (!studentsOnUpdateOrInsert.isEmpty()) {
+            Groupstud groupstud = GroupDB.getInstance().getGroupstudsByName(StudentsListController.groupName);
+
+            for (StudentModelTable student : studentsOnUpdateOrInsert) {
+
+                User user = new User();
+                user.setLogin(student.getLogin());
+                user.setPassword(student.getPassword());
+                user.setName(student.getFirstName());
+                user.setSurname(student.getSecondName());
+                user.setMidleName(student.getMidleName());
+                if (student.getId() != -1) {
+                    user.setUserId(student.getId());
+                    UserDB.getInstance().update(user);
+                } else {
+                    UserDB.getInstance().insert(user);
+
+                    Student studentInsert = new Student();
+                    studentInsert.setStudentid(user.getUserId());
+                    studentInsert.setNumberBook(student.getNumberRecord());
+                    studentInsert.setGroupid(groupstud);
+                    studentInsert.setUser(user);
+                    StudentDB.getInstance().insert(studentInsert);
+
+                }
+            }
+            handleRefresh(new ActionEvent());
+            studentsOnUpdateOrInsert.clear();
+        }
+
+    }
+
+    private String generateLogin(StudentModelTable student) {
+        char[] fisrstName = student.getFirstName().toCharArray();
+        char[] secondName = student.getSecondName().toCharArray();
+        char[] midleName = student.getMidleName().toCharArray();
+        String generateString = "" + fisrstName[0] + fisrstName[1] + secondName[0] + midleName[0];
+
+        return generateString.toUpperCase();
+    }
+
+    private String generatePassword() {
+        return new Random().ints(5, 48, 57).mapToObj(i -> String.valueOf((char) i)).collect(Collectors.joining());
+    }
 
     private void initCol() {
         numberStudent.setCellValueFactory(new PropertyValueFactory<>("numberStudent"));
@@ -71,12 +239,12 @@ public class StudentsListController implements Initializable {
         numberRecord.setCellValueFactory(new PropertyValueFactory<>("numberRecord"));
         login.setCellValueFactory(new PropertyValueFactory<>("login"));
         password.setCellValueFactory(new PropertyValueFactory<>("password"));
-     
+
     }
 
     private void loadData() {
         listStudents.clear();
-      
+
         int amount = 1;
         for (com.mycompany.javafx.electronicrecord.model.Student student : StudentDB.getInstance().getStudentsByGroup(GroupListController.Group.getNameGroup())) {
 
@@ -86,8 +254,10 @@ public class StudentsListController implements Initializable {
             String login = student.getUser().getLogin();
             String password = student.getUser().getPassword();
             Integer numberRecord = student.getNumberBook();
-            
-            listStudents.add(new Student(numberStudent, fullName, id,login,password,numberRecord));
+
+            listStudents.add(new StudentModelTable(numberStudent, fullName, id, login, password, numberRecord,
+                    student.getUser().getName(), student.getUser().getSurname(), student.getUser().getMidleName()));
+
             amount++;
         }
         tableView.setItems(listStudents);
@@ -110,45 +280,68 @@ public class StudentsListController implements Initializable {
 
     @FXML
     void handleStudentEditOption(ActionEvent event) {
-        Student selectedForEdit = tableView.getSelectionModel().getSelectedItem();
+        StudentModelTable selectedForEdit = tableView.getSelectionModel().getSelectedItem();
         if (selectedForEdit == null) {
             AlertMaker.showErrorMessage("Студент не выбран", "Пожалуйста, выберите студента.");
             return;
         }
+        showEditDiolog(selectedForEdit);
 
     }
-    
+
+    private void showEditDiolog(StudentModelTable student) {
+        indexSelectRow = tableView.getSelectionModel().getSelectedIndex();
+        try {
+            Stage stage = new Stage(StageStyle.DECORATED);
+            stage.initModality(Modality.WINDOW_MODAL);
+            StudentCreateController createController = (StudentCreateController) ElectronicRecordUtill.loadWindow(getClass().getResource("/fxml/AddStudent.fxml"), "Редоктирование студента", stage);
+            createController.mappingUI(student);
+            if (student.getId() != -1) {
+                stage.setOnHiding((e) -> {
+                    handleRefresh(new ActionEvent());
+                });
+            } else {
+                stage.setOnHiding((e) -> {
+
+                    listStudents.set(indexSelectRow, StudentCreateController.getModelTableStudent());
+                    if (!checkLoginAndPasswordIsEmpty()) {
+                        setColor();
+                        studentsOnUpdateOrInsert = initCollection();
+                        studentsOnUpdateOrInsert.add(StudentCreateController.getModelTableStudent());
+                    }
+                });
+            }
+
+        } catch (Exception e) {
+            Logger.getLogger(StudentsListController.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+
     @FXML
     void handleStudentAddOption(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AddStudent.fxml"));
-            Parent parent = loader.load();
 
             Stage stage = new Stage(StageStyle.DECORATED);
-            stage.setTitle("Добавление студента");
-            stage.setScene(new Scene(parent)); 
-            ElectronicRecordUtill.setStageIcon(stage);
-            stage.show();
+            ElectronicRecordUtill.loadWindow(getClass().getResource("/fxml/AddStudent.fxml"), "Добавление студента", stage);
             stage.setOnHiding((e) -> {
                 handleRefresh(new ActionEvent());
             });
-           
+
         } catch (Exception e) {
-             Logger.getLogger(StudentsListController.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(StudentsListController.class.getName()).log(Level.SEVERE, null, e);
         }
     }
-    
 
     @FXML
     void handleRefresh(ActionEvent event) {
         loadData();
+
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initCol();
         loadData();
-        tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         groupName = GroupListController.Group.getNameGroup();
     }
 
@@ -157,7 +350,7 @@ public class StudentsListController implements Initializable {
         sortStudents.clear();
         int amount = 1;
         for (com.mycompany.javafx.electronicrecord.model.Student student : StudentDB.getInstance().getStudentsByNameAndGroup(txt_serch.getText(), groupName)) {
-            
+
             Integer numberStudent = amount;
             String fullName = student.getUser().getSurname() + " " + student.getUser().getName() + " " + student.getUser().getMidleName();
             Integer id = student.getStudentid();
@@ -165,14 +358,36 @@ public class StudentsListController implements Initializable {
             String password = student.getUser().getPassword();
             Integer numberRecord = student.getNumberBook();
             amount++;
-            sortStudents.add(new Student(numberStudent, fullName, id,login,password,numberRecord));
+            sortStudents.add(new StudentModelTable(numberStudent, fullName, id, login, password, numberRecord,
+                    student.getUser().getName(), student.getUser().getSurname(), student.getUser().getMidleName()));
         }
         tableView.setItems(sortStudents);
-        
-    
+
     }
 
-    public static class Student {
+    @FXML
+    void handleMouseClicked(MouseEvent event) {
+        if (event.getClickCount() == 2 && tableView.getSelectionModel().getSelectedItem() != null) {
+            showEditDiolog(tableView.getSelectionModel().getSelectedItem());
+        }
+    }
+
+    private boolean checkLoginAndPasswordIsEmpty() {
+        if (StudentCreateController.getModelTableStudent().getLogin().equals("")
+                || StudentCreateController.getModelTableStudent().getPassword().equals("")) {
+            return true;
+        }
+        return false;
+    }
+
+    private static List<StudentModelTable> initCollection() {
+        if (studentsOnUpdateOrInsert == null) {
+            studentsOnUpdateOrInsert = new ArrayList<>();
+        }
+        return studentsOnUpdateOrInsert;
+    }
+
+    public static class StudentModelTable {
 
         private SimpleIntegerProperty numberStudent;
         private SimpleStringProperty fullName;
@@ -181,14 +396,25 @@ public class StudentsListController implements Initializable {
         private SimpleIntegerProperty course;
         private SimpleStringProperty login;
         private SimpleStringProperty password;
+        private SimpleStringProperty firstName;
+        private SimpleStringProperty secondName;
+        private SimpleStringProperty midleName;
 
-        public Student(Integer numberStudent, String fullName, Integer id,String login,String password,Integer numberRecord) {
+        public StudentModelTable(Integer numberStudent, String fullName, Integer id, String login, String password,
+                Integer numberRecord, String firstName, String secondName, String midleName) {
+
             this.fullName = new SimpleStringProperty(fullName);
             this.numberStudent = new SimpleIntegerProperty(numberStudent);
-            this.id = new SimpleIntegerProperty(id);  
+            this.id = new SimpleIntegerProperty(id);
             this.numberRecord = new SimpleIntegerProperty(numberRecord);
             this.login = new SimpleStringProperty(login);
             this.password = new SimpleStringProperty(password);
+            this.firstName = new SimpleStringProperty(firstName);
+            this.secondName = new SimpleStringProperty(secondName);
+            this.midleName = new SimpleStringProperty(midleName);
+        }
+
+        public StudentModelTable() {
         }
 
         public Integer getNumberStudent() {
@@ -204,7 +430,9 @@ public class StudentsListController implements Initializable {
         }
 
         public Integer getId() {
+
             return id.get();
+
         }
 
         public Integer getCourse() {
@@ -223,6 +451,63 @@ public class StudentsListController implements Initializable {
          */
         public String getPassword() {
             return password.get();
+        }
+
+        public String getFirstName() {
+            return firstName.get();
+        }
+
+        public String getSecondName() {
+            return secondName.get();
+        }
+
+        public String getMidleName() {
+            return midleName.get();
+        }
+
+        public void setNumberStudent(Integer numberStudent) {
+            this.numberStudent = new SimpleIntegerProperty(numberStudent);
+        }
+
+        public void setFullName(String fullName) {
+            this.fullName = new SimpleStringProperty(fullName);
+        }
+
+        public void setNumberRecord(Integer numberRecord) {
+            this.numberRecord = new SimpleIntegerProperty(numberRecord);
+        }
+
+        public void setId(Integer id) {
+            this.id = new SimpleIntegerProperty(id);
+        }
+
+        public void setCourse(Integer course) {
+            this.course.set(course);
+        }
+
+        public void setLogin(String login) {
+            this.login = new SimpleStringProperty(login);
+        }
+
+        public void setPassword(String password) {
+            this.password = new SimpleStringProperty(password);
+        }
+
+        public void setFirstName(String firstName) {
+            this.firstName = new SimpleStringProperty(firstName);
+        }
+
+        public void setSecondName(String secondName) {
+            this.secondName = new SimpleStringProperty(secondName);
+        }
+
+        public void setMidleName(String midleName) {
+            this.midleName = new SimpleStringProperty(midleName);
+        }
+
+        @Override
+        public String toString() {
+            return "StudentModelTable{" + "fullName=" + fullName + '}';
         }
 
     }

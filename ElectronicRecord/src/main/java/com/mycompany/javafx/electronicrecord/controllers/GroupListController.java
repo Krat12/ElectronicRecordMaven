@@ -68,7 +68,6 @@ public class GroupListController implements Initializable {
 
     @FXML
     private TextField txt_serch;
-    
 
     @FXML
     void closeStage(ActionEvent event) {
@@ -81,7 +80,7 @@ public class GroupListController implements Initializable {
     }
 
     @FXML
-    void handleBookDeleteOption(ActionEvent event) {
+    void handleGroupDeleteOption(ActionEvent event) {
         Group selectedForDeletion = tableView.getSelectionModel().getSelectedItem();
         if (selectedForDeletion == null) {
             AlertMaker.showErrorMessage("Группа не выбрана", "Пожалуйста, выберите группу.");
@@ -90,6 +89,8 @@ public class GroupListController implements Initializable {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Удаление группы");
         alert.setContentText("Вы уверены что хотите удалить группу " + selectedForDeletion.getGroupName() + " ?");
+        
+       
 
         Optional<ButtonType> answer = alert.showAndWait();
         if (answer.get() == ButtonType.OK) {
@@ -107,7 +108,7 @@ public class GroupListController implements Initializable {
     }
 
     @FXML
-    void handleBookEditOption(ActionEvent event) {
+    void handleGroupEditOption(ActionEvent event) {
         Group selectedForEdit = tableView.getSelectionModel().getSelectedItem();
 
         if (selectedForEdit == null) {
@@ -255,6 +256,9 @@ public class GroupListController implements Initializable {
         if (tableView.getSelectionModel().getSelectedItem() != null) {
             Group group = tableView.getSelectionModel().getSelectedItem();
             Group.setNameGroup(group.getGroupName());
+            if (event.getClickCount() == 2) {
+                handleStudentList(new ActionEvent());
+            }
         }
 
     }

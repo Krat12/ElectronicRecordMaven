@@ -158,7 +158,7 @@ public class AlertMaker {
         setStageIcon(stage);
 
         DialogPane dialogPane = alert.getDialogPane();
-        dialogPane.getStylesheets().add(AlertMaker.class.getResource("/styles/dark-theme.css").toExternalForm());
+        dialogPane.getStylesheets().add(AlertMaker.class.getResource("/styles/theme.css").toExternalForm());
         dialogPane.getStyleClass().add("custom-alert");
     }
         public static void setStageIcon(Stage stage) {

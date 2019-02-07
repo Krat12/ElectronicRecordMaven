@@ -39,8 +39,8 @@
                   <ContextMenu style="-fx-base: #0e67f7;" styleClass="table-context">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#handleRefresh" text="Обновить" />
-                      <MenuItem mnemonicParsing="false" onAction="#handleBookEditOption" text="Изменить" />
-                        <MenuItem mnemonicParsing="false" onAction="#handleBookDeleteOption" text="Удалить" />
+                      <MenuItem mnemonicParsing="false" onAction="#handleGroupEditOption" text="Изменить" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleGroupDeleteOption" text="Удалить" />
                         <MenuItem mnemonicParsing="false" onAction="#handleGroupAdd" text="Добавить" />
                         <MenuItem mnemonicParsing="false" onAction="#handleStudentList" text="Список студентов" />
                     </items>

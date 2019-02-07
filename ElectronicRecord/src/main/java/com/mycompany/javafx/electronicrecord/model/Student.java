@@ -1,5 +1,6 @@
 package com.mycompany.javafx.electronicrecord.model;
 
+import com.opencsv.bean.CsvBindByName;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -12,6 +13,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 @Entity
@@ -26,6 +28,7 @@ public class Student implements Serializable {
     @Column(name = "Student_id")
     private Integer studentid;
     @Column(name = "number_book")
+    @CsvBindByName(column = "NumberRecord")
     private Integer numberBook;
     @Column(name = "course")
     private Integer course;
@@ -35,7 +38,12 @@ public class Student implements Serializable {
     @JoinColumn(name = "Student_id", referencedColumnName = "user_id", insertable = false, updatable = false)
     @OneToOne(optional = false, fetch = FetchType.LAZY)
     private User user;
-
+    
+    @Transient
+    @CsvBindByName(column = "ФИО")
+    private String fullName;
+    
+    
     public Student() {
     }
 
@@ -105,7 +113,17 @@ public class Student implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mycompany.javafx.electronicrecord.model.Student[ studentid=" + studentid + " ]";
+        return "Student{" + "studentid=" + studentid + ", numberBook=" + numberBook + ", course=" + course + ", groupid=" + groupid + ", user=" + user + ", fullName=" + fullName + '}';
+    }
+
+ 
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
 }
