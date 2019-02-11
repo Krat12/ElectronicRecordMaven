@@ -303,7 +303,8 @@ public class StudentsListController implements Initializable {
     void handleStudentEditOption(ActionEvent event) {
         StudentModelTable selectedForEdit = tableView.getSelectionModel().getSelectedItem();
         if (selectedForEdit == null) {
-            AlertMaker.showErrorMessage("Студент не выбран", "Пожалуйста, выберите студента.");
+            JFXButton button = new JFXButton("Ok");
+            AlertMaker.showMaterialDialog(rootPane, contentPane, Arrays.asList(button), "Студент не выбран!", "Пожалуйста, выберите студента");
             return;
         }
         showEditDiolog(selectedForEdit);
@@ -364,6 +365,7 @@ public class StudentsListController implements Initializable {
         initCol();
         loadData();
         groupName = GroupListController.Group.getNameGroup();
+       
     }
 
     @FXML

@@ -9,6 +9,8 @@ import com.mycompany.javafx.electronicrecord.model.Admin;
 import com.mycompany.javafx.electronicrecord.model.Groupstud;
 import com.mycompany.javafx.electronicrecord.model.Speciality;
 import com.mycompany.javafx.electronicrecord.model.Student;
+import com.mycompany.javafx.electronicrecord.model.Subject;
+import com.mycompany.javafx.electronicrecord.model.SubjectTeacherGroup;
 import com.mycompany.javafx.electronicrecord.model.Teacher;
 import com.mycompany.javafx.electronicrecord.model.User;
 import org.hibernate.SessionFactory;
@@ -31,7 +33,9 @@ public class HibernateSessionFactoryUtill {
             configuration.addAnnotatedClass(Student.class);
             configuration.addAnnotatedClass(Groupstud.class);
             configuration.addAnnotatedClass(Speciality.class);
+            configuration.addAnnotatedClass(Subject.class);
             configuration.addAnnotatedClass(Admin.class);
+            configuration.addAnnotatedClass(SubjectTeacherGroup.class);
             StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
             sessionFactory = configuration.buildSessionFactory(builder.build());
         }

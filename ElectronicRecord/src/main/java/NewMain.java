@@ -1,6 +1,12 @@
 
+import com.mycompany.javafx.electronicrecord.dao.impl.GroupDB;
+import com.mycompany.javafx.electronicrecord.dao.impl.SubjectTeacherGroupDB;
+import com.mycompany.javafx.electronicrecord.dao.impl.TeacherDB;
+import com.mycompany.javafx.electronicrecord.model.Groupstud;
 import com.mycompany.javafx.electronicrecord.utill.CSVUtils;
 import com.mycompany.javafx.electronicrecord.model.Student;
+import com.mycompany.javafx.electronicrecord.model.SubjectTeacherGroup;
+import com.mycompany.javafx.electronicrecord.model.Teacher;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.bean.CsvToBean;
@@ -33,8 +39,8 @@ public class NewMain {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws FileNotFoundException, IOException {
-
-
+       List<Teacher> teachers = TeacherDB.getInstance().getAllTeachers();
+        System.out.println(teachers);
     
     }
 

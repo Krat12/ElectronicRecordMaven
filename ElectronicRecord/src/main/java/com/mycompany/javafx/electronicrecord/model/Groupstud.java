@@ -2,7 +2,6 @@ package com.mycompany.javafx.electronicrecord.model;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,16 +11,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-
 @Entity
 @Table(name = "groupstud")
-@NamedQueries({
-    @NamedQuery(name = "Groupstud.findAll", query = "SELECT g FROM Groupstud g")})
 public class Groupstud implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,6 +32,8 @@ public class Groupstud implements Serializable {
     @JoinColumn(name = "speciality_id", referencedColumnName = "Speciality_id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Speciality specialityId;
+    @OneToMany(mappedBy = "groupstud", fetch = FetchType.LAZY)
+    private List<SubjectTeacherGroup> groupstuds;
 
     public Groupstud() {
     }
@@ -108,7 +104,17 @@ public class Groupstud implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mycompany.javafx.electronicrecord.model.Groupstud[ groupid=" + groupid + " ]";
+        return groupname;
     }
+
+    public List<SubjectTeacherGroup> getGroupstuds() {
+        return groupstuds;
+    }
+
+    public void setGroupstuds(List<SubjectTeacherGroup> groupstuds) {
+        this.groupstuds = groupstuds;
+    }
+
+ 
 
 }

@@ -24,6 +24,12 @@ public class StudentDB extends AbstractObject<Student> implements StudentDAO {
         return instance;
     }
 
+   private StudentDB() {
+   
+   }
+    
+    
+
     @Override
     public Student getStudentById(Integer id) {
         Session session = HibernateSessionFactoryUtill.getSessionFactory().openSession();

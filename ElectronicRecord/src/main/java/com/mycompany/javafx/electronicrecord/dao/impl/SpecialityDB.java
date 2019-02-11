@@ -7,7 +7,6 @@ package com.mycompany.javafx.electronicrecord.dao.impl;
 
 import com.mycompany.javafx.electronicrecord.dao.interfaces.AbstractObject;
 import com.mycompany.javafx.electronicrecord.dao.interfaces.SpecialityDAO;
-import com.mycompany.javafx.electronicrecord.model.Groupstud;
 import com.mycompany.javafx.electronicrecord.model.Speciality;
 import com.mycompany.javafx.electronicrecord.utill.HibernateSessionFactoryUtill;
 import java.util.List;

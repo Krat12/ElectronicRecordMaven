@@ -1,6 +1,7 @@
 package com.mycompany.javafx.electronicrecord.model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -31,6 +33,10 @@ public class Teacher implements Serializable {
     @JoinColumn(name = "Teacher_id", referencedColumnName = "user_id", insertable = false, updatable = false)
     @OneToOne(optional = false, fetch = FetchType.LAZY)
     private User user;
+    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
+    private List<SubjectTeacherGroup> subjectTeacherGroupList;
+    
+    
 
     public Teacher() {
     }
@@ -94,6 +100,14 @@ public class Teacher implements Serializable {
     @Override
     public String toString() {
         return "com.mycompany.javafx.electronicrecord.model.Teacher[ teacherid=" + teacherid + " ]";
+    }
+
+    public List<SubjectTeacherGroup> getSubjectTeacherGroupList() {
+        return subjectTeacherGroupList;
+    }
+
+    public void setSubjectTeacherGroupList(List<SubjectTeacherGroup> subjectTeacherGroupList) {
+        this.subjectTeacherGroupList = subjectTeacherGroupList;
     }
 
 }

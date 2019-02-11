@@ -54,6 +54,11 @@ and open the template in the editor.
 .table-column{
     -fx-alignment: CENTER;  
 }
+
+.table-columnSubject{
+    -fx-alignment: center-left;
+}
+
 .table-row-cell:even{
     -fx-background-color: derive(#eaf2ff, 20%);
 }

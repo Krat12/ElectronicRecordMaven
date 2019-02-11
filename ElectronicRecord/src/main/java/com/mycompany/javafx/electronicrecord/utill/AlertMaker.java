@@ -10,6 +10,7 @@ import java.awt.TrayIcon.MessageType;
 import java.awt.image.BufferedImage;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.control.Alert.AlertType;
@@ -26,10 +27,9 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javax.imageio.ImageIO;
 
-
 public class AlertMaker {
+
     public static final String ICON_IMAGE_LOC = "/image/round-button-blue-glossy-download-png-93250.png";
- 
 
     public static void showSimpleAlert(String title, String content) {
         Alert alert = new Alert(AlertType.INFORMATION);
@@ -115,8 +115,11 @@ public class AlertMaker {
 
     public static void showMaterialDialog(StackPane root, Node nodeToBeBlurred, List<JFXButton> controls, String header, String body) {
         BoxBlur blur = new BoxBlur(3, 3, 3);
+        if (controls == null) {
+            controls = new ArrayList<>();
+        }
         if (controls.isEmpty()) {
-            controls.add(new JFXButton("Okay"));
+            controls.add(new JFXButton("OK"));
         }
         JFXDialogLayout dialogLayout = new JFXDialogLayout();
         JFXDialog dialog = new JFXDialog(root, dialogLayout, JFXDialog.DialogTransition.TOP);
@@ -161,7 +164,8 @@ public class AlertMaker {
         dialogPane.getStylesheets().add(AlertMaker.class.getResource("/styles/theme.css").toExternalForm());
         dialogPane.getStyleClass().add("custom-alert");
     }
-        public static void setStageIcon(Stage stage) {
+
+    public static void setStageIcon(Stage stage) {
         stage.getIcons().add(new Image(ICON_IMAGE_LOC));
     }
 }

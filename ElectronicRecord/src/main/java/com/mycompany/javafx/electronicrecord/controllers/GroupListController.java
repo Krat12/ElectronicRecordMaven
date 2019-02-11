@@ -83,14 +83,12 @@ public class GroupListController implements Initializable {
     void handleGroupDeleteOption(ActionEvent event) {
         Group selectedForDeletion = tableView.getSelectionModel().getSelectedItem();
         if (selectedForDeletion == null) {
-            AlertMaker.showErrorMessage("Группа не выбрана", "Пожалуйста, выберите группу.");
+            AlertMaker.showMaterialDialog(rootPane, contentPane, null, "Группа не выбрана!", "Пожалуйста, выберите группу");
             return;
         }
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Удаление группы");
         alert.setContentText("Вы уверены что хотите удалить группу " + selectedForDeletion.getGroupName() + " ?");
-        
-       
 
         Optional<ButtonType> answer = alert.showAndWait();
         if (answer.get() == ButtonType.OK) {
@@ -102,8 +100,6 @@ public class GroupListController implements Initializable {
             } else {
                 AlertMaker.showSimpleAlert("Failed", selectedForDeletion.getGroupName() + " could not be deleted");
             }
-        } else {
-            AlertMaker.showSimpleAlert("Удаление отменено", "Удаление группы было отменено");
         }
     }
 
@@ -112,7 +108,7 @@ public class GroupListController implements Initializable {
         Group selectedForEdit = tableView.getSelectionModel().getSelectedItem();
 
         if (selectedForEdit == null) {
-            AlertMaker.showErrorMessage("Группа не выбрана", "Пожалуйста, выберите группу.");
+            AlertMaker.showMaterialDialog(rootPane, contentPane, null, "Группа не выбрана!", "Пожалуйста, выберите группу");
             return;
         }
 
@@ -233,7 +229,7 @@ public class GroupListController implements Initializable {
         Group selectedForEdit = tableView.getSelectionModel().getSelectedItem();
 
         if (selectedForEdit == null) {
-            AlertMaker.showErrorMessage("Группа не выбрана", "Пожалуйста, выберите группу.");
+            AlertMaker.showMaterialDialog(rootPane, contentPane, null, "Группа не выбрана!", "Пожалуйста, выберите группу");
             return;
         }
 
@@ -256,11 +252,26 @@ public class GroupListController implements Initializable {
         if (tableView.getSelectionModel().getSelectedItem() != null) {
             Group group = tableView.getSelectionModel().getSelectedItem();
             Group.setNameGroup(group.getGroupName());
+            Group.setIdGroup(group.getId());
             if (event.getClickCount() == 2) {
                 handleStudentList(new ActionEvent());
             }
         }
 
+    }
+
+    @FXML
+    void handleSubjectList(ActionEvent event) {
+        Group selectedForEdit = tableView.getSelectionModel().getSelectedItem();
+        if (selectedForEdit == null) {
+            AlertMaker.showMaterialDialog(rootPane, contentPane, null, "Группа не выбрана!", "Пожалуйста, выберите группу");
+            return;
+        }
+        
+        ElectronicRecordUtill.loadWindow(getClass().getResource("/fxml/SubjectList.fxml"), "Список предметов"+ " "+
+        GroupListController.Group.getNameGroup(), new Stage());
+        
+        
     }
 
     public static class Group {
@@ -270,6 +281,7 @@ public class GroupListController implements Initializable {
         private SimpleIntegerProperty id;
         private SimpleStringProperty speciality;
         private static String nameGroup;
+        private static int idGroup;
 
         public Group(String groupName, Short year, String spec, Integer id) {
             this.groupName = new SimpleStringProperty(groupName);
@@ -303,12 +315,21 @@ public class GroupListController implements Initializable {
         public static String getNameGroup() {
             return nameGroup;
         }
+        
 
         /**
          * @param aNameGroup the nameGroup to set
          */
         public static void setNameGroup(String aNameGroup) {
             nameGroup = aNameGroup;
+        }
+
+        public static int getIdGroup() {
+            return idGroup;
+        }
+
+        public static void setIdGroup(int aIdGroup) {
+            idGroup = aIdGroup;
         }
     }
 

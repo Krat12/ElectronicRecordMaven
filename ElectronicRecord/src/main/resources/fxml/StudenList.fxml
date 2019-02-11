@@ -20,16 +20,6 @@
    <children>
       <AnchorPane id="AnchorPane" fx:id="contentPane" prefHeight="525.0" prefWidth="798.0" style="-fx-background-color: #2D75E8 #2D75E8;">
          <children>
-            <FontAwesomeIconView fx:id="commit" fill="#ffffff81" glyphName="CHECK" layoutX="483.0" layoutY="77.0" onMouseClicked="#handleCommit" size="30" styleClass="labelCommitAndRolback" wrappingWidth="12.0" AnchorPane.rightAnchor="82.0">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </FontAwesomeIconView>
-            <FontAwesomeIconView fx:id="rollback" fill="#ffffff81" glyphName="CLOSE" layoutX="530.0" layoutY="77.0" onMouseClicked="#handleRolback" size="30" styleClass="labelCommitAndRolback" wrappingWidth="12.0" AnchorPane.rightAnchor="35.0">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </FontAwesomeIconView>
             <TableView fx:id="tableView" layoutY="105.0" onMouseClicked="#handleMouseClicked" prefHeight="545.0" prefWidth="911.0" stylesheets="@../styles/table.css" AnchorPane.bottomAnchor="-6.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="105.0">
               <columns>
                 <TableColumn fx:id="numberStudent" maxWidth="150.0" minWidth="30.0" prefWidth="40.0" resizable="false" text="№" />
@@ -73,7 +63,7 @@
                   </Menu>
                </menus>
             </MenuBar>
-            <HBox layoutY="30.0" prefHeight="74.0" prefWidth="458.0" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="119.0">
+            <HBox layoutY="30.0" prefHeight="74.0" prefWidth="577.0" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
                   <TextField fx:id="txt_serch" onAction="#serch" prefHeight="32.0" prefWidth="259.0" promptText="Поиск" style="-fx-background-radius: 20px; -fx-border-color: transparent;">
                      <HBox.margin>
@@ -94,6 +84,22 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </JFXButton>
+                  <FontAwesomeIconView fx:id="commit" fill="#ffffff81" glyphName="CHECK" onMouseClicked="#handleCommit" size="30" styleClass="labelCommitAndRolback" wrappingWidth="12.0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <HBox.margin>
+                        <Insets bottom="20.0" left="10.0" right="20.0" top="20.0" />
+                     </HBox.margin>
+                  </FontAwesomeIconView>
+                  <FontAwesomeIconView fx:id="rollback" fill="#ffffff81" glyphName="CLOSE" onMouseClicked="#handleRolback" size="30" styleClass="labelCommitAndRolback" wrappingWidth="12.0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <HBox.margin>
+                        <Insets bottom="20.0" left="10.0" right="20.0" top="20.0" />
+                     </HBox.margin>
+                  </FontAwesomeIconView>
                </children>
             </HBox>
          </children>

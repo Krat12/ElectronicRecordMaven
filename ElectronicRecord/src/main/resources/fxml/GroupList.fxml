@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="rootPane" prefHeight="644.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javafx.electronicrecord.controllers.GroupListController">
+<StackPane fx:id="rootPane" prefHeight="644.0" prefWidth="550.0" stylesheets="@../styles/theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javafx.electronicrecord.controllers.GroupListController">
    <children>
       <JFXDrawer fx:id="drawer" defaultDrawerSize="150.0" prefHeight="625.0" prefWidth="1031.0" resizableOnDrag="true" resizeContent="true" styleClass="jfx-drawer" />
       <AnchorPane id="AnchorPane" fx:id="contentPane" prefHeight="525.0" prefWidth="798.0" style="-fx-background-color: #2D75E8;">
@@ -43,6 +43,7 @@
                         <MenuItem mnemonicParsing="false" onAction="#handleGroupDeleteOption" text="Удалить" />
                         <MenuItem mnemonicParsing="false" onAction="#handleGroupAdd" text="Добавить" />
                         <MenuItem mnemonicParsing="false" onAction="#handleStudentList" text="Список студентов" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleSubjectList" text="Список предметов" />
                     </items>
                   </ContextMenu>
                </contextMenu>

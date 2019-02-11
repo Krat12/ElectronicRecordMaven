@@ -14,9 +14,7 @@ import javafx.stage.Stage;
 public class MainApp extends Application {
 
     @Override
-    public void start(Stage stage) throws Exception {
-         //Важный запрос не забудь INSERT INTO subject_teacher_group (group_id,subject_id,teacher_id,hourse)
-         //(SELECT 7, A.subject_id,A.teacher_id,A.hourse FROM subject_teacher_group as A where A.group_id = 6);    
+    public void start(Stage stage) throws Exception {    
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/GroupList.fxml"));
         ElectronicRecordUtill.setStageIcon(stage);
         HibernateSessionFactoryUtill.getSessionFactory();
@@ -36,6 +34,7 @@ public class MainApp extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+       
         launch(args);
     }
 

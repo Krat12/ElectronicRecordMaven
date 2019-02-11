@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="rootPane" prefHeight="644.0" prefWidth="835.0" stylesheets="@../styles/theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javafx.electronicrecord.controllers.CreateSubjectController">
+   <children>
+      <AnchorPane id="AnchorPane" fx:id="contentPane" prefHeight="525.0" prefWidth="798.0" style="-fx-background-color: white;">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0" />
+            <TableView fx:id="teacherTable" layoutX="28.0" layoutY="129.0" onMouseClicked="#SelectGroup" prefHeight="429.0" prefWidth="336.0" stylesheets="@../styles/table.css" AnchorPane.bottomAnchor="86.0" AnchorPane.leftAnchor="28.0" AnchorPane.topAnchor="129.0">
+              <columns>
+                  <TableColumn fx:id="colTeacher" minWidth="200.0" prefWidth="305.0" text="Преподователь" />
+                  <TableColumn fx:id="id" maxWidth="2800.0" prefWidth="75.0" text="Id" visible="false" />
+              </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
+            <MenuBar layoutX="-11.0" layoutY="10.0" prefHeight="30.0" prefWidth="561.0" AnchorPane.leftAnchor="-11.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <menus>
+                  <Menu mnemonicParsing="false" text="File">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#exportAsPDF" text="Expert as PDF" />
+                        <MenuItem mnemonicParsing="false" onAction="#exportAsPDF" text="Expert as CVS" />
+                        <MenuItem mnemonicParsing="false" onAction="#exportAsPDF" text="Expert as XML" />
+                        <MenuItem mnemonicParsing="false" onAction="#closeStage" text="Close" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Предварительный просмотр">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#handlePreview" text="Предварительный просмотр" />
+                     </items></Menu>
+               </menus>
+            </MenuBar>
+            <TableView fx:id="subjectTable" layoutX="433.0" layoutY="129.0" onMouseClicked="#SelectGroup" prefHeight="429.0" prefWidth="396.0" stylesheets="@../styles/table.css" AnchorPane.bottomAnchor="86.0" AnchorPane.leftAnchor="433.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="129.0">
+               <columns>
+                  <TableColumn fx:id="colSubject" minWidth="200.0" prefWidth="305.0" styleClass="table-columnSubject" text="Предмет" />
+                  <TableColumn fx:id="idSubject" maxWidth="2800.0" prefWidth="75.0" text="Id" visible="false" />
+                  <TableColumn fx:id="colHours" minWidth="0.0" prefWidth="305.0" text="Часы" />
+               </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
+            <TextField fx:id="txt_serchTeacher" layoutX="29.0" layoutY="65.0" onAction="#serchTeacher" prefHeight="40.0" prefWidth="336.0" promptText="Поиск" style="-fx-background-radius: 20px; -fx-border-color: transparent;">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="txt_serchSubject" layoutX="433.0" layoutY="60.0" onAction="#serchSubject" prefHeight="40.0" prefWidth="396.0" promptText="Поиск" style="-fx-background-radius: 20px; -fx-border-color: transparent;" AnchorPane.leftAnchor="433.0" AnchorPane.rightAnchor="6.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextField>
+            <JFXButton alignment="CENTER" layoutX="299.0" layoutY="580.0" onAction="#handleSave" prefHeight="39.0" prefWidth="198.0" style="-fx-border-color: #2B6FDD; -fx-background-radius: 20px; -fx-border-radius: 20px;" styleClass="login-button" text="Сохранить" textAlignment="CENTER" textFill="#2b6fdd" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="299.0" AnchorPane.rightAnchor="338.0">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

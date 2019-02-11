@@ -21,4 +21,6 @@ public interface GroupDAO extends ObjectDAO<Groupstud>{
     boolean deleteGroup (int id);
     
     Groupstud getGroupstudsByName(String name);
+    
+     List<Groupstud> getGroupsExceptForTarget(int groupId);
 }

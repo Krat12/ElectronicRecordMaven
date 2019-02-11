@@ -5,17 +5,14 @@
  */
 package com.mycompany.javafx.electronicrecord.dao.interfaces;
 
-import com.mycompany.javafx.electronicrecord.model.Teacher;
+import com.mycompany.javafx.electronicrecord.model.Subject;
 import java.util.List;
 
 /**
  *
- * @author user07
+ * @author Admin
  */
-public interface TeacherDAO extends ObjectDAO<Teacher>{
+public interface SubjectDAO extends ObjectDAO<Subject>{
     
-    Teacher getTeacherById(Integer Id);
-    
-    List<Teacher> getAllTeachers();
-    
+    List<Subject> getAllSubjects();
 }

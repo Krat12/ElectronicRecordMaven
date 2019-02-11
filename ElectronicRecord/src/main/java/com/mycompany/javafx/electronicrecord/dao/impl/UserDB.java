@@ -28,6 +28,10 @@ public class UserDB extends AbstractObject<User> implements UserDAO {
         return instance;
     }
 
+    private UserDB() {
+    }
+    
+
     @Override
     public User getUserByLoginAndPassword(String login,String password) {
         Session session = HibernateSessionFactoryUtill.getSessionFactory().openSession();

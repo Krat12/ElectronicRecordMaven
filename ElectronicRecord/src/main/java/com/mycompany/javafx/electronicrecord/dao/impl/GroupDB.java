@@ -21,12 +21,15 @@ public class GroupDB extends AbstractObject<Groupstud> implements GroupDAO {
         return instance;
     }
 
+    private GroupDB() {
+    }
+
     @Override
     public List<Groupstud> getAllGroups() {
         Session session = HibernateSessionFactoryUtill.getSessionFactory().openSession();
         List<Groupstud> groups = null;
         try {
-            Query query = session.createQuery("from Groupstud g join fetch g.specialityId");
+            Query query = session.createQuery("from Groupstud g join fetch g.specialityId ORDER BY g.groupname");
             groups = query.getResultList();
         } catch (Exception e) {
             System.out.println(e);
@@ -78,7 +81,7 @@ public class GroupDB extends AbstractObject<Groupstud> implements GroupDAO {
         Groupstud group = null;
         try {
             Query query = session.createQuery("from Groupstud g join fetch g.specialityId where g.groupname = :name");
-            query.setParameter("name",name);
+            query.setParameter("name", name);
             group = (Groupstud) query.uniqueResult();
         } catch (Exception e) {
             System.out.println(e);
@@ -87,4 +90,21 @@ public class GroupDB extends AbstractObject<Groupstud> implements GroupDAO {
         }
         return group;
     }
+
+    @Override
+    public List<Groupstud> getGroupsExceptForTarget(int groupId) {
+        Session session = HibernateSessionFactoryUtill.getSessionFactory().openSession();
+        List<Groupstud> groups = null;
+        try {
+            Query query = session.createQuery("from Groupstud g join fetch g.specialityId where g.groupid <> :target ORDER BY g.groupname");
+            query.setParameter("target", groupId);
+            groups = query.getResultList();
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            session.close();
+        }
+        return groups;
+    }
 }
+
