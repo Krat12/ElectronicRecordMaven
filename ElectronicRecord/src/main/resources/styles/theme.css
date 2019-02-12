@@ -41,7 +41,11 @@
     -fx-background-color: #1E90FF;
     -fx-text-fill: white;
 }*/
-
+.toolBarButton{
+    -fx-background-color:#2D75E8;
+    -fx-border-color:white;
+    -fx-font-size: 12px;   
+}
 
 
 /*Login Screen Specific*/

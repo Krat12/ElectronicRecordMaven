@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -23,15 +24,19 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
+import javafx.util.StringConverter;
 
 public class CreateSubjectController implements Initializable {
 
@@ -167,9 +172,9 @@ public class CreateSubjectController implements Initializable {
     private void settingsTable() {
         subjectTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         subjectTable.setEditable(true);
-        SubjectListController controller = new SubjectListController();
+       
 
-        colHours.setCellFactory(controller.integerCell(value -> value >= 0));
+        colHours.setCellFactory(integerCell(value -> value >= 0));
         colHours.setOnEditCommit((event) -> {
             Integer value = event.getNewValue();
             if (value != null) {
@@ -209,6 +214,34 @@ public class CreateSubjectController implements Initializable {
             return listInsertPreview;
         }
         return listInsertPreview;
+    }
+        protected <T> Callback<TableColumn<T, Integer>, TableCell<T, Integer>> integerCell(
+            Predicate<Integer> validator) {
+        return TextFieldTableCell.forTableColumn(new StringConverter<Integer>() {
+            @Override
+            public String toString(Integer object) {
+                if (object == null) {
+                    return null;
+                }
+                return object.toString();
+            }
+
+            @Override
+            public Integer fromString(String string) {
+                try {
+                    int value = Integer.parseInt(string);
+                    if (validator.test(value)) {
+                        return value;
+                    } else {
+                        AlertMaker.showMaterialDialog(rootPane, contentPane, null, "Неверный формат!", "Количество часов не может быть меньше нуля!");
+                        return null;
+                    }
+                } catch (NumberFormatException e) {
+                    AlertMaker.showMaterialDialog(rootPane, contentPane, null, "Неверный формат!", "Введите целое положительное число без разделителей");
+                    return null;
+                }
+            }
+        });
     }
     
 

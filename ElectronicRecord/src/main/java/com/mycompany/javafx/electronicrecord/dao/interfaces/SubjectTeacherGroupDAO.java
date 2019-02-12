@@ -22,4 +22,7 @@ public interface SubjectTeacherGroupDAO extends ObjectDAO<SubjectTeacherGroup>{
     
     void updateHours(int id, int hours);
     
+    void insetSubjectTeacherGroup(int subjectId,int teacherId,int groupId, int hours,SubjectTeacherGroup stg);
+    
+    
 }

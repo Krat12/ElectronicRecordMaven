@@ -39,9 +39,8 @@ public class NewMain {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws FileNotFoundException, IOException {
-       List<Teacher> teachers = TeacherDB.getInstance().getAllTeachers();
-        System.out.println(teachers);
-    
+        SubjectTeacherGroup stg = new SubjectTeacherGroup();
+        SubjectTeacherGroupDB.getInstance().insetSubjectTeacherGroup(1, 33, 6, 23, stg);
     }
 
     public static List<Student> parseCSVWithHeader(String URL) throws IOException {
