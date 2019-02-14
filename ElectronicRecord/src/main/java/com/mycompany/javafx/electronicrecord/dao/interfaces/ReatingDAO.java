@@ -18,4 +18,8 @@ public interface ReatingDAO extends ObjectDAO<Reating>{
     
     List<Reating> getReatingByStatement(int statementId);
     
+    List<Reating> getReatingByDiplom(int statementId);
+    
+    List<Reating> getReatingByCoursework(int statementId);
+    
 }

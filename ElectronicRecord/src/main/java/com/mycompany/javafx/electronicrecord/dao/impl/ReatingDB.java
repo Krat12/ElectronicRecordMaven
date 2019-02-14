@@ -36,7 +36,7 @@ public class ReatingDB extends AbstractObject<Reating> implements ReatingDAO {
         Transaction transaction = null;
         String sql = "INSERT INTO reating (statement_id,Student_id)\n"
                 + "(SELECT " + statementId + " as statement_id, A.Student_id FROM student as A where A.Group_id = " + groupId + ");";
-      
+
         try {
             transaction = session.beginTransaction();
             Query query = session.createSQLQuery(sql).addEntity(Reating.class);
@@ -59,8 +59,8 @@ public class ReatingDB extends AbstractObject<Reating> implements ReatingDAO {
         try {
             Query query = session.createQuery("SELECT u.name,u.surname,u.midleName,s.studentid,r.mark,r.reatingId "
                     + "FROM Reating r JOIN r.studentid s JOIN r.statementId st JOIN s.user u "
-                    + "WHERE st.statementId = :statementId ORDER BY u.surname"); 
-            
+                    + "WHERE st.statementId = :statementId ORDER BY u.surname");
+
             query.setParameter("statementId", statementId);
             List<Object> objects = query.list();
             Iterator itr = objects.iterator();
@@ -71,20 +71,19 @@ public class ReatingDB extends AbstractObject<Reating> implements ReatingDAO {
                 user.setName(String.valueOf(obj[0]));
                 user.setMidleName(String.valueOf(obj[2]));
                 user.setSurname(String.valueOf(obj[1]));
-               
 
                 Student student = new Student(Integer.valueOf(String.valueOf(obj[3])));
                 student.setUser(user);
 
                 Reating reating = new Reating(Integer.valueOf(String.valueOf(obj[5])));
-                if(obj[4] != null){
-                     reating.setMark(Integer.valueOf(String.valueOf(obj[4])));
+                if (obj[4] != null) {
+                    reating.setMark(Integer.valueOf(String.valueOf(obj[4])));
                 }
                 reating.setStudentid(student);
 
                 reatings.add(reating);
             }
-         
+
         } catch (Exception e) {
             System.out.println(e);
             throw e;
@@ -94,4 +93,96 @@ public class ReatingDB extends AbstractObject<Reating> implements ReatingDAO {
         return reatings;
     }
 
+    @Override
+    public List<Reating> getReatingByDiplom(int statementId) {
+        Session session = HibernateSessionFactoryUtill.getSessionFactory().openSession();
+        List<Reating> reatings = new ArrayList();
+        try {
+            Query query = session.createQuery("SELECT u.name,u.surname,u.midleName,s.studentid,r.mark,r.reatingId,d.thesis "
+                    + "FROM Reating r JOIN r.studentid s JOIN r.diplom d JOIN r.statementId st JOIN s.user u "
+                    + "WHERE st.statementId = :statementId ORDER BY u.surname");
+
+            query.setParameter("statementId", statementId);
+            List<Object> objects = query.list();
+            Iterator itr = objects.iterator();
+            while (itr.hasNext()) {
+                Object[] obj = (Object[]) itr.next();
+
+                User user = new User();
+                user.setName(String.valueOf(obj[0]));
+                user.setMidleName(String.valueOf(obj[2]));
+                user.setSurname(String.valueOf(obj[1]));
+
+                Student student = new Student(Integer.valueOf(String.valueOf(obj[3])));
+                student.setUser(user);
+
+                Diplom diplom = new Diplom();
+                diplom.setThesis(String.valueOf(obj[6]));
+                System.out.println(String.valueOf(obj[6]) + " FDAAFAFASFas");
+
+                Reating reating = new Reating(Integer.valueOf(String.valueOf(obj[5])));
+                if (obj[4] != null) {
+                    reating.setMark(Integer.valueOf(String.valueOf(obj[4])));
+                }
+                reating.setStudentid(student);
+                reating.setDiplom(diplom);
+
+                reatings.add(reating);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+            throw e;
+        } finally {
+            session.close();
+        }
+        return reatings;
+    }
+
+    @Override
+    public List<Reating> getReatingByCoursework(int statementId) {
+        Session session = HibernateSessionFactoryUtill.getSessionFactory().openSession();
+        List<Reating> reatings = new ArrayList();
+        try {
+            Query query = session.createQuery("SELECT u.name,u.surname,u.midleName,s.studentid,r.mark,r.reatingId,course.fullNameBoss,course.placePracticle "
+                    + "FROM Reating r JOIN r.studentid s JOIN r.coursework course JOIN r.statementId st JOIN s.user u "
+                    + "WHERE st.statementId = :statementId ORDER BY u.surname");
+
+            query.setParameter("statementId", statementId);
+            List<Object> objects = query.list();
+            Iterator itr = objects.iterator();
+            while (itr.hasNext()) {
+                Object[] obj = (Object[]) itr.next();
+
+                User user = new User();
+                user.setName(String.valueOf(obj[0]));
+                user.setMidleName(String.valueOf(obj[2]));
+                user.setSurname(String.valueOf(obj[1]));
+
+                Student student = new Student(Integer.valueOf(String.valueOf(obj[3])));
+                student.setUser(user);
+
+                Coursework coursework = new Coursework();
+                coursework.setFullNameBoss(String.valueOf(obj[6]));
+                coursework.setPlacePracticle(String.valueOf(obj[7]));
+
+                Reating reating = new Reating(Integer.valueOf(String.valueOf(obj[5])));
+                if (obj[4] != null) {
+                    reating.setMark(Integer.valueOf(String.valueOf(obj[4])));
+                }
+                reating.setStudentid(student);
+                reating.setCoursework(coursework);
+               
+
+                reatings.add(reating);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+            throw e;
+        } finally {
+            session.close();
+        }
+        return reatings;
+    }
 }

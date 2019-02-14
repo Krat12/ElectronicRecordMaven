@@ -7,16 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
 @Entity
 @Table(name = "diplom")
-@NamedQueries({
-    @NamedQuery(name = "Diplom.findAll", query = "SELECT d FROM Diplom d")})
 public class Diplom implements Serializable {
 
     private static final long serialVersionUID = 1L;

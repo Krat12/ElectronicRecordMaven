@@ -26,7 +26,7 @@ public class CreateMarkController implements Initializable {
     private static final String[] TYPE_MARK = {"Зачет", "Дифференцированный зачет", "Дипломная работа", "Курсовая работа"};
     ObservableList<String> typeList = FXCollections.observableArrayList(TYPE_MARK);
     ObservableList<Subject> subjects = FXCollections.observableArrayList(SubjectDB.getInstance().
-            getSubjectsByGroupAndTeacher(24, 144));
+            getSubjectsByGroupAndTeacher(6, 33));
     private static String selectTypeMark;
     private static int statementId;
 
@@ -51,17 +51,20 @@ public class CreateMarkController implements Initializable {
 
     @FXML
     void save(ActionEvent event) {
-        try {
-            ReatingDB.getInstance().insertBySelect(getStatement().getStatementId(), 24);
-            selectTypeMark = cmb_typeMark.getSelectionModel().getSelectedItem();           
-            Node node = (Node) event.getSource();
-            Stage stage = (Stage) node.getScene().getWindow();
-            ElectronicRecordUtill.loadWindow(getClass().getResource("/fxml/MarkList.fxml"), "", stage);
+        if (checkData()) {
+            try {
+                ReatingDB.getInstance().insertBySelect(getStatement().getStatementId(), 6);
+                selectTypeMark = cmb_typeMark.getSelectionModel().getSelectedItem();
+                Node node = (Node) event.getSource();
+                Stage stage = (Stage) node.getScene().getWindow();
+                ElectronicRecordUtill.loadWindow(getClass().getResource("/fxml/MarkList.fxml"), "", stage);
 
-            
-        } catch (Exception e) {
-            System.out.println(e);
-            ElectronicRecordUtill.loadAlertError(getClass().getResource("/fxml/AlertError.fxml"), new Stage(), "Ooops...", "Что то пошло не так ");
+            } catch (Exception e) {
+                System.out.println(e);
+                ElectronicRecordUtill.loadAlertError(getClass().getResource("/fxml/AlertError.fxml"), new Stage(), "Ooops...", "Что то пошло не так ");
+            }
+        }else{
+            ElectronicRecordUtill.loadAlertError(getClass().getResource("/fxml/AlertError.fxml"), null, "Ошибка при создании", "Проверьте поля на правильность ввода");
         }
     }
 
@@ -97,7 +100,7 @@ public class CreateMarkController implements Initializable {
         statement.setDate(date);
         statement.setHours(Integer.valueOf(txt_hours.getText()));
         statement.setType(cmb_typeMark.getSelectionModel().getSelectedItem());
-        StatementDB.getInstance().insertById(cmb_subject.getSelectionModel().getSelectedItem().getSubjectId(), 144, 24, statement);
+        StatementDB.getInstance().insertById(cmb_subject.getSelectionModel().getSelectedItem().getSubjectId(), 33, 6, statement);
         statementId = statement.getStatementId();
         return statement;
     }
@@ -108,6 +111,24 @@ public class CreateMarkController implements Initializable {
 
     public static int getStatementId() {
         return statementId;
+    }
+
+    private boolean checkData() {
+        if (txt_hours.getText().equals("")) {
+            return false;
+        }
+        if (cmb_subject.getSelectionModel().getSelectedItem() == null) {
+            return false;
+        }
+
+        if (cmb_typeMark.getSelectionModel().getSelectedItem().equals("Тип оценки")) {
+            return false;
+        }
+        if (creationDate.getValue() == null) {
+            return false;
+        }
+
+        return true;
     }
 
 }

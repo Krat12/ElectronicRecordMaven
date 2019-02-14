@@ -20,6 +20,7 @@ public class Coursework implements Serializable {
     @Basic(optional = false)
     @Column(name = "Coursework_id")
     private Integer courseworkid;
+    @Column(name = "fullNameBoss")
     private String fullNameBoss;
     @Column(name = "placePracticle")
     private String placePracticle;

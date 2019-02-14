@@ -43,7 +43,7 @@ public class NewMain {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws FileNotFoundException, IOException {
-       List<Reating> list = ReatingDB.getInstance().getReatingByStatement(2);
+        List<Reating> list = ReatingDB.getInstance().getReatingByCoursework(2);
         System.out.println(list);
     }
 
