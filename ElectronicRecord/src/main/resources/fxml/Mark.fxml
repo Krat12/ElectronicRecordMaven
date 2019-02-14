@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="37.0" prefWidth="285.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javafx.electronicrecord.controllers.MarkController">
+   <children>
+      <ComboBox fx:id="cmb_Mark" layoutX="-2.0" prefHeight="50.0" prefWidth="198.0" promptText="Оценка" style="-fx-font-size: 20;" />
+      <JFXButton layoutX="196.0" layoutY="-1.0" onAction="#handlePutMark" prefHeight="51.0" prefWidth="89.0" style="-fx-background-color: #2D75E8;" text="OK" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </JFXButton>
+   </children>
+</AnchorPane>

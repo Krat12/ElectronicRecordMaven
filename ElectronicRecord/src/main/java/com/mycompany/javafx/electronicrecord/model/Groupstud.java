@@ -18,6 +18,9 @@ import javax.persistence.Table;
 @Table(name = "groupstud")
 public class Groupstud implements Serializable {
 
+    @OneToMany(mappedBy = "groupId", fetch = FetchType.LAZY)
+    private List<Statement> statementList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -113,6 +116,14 @@ public class Groupstud implements Serializable {
 
     public void setGroupstuds(List<SubjectTeacherGroup> groupstuds) {
         this.groupstuds = groupstuds;
+    }
+
+    public List<Statement> getStatementList() {
+        return statementList;
+    }
+
+    public void setStatementList(List<Statement> statementList) {
+        this.statementList = statementList;
     }
 
  

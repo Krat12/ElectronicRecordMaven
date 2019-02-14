@@ -5,16 +5,17 @@
  */
 package com.mycompany.javafx.electronicrecord.dao.interfaces;
 
-import com.mycompany.javafx.electronicrecord.model.Subject;
+import com.mycompany.javafx.electronicrecord.model.Reating;
 import java.util.List;
 
 /**
  *
  * @author Admin
  */
-public interface SubjectDAO extends ObjectDAO<Subject>{
+public interface ReatingDAO extends ObjectDAO<Reating>{
     
-    List<Subject> getAllSubjects();
+    void insertBySelect(int statementId, int groupId);
     
-    List<Subject> getSubjectsByGroupAndTeacher(int groupId,int teacherId);
+    List<Reating> getReatingByStatement(int statementId);
+    
 }

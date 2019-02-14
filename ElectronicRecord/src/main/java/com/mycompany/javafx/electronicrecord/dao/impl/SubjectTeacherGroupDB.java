@@ -79,7 +79,6 @@ public class SubjectTeacherGroupDB extends AbstractObject<SubjectTeacherGroup> i
         System.out.println(sql);
         try {
             transaction = session.beginTransaction();
-            System.out.println("OK");
             Query query = session.createSQLQuery(sql).addEntity(SubjectTeacherGroup.class);
             query.executeUpdate();
             transaction.commit();

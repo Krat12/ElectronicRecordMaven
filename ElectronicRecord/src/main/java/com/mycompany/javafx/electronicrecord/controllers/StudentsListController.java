@@ -1,6 +1,7 @@
 package com.mycompany.javafx.electronicrecord.controllers;
 
 import com.jfoenix.controls.JFXButton;
+import com.mycompany.javafx.electronicrecord.controllers.GroupListController.Group;
 import com.mycompany.javafx.electronicrecord.dao.impl.GroupDB;
 import com.mycompany.javafx.electronicrecord.dao.impl.StudentDB;
 import com.mycompany.javafx.electronicrecord.dao.impl.UserDB;
@@ -44,6 +45,7 @@ public class StudentsListController implements Initializable {
     ObservableList<StudentModelTable> listStudents = FXCollections.observableArrayList();
     ObservableList<StudentModelTable> sortStudents = FXCollections.observableArrayList();
     protected static String groupName;
+    private static int groupId;
     protected static int indexSelectRow;
     private static List<StudentModelTable> studentsOnUpdateOrInsert;
     private List<Student> studentsParseCSV;
@@ -56,6 +58,9 @@ public class StudentsListController implements Initializable {
 
     @FXML
     private TableView<StudentModelTable> tableView;
+
+    @FXML
+    private JFXButton btn_delete;
 
     @FXML
     private TableColumn<StudentModelTable, Integer> numberStudent;
@@ -83,6 +88,8 @@ public class StudentsListController implements Initializable {
 
     @FXML
     private TextField txt_serch;
+    @FXML
+    private JFXButton btn_edit;
 
     @FXML
     void handleGenerateLogin(ActionEvent event) {
@@ -125,6 +132,11 @@ public class StudentsListController implements Initializable {
             studentsOnUpdateOrInsert.clear();
             resetColor();
         }
+    }
+
+    @FXML
+    void handleIsNullGroup(ActionEvent event) {
+
     }
 
     @FXML
@@ -247,7 +259,7 @@ public class StudentsListController implements Initializable {
         listStudents.clear();
 
         int amount = 1;
-        for (com.mycompany.javafx.electronicrecord.model.Student student : StudentDB.getInstance().getStudentsByGroup(GroupListController.Group.getNameGroup())) {
+        for (com.mycompany.javafx.electronicrecord.model.Student student : StudentDB.getInstance().getStudentsByGroup(groupName)) {
 
             Integer numberStudent = amount;
             String fullName = student.getUser().getSurname() + " " + student.getUser().getName() + " " + student.getUser().getMidleName();
@@ -272,7 +284,6 @@ public class StudentsListController implements Initializable {
     @FXML
     void exportAsPDF(ActionEvent event) {
 
-       
     }
 
     @FXML
@@ -282,15 +293,15 @@ public class StudentsListController implements Initializable {
         if (URL.equals("")) {
             return;
         }
-        if(listStudents.isEmpty()){
-          JFXButton fXButton = new JFXButton("OK");
-          AlertMaker.showMaterialDialog(rootPane, contentPane, Arrays.asList(fXButton), "Пустая таблица!", "Выгрузить не удалось, заполните таблицу!");
-          return;
+        if (listStudents.isEmpty()) {
+            JFXButton fXButton = new JFXButton("OK");
+            AlertMaker.showMaterialDialog(rootPane, contentPane, Arrays.asList(fXButton), "Пустая таблица!", "Выгрузить не удалось, заполните таблицу!");
+            return;
         }
         try {
             ElectronicRecordUtill.exportStudentCSV(URL, listStudents);
         } catch (IOException e) {
-              ElectronicRecordUtill.loadAlertError(getClass().getResource("/fxml/AlertError.fxml"), new Stage(), "Ooops...", "Что то пошло не так ");
+            ElectronicRecordUtill.loadAlertError(getClass().getResource("/fxml/AlertError.fxml"), new Stage(), "Ooops...", "Что то пошло не так ");
         }
     }
 
@@ -324,7 +335,7 @@ public class StudentsListController implements Initializable {
                 });
             } else {
                 stage.setOnHiding((e) -> {
-
+                    
                     listStudents.set(indexSelectRow, StudentCreateController.getModelTableStudent());
                     if (!checkLoginAndPasswordIsEmpty()) {
                         setColor();
@@ -362,10 +373,10 @@ public class StudentsListController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        groupName = GroupListController.Group.getNameGroup();
+        groupId = Group.getIdGroup();
         initCol();
         loadData();
-        groupName = GroupListController.Group.getNameGroup();
-       
     }
 
     @FXML
@@ -390,9 +401,19 @@ public class StudentsListController implements Initializable {
 
     @FXML
     void handleMouseClicked(MouseEvent event) {
+        if (tableView.getSelectionModel().getSelectedItem() != null) {
+            setColorBorderButton();
+        }
+
         if (event.getClickCount() == 2 && tableView.getSelectionModel().getSelectedItem() != null) {
+
             showEditDiolog(tableView.getSelectionModel().getSelectedItem());
         }
+    }
+
+    private void setColorBorderButton() {
+        btn_edit.setStyle("-fx-border-color:#70ff7e");
+        btn_delete.setStyle("-fx-border-color:#70ff7e");
     }
 
     private boolean checkLoginAndPasswordIsEmpty() {
@@ -408,6 +429,10 @@ public class StudentsListController implements Initializable {
             studentsOnUpdateOrInsert = new ArrayList<>();
         }
         return studentsOnUpdateOrInsert;
+    }
+    
+    public static int getGroupIdForStudent(){
+        return groupId;
     }
 
     public static class StudentModelTable {

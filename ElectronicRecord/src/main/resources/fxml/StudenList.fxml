@@ -70,7 +70,7 @@
                   <Insets />
                </opaqueInsets>
                <items>
-                  <JFXButton contentDisplay="TOP" onAction="#handleStudentEditOption" prefHeight="62.0" prefWidth="83.0" styleClass="toolBarButton" text="Изменить" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+                  <JFXButton fx:id="btn_edit" contentDisplay="TOP" onAction="#handleStudentEditOption" prefHeight="62.0" prefWidth="83.0" styleClass="toolBarButton" text="Изменить" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
                      <graphic>
                         <FontAwesomeIconView glyphName="EDIT" size="30" strokeLineJoin="ROUND" style="-fx-fill: white;" />
                      </graphic>
@@ -97,9 +97,18 @@
                      </cursor>
                   </JFXButton>
                   <Separator orientation="VERTICAL" prefHeight="10.0" prefWidth="0.0" scaleX="0.0" style="-fx-background-color: white;" />
-                  <JFXButton contentDisplay="TOP" onAction="#handleStudentDeleteOption" prefHeight="65.0" prefWidth="83.0" style="-fx-border-color: white;" styleClass="toolBarButton" text="Удалить" textFill="WHITE">
+                  <JFXButton fx:id="btn_delete" contentDisplay="TOP" onAction="#handleStudentDeleteOption" prefHeight="65.0" prefWidth="83.0" style="-fx-border-color: white;" styleClass="toolBarButton" text="Удалить" textFill="WHITE">
                      <graphic>
                         <FontAwesomeIconView glyphName="CLOSE" size="30" strokeLineJoin="ROUND" style="-fx-fill: white;" />
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+                  <Separator orientation="VERTICAL" prefHeight="10.0" prefWidth="0.0" scaleX="0.0" style="-fx-background-color: white;" />
+                  <JFXButton contentDisplay="TOP" onAction="#handleIsNullGroup" prefHeight="65.0" prefWidth="83.0" style="-fx-border-color: white;" styleClass="toolBarButton" text="Без групп" textFill="WHITE">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="USER" size="30" strokeLineJoin="ROUND" style="-fx-fill: white;" />
                      </graphic>
                      <cursor>
                         <Cursor fx:constant="HAND" />

@@ -5,16 +5,15 @@
  */
 package com.mycompany.javafx.electronicrecord.dao.interfaces;
 
-import com.mycompany.javafx.electronicrecord.model.Subject;
-import java.util.List;
+import com.mycompany.javafx.electronicrecord.model.Statement;
 
 /**
  *
  * @author Admin
  */
-public interface SubjectDAO extends ObjectDAO<Subject>{
+public interface StatementDAO extends ObjectDAO<Statement>{
     
-    List<Subject> getAllSubjects();
+    void insertById(int subjectId,int teacherId,int groupId,Statement statement);
     
-    List<Subject> getSubjectsByGroupAndTeacher(int groupId,int teacherId);
+    
 }

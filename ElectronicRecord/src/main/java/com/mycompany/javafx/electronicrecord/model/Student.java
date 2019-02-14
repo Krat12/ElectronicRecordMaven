@@ -1,17 +1,17 @@
 package com.mycompany.javafx.electronicrecord.model;
 
 import com.opencsv.bean.CsvBindByName;
-import com.opencsv.bean.CsvBindByPosition;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -19,11 +19,9 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name = "student")
-@NamedQueries({
-    @NamedQuery(name = "Student.findAll", query = "SELECT s FROM Student s")})
 public class Student implements Serializable {
-
     private static final long serialVersionUID = 1L;
+    
     @Id
     @Basic(optional = false)
     @Column(name = "Student_id")
@@ -39,6 +37,8 @@ public class Student implements Serializable {
     @JoinColumn(name = "Student_id", referencedColumnName = "user_id", insertable = false, updatable = false)
     @OneToOne(optional = false, fetch = FetchType.LAZY)
     private User user;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentid", fetch = FetchType.LAZY)
+    private List<Reating> reatingList;
     
     @Transient
     @CsvBindByName(column = "ФИО")
@@ -125,6 +125,14 @@ public class Student implements Serializable {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public List<Reating> getReatingList() {
+        return reatingList;
+    }
+
+    public void setReatingList(List<Reating> reatingList) {
+        this.reatingList = reatingList;
     }
 
 }

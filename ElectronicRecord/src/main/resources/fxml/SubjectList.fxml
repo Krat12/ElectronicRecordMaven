@@ -11,21 +11,23 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="rootPane" prefHeight="644.0" prefWidth="694.0" stylesheets="@../styles/theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javafx.electronicrecord.controllers.SubjectListController">
+<StackPane fx:id="rootPane" prefHeight="681.0" prefWidth="694.0" stylesheets="@../styles/theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javafx.electronicrecord.controllers.SubjectListController">
    <children>
       <JFXDrawer fx:id="drawer" defaultDrawerSize="150.0" prefHeight="625.0" prefWidth="1031.0" resizableOnDrag="true" resizeContent="true" styleClass="jfx-drawer" />
       <AnchorPane id="AnchorPane" fx:id="contentPane" prefHeight="525.0" prefWidth="798.0" style="-fx-background-color: #2D75E8;">
          <children>
-            <TableView fx:id="tableView" layoutY="125.0" onMouseClicked="#SelectGroup" prefHeight="525.0" prefWidth="550.0" stylesheets="@../styles/table.css" AnchorPane.bottomAnchor="-6.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="125.0">
+            <TableView fx:id="tableView" layoutY="201.0" onMouseClicked="#SelectGroup" prefHeight="486.0" prefWidth="694.0" stylesheets="@../styles/table.css" AnchorPane.bottomAnchor="-6.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="201.0">
               <columns>
                   <TableColumn fx:id="numberSubject" maxWidth="150.0" minWidth="30.0" prefWidth="40.0" resizable="false" text="№" />
                   <TableColumn fx:id="colSubject" editable="true" prefWidth="211.0" styleClass="table-columnSubject" text="Предмет" />
@@ -59,7 +61,7 @@
                   </Menu>
                </menus>
             </MenuBar>
-            <HBox layoutY="30.0" prefHeight="77.0" prefWidth="694.0" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <HBox layoutX="-5.0" layoutY="114.0" prefHeight="77.0" prefWidth="694.0" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="-5.0" AnchorPane.rightAnchor="5.0">
                <children>
                   <TextField fx:id="txt_serch" onAction="#serch" prefHeight="38.0" prefWidth="256.0" promptText="Поиск" style="-fx-background-radius: 20px; -fx-border-color: transparent;">
                      <HBox.margin>
@@ -112,6 +114,51 @@
                   </FontAwesomeIconView>
                </children>
             </HBox>
+            <ToolBar layoutX="2.0" layoutY="35.0" prefHeight="65.0" prefWidth="694.0" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <items>
+                  <JFXButton contentDisplay="TOP" onAction="#handleSubjectEditOption" prefHeight="62.0" prefWidth="83.0" styleClass="toolBarButton" text="Изменить" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="EDIT" size="30" strokeLineJoin="ROUND" style="-fx-fill: white;" />
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+                  <Separator orientation="VERTICAL" prefHeight="10.0" prefWidth="0.0" scaleX="0.0" style="-fx-background-color: white;" />
+                  <JFXButton contentDisplay="TOP" onAction="#handleSubjectAdd" prefHeight="65.0" prefWidth="83.0" styleClass="toolBarButton" text="Добавить" textFill="WHITE">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="PLUS" size="30" strokeLineJoin="ROUND" style="-fx-fill: white;" />
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+                  <Separator orientation="VERTICAL" prefHeight="10.0" prefWidth="0.0" scaleX="0.0" style="-fx-background-color: white;" />
+                  <JFXButton contentDisplay="TOP" onAction="#handleRefresh" prefHeight="64.0" prefWidth="83.0" style="-fx-border-color: white;" styleClass="toolBarButton" text="Обновить" textFill="WHITE">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="REFRESH" size="30" strokeLineJoin="ROUND" style="-fx-fill: white;" />
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+                  <Separator orientation="VERTICAL" prefHeight="10.0" prefWidth="0.0" scaleX="0.0" style="-fx-background-color: white;" />
+                  <JFXButton contentDisplay="TOP" onAction="#handleSubjectDeleteOption" prefHeight="65.0" prefWidth="83.0" style="-fx-border-color: white;" styleClass="toolBarButton" text="Удалить" textFill="WHITE">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="CLOSE" size="30" strokeLineJoin="ROUND" style="-fx-fill: white;" />
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+               </items>
+               <padding>
+                  <Insets left="17.0" />
+               </padding>
+            </ToolBar>
          </children>
       </AnchorPane>
    </children>

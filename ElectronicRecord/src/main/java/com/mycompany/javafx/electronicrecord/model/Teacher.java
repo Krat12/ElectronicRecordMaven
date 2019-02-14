@@ -21,6 +21,7 @@ import javax.persistence.Table;
     @NamedQuery(name = "Teacher.findAll", query = "SELECT t FROM Teacher t")})
 public class Teacher implements Serializable {
 
+ 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -35,7 +36,8 @@ public class Teacher implements Serializable {
     private User user;
     @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
     private List<SubjectTeacherGroup> subjectTeacherGroupList;
-    
+    @OneToMany(mappedBy = "teacherId", fetch = FetchType.LAZY)
+    private List<Statement> statementList;
     
 
     public Teacher() {
@@ -108,6 +110,14 @@ public class Teacher implements Serializable {
 
     public void setSubjectTeacherGroupList(List<SubjectTeacherGroup> subjectTeacherGroupList) {
         this.subjectTeacherGroupList = subjectTeacherGroupList;
+    }
+
+    public List<Statement> getStatementList() {
+        return statementList;
+    }
+
+    public void setStatementList(List<Statement> statementList) {
+        this.statementList = statementList;
     }
 
 }

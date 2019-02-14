@@ -17,6 +17,9 @@ import javax.persistence.Table;
 @Table(name = "subject")
 public class Subject implements Serializable {
 
+    @OneToMany(mappedBy = "subjectId", fetch = FetchType.LAZY)
+    private List<Statement> statementList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -81,7 +84,15 @@ public class Subject implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mycompany.javafx.electronicrecord.model.Subject[ subjectId=" + subjectId + " ]";
+        return nameSubject;
+    }
+
+    public List<Statement> getStatementList() {
+        return statementList;
+    }
+
+    public void setStatementList(List<Statement> statementList) {
+        this.statementList = statementList;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.mycompany.javafx.electronicrecord.controllers;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
@@ -45,6 +46,7 @@ public class GroupListController implements Initializable {
 
     @FXML
     private StackPane rootPane;
+
     @FXML
     private JFXDrawer drawer;
 
@@ -68,6 +70,7 @@ public class GroupListController implements Initializable {
 
     @FXML
     private TextField txt_serch;
+
 
     @FXML
     void closeStage(ActionEvent event) {
@@ -267,11 +270,10 @@ public class GroupListController implements Initializable {
             AlertMaker.showMaterialDialog(rootPane, contentPane, null, "Группа не выбрана!", "Пожалуйста, выберите группу");
             return;
         }
-        
-        ElectronicRecordUtill.loadWindow(getClass().getResource("/fxml/SubjectList.fxml"), "Список предметов"+ " "+
-        GroupListController.Group.getNameGroup(), new Stage());
-        
-        
+
+        ElectronicRecordUtill.loadWindow(getClass().getResource("/fxml/SubjectList.fxml"), "Список предметов" + " "
+                + GroupListController.Group.getNameGroup(), new Stage());
+
     }
 
     public static class Group {
@@ -315,7 +317,6 @@ public class GroupListController implements Initializable {
         public static String getNameGroup() {
             return nameGroup;
         }
-        
 
         /**
          * @param aNameGroup the nameGroup to set

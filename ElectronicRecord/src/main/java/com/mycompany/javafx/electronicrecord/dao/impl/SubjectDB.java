@@ -2,7 +2,6 @@ package com.mycompany.javafx.electronicrecord.dao.impl;
 
 import com.mycompany.javafx.electronicrecord.dao.interfaces.AbstractObject;
 import com.mycompany.javafx.electronicrecord.dao.interfaces.SubjectDAO;
-import com.mycompany.javafx.electronicrecord.model.Student;
 import com.mycompany.javafx.electronicrecord.model.Subject;
 import com.mycompany.javafx.electronicrecord.utill.HibernateSessionFactoryUtill;
 import java.util.List;
@@ -29,6 +28,26 @@ public class SubjectDB extends AbstractObject<Subject> implements SubjectDAO{
         List<Subject> subjects = null;
         try {
             Query query = session.createQuery("from Subject s ORDER BY s.nameSubject");
+            subjects = query.getResultList();
+        } catch (Exception e) {
+            System.out.println(e);
+            throw e;
+        } finally {
+            session.close();
+        }
+        return subjects;
+    }
+
+    @Override
+    public List<Subject> getSubjectsByGroupAndTeacher(int groupId, int teacherId) {
+        Session session = HibernateSessionFactoryUtill.getSessionFactory().openSession();
+        List<Subject> subjects = null;
+        try {
+            Query query = session.createQuery("SELECT s FROM Subject s "
+                    + "join fetch s.subjectTeacherGroupList stg join fetch stg.teacher t join fetch stg.groupstud g "
+                    + "WHERE t.teacherid = :teacherId AND g.groupid = :groupId");
+            query.setParameter("teacherId", teacherId);
+            query.setParameter("groupId", groupId);
             subjects = query.getResultList();
         } catch (Exception e) {
             System.out.println(e);

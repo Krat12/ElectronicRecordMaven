@@ -128,9 +128,11 @@ public class SubjectListController implements Initializable {
         loadData();
     }
 
+
+
     @FXML
     void handleSubjectAdd(ActionEvent event) {
-          try {
+        try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AddSubject.fxml"));
             Parent parent = loader.load();
             Stage stage = new Stage();
@@ -139,8 +141,8 @@ public class SubjectListController implements Initializable {
             ElectronicRecordUtill.setStageIcon(stage);
             stage.showAndWait();
             stage.setOnHiding((e) -> {
-                    handleRefresh(new ActionEvent());
-                });
+                handleRefresh(new ActionEvent());
+            });
         } catch (IOException ex) {
             Logger.getLogger(GroupListController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -153,7 +155,7 @@ public class SubjectListController implements Initializable {
         if (edtitList.isEmpty()) {
             return;
         }
-        
+
         saveChanges();
         resetColor();
         edtitList.clear();
@@ -307,9 +309,9 @@ public class SubjectListController implements Initializable {
                 SubjectTeacherGroupDB.getInstance().updateHours(subjectModelTable.getId(), subjectModelTable.getHours());
             }
         } catch (Exception e) {
-              ElectronicRecordUtill.loadAlertError(getClass().getResource("/fxml/AlertError.fxml"), null, "Ooops...", "Что то пошло не так...");
+            ElectronicRecordUtill.loadAlertError(getClass().getResource("/fxml/AlertError.fxml"), null, "Ooops...", "Что то пошло не так...");
         }
-       
+
     }
 
     public static List<SubjectTeacherModel> initCollection() {
@@ -333,11 +335,10 @@ public class SubjectListController implements Initializable {
         rollback.setFill(Color.web("#b2b2b2"));
         rollback.setOpacity(0.5);
     }
-    
-    public static Integer getGroupId(){
+
+    public static Integer getGroupId() {
         return groupIdTarget;
     }
-    
 
     public static class SubjectTeacherModel {
 
@@ -457,7 +458,6 @@ public class SubjectListController implements Initializable {
         public void setGroupId(Integer groupId) {
             this.groupId = groupId;
         }
-        
 
     }
 
