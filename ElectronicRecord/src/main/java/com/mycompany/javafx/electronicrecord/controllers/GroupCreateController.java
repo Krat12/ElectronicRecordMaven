@@ -7,6 +7,7 @@ import com.mycompany.javafx.electronicrecord.dao.impl.SpecialityDB;
 import com.mycompany.javafx.electronicrecord.model.Groupstud;
 import com.mycompany.javafx.electronicrecord.model.Speciality;
 import com.mycompany.javafx.electronicrecord.utill.AlertMaker;
+import com.mycompany.javafx.electronicrecord.utill.ElectronicRecordUtill;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -14,10 +15,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
 public class GroupCreateController implements Initializable {
 
@@ -52,19 +51,21 @@ public class GroupCreateController implements Initializable {
 
     @FXML
     void cancel(ActionEvent event) {
-        Node node = (Node) event.getSource();
-        Stage stage = (Stage) node.getScene().getWindow();
-        stage.close();
+        ElectronicRecordUtill.closeStage(event);
     }
 
     @FXML
     void save(ActionEvent event) {
-        if (isInEditMode) {
-            handleEditOperation();
-            closeStage(event);
+        if (isEmpty()) {
+            if (isInEditMode) {
+                handleEditOperation();
+                ElectronicRecordUtill.closeStage(event);
+            } else {
+                handleAddOperation();
+                ElectronicRecordUtill.closeStage(event);
+            }
         } else {
-            handleAddOperation();
-            closeStage(event);
+            AlertMaker.showErrorMessage("Ошибка при изменении", "Проверьте все поля");
         }
 
     }
@@ -76,6 +77,10 @@ public class GroupCreateController implements Initializable {
         if (txt_year.getText().equals("")) {
             return false;
         }
+        if(specialityComboBox.getValue() == null && txt_speciality.getText().trim().isEmpty()){
+            return false;
+        }
+
         return true;
     }
 
@@ -119,39 +124,29 @@ public class GroupCreateController implements Initializable {
     }
 
     private void handleEditOperation() {
-        if (isEmpty()) {
-            if (CheckSpeciality.isSelected()) {
-                if (!txt_speciality.getText().equals("")) {
-                    Speciality speciality = new Speciality();
-                    speciality.setNameSpeciality(txt_speciality.getText());
-                    SpecialityDB.getInstance().insert(speciality);
-                    GroupDB.getInstance().update(dataGroup(speciality));
-                } else {
-                    AlertMaker.showErrorMessage("Ошибка при изменении", "Проверьте все поля");
-                }
+        if (CheckSpeciality.isSelected()) {
+            if (!txt_speciality.getText().equals("")) {
+                Speciality speciality = new Speciality();
+                speciality.setNameSpeciality(txt_speciality.getText());
+                SpecialityDB.getInstance().insert(speciality);
+                GroupDB.getInstance().update(dataGroup(speciality));
             } else {
-                Speciality speciality = SpecialityDB.getInstance().getSpecialityByName(specialityComboBox.getSelectionModel().getSelectedItem());
-                GroupDB.getInstance().update(dataGroupUpdate(speciality, groupId));
+                AlertMaker.showErrorMessage("Ошибка при изменении", "Проверьте все поля");
             }
-
         } else {
-            AlertMaker.showErrorMessage("Ошибка при изменении", "Проверьте все поля");
+            Speciality speciality = SpecialityDB.getInstance().getSpecialityByName(specialityComboBox.getSelectionModel().getSelectedItem());
+            GroupDB.getInstance().update(dataGroupUpdate(speciality, groupId));
         }
+
     }
 
-    
-    
-    
     private void handleAddOperation() {
-        if (isEmpty()) {
-            if (CheckSpeciality.isSelected()) {
-                checkValidateAddTextSpeciality();
-            } else {
-                checkValidateAddSpecialityComboBox();
-            }
+        if (CheckSpeciality.isSelected()) {
+            checkValidateAddTextSpeciality();
         } else {
-            AlertMaker.showErrorMessage("Ошибка при добовлении", "Проверьте все поля");
+            checkValidateAddSpecialityComboBox();
         }
+
     }
 
     private void checkValidateAddSpecialityComboBox() {
@@ -159,25 +154,21 @@ public class GroupCreateController implements Initializable {
             Speciality speciality = SpecialityDB.getInstance().getSpecialityByName(specialityComboBox.getSelectionModel().getSelectedItem());
             GroupDB.getInstance().insert(dataGroup(speciality));
         } else {
-            AlertMaker.showErrorMessage("Ошибка при добовлении", "Проверьте все поля");
+            AlertMaker.showErrorMessage("Ошибка при изменении", "Проверьте все поля");
         }
+
     }
 
     private void checkValidateAddTextSpeciality() {
-        if (!txt_speciality.getText().equals("")) {
+        if (!txt_speciality.getText().trim().isEmpty()) {
             Speciality speciality = new Speciality();
             speciality.setNameSpeciality(txt_speciality.getText());
+
             SpecialityDB.getInstance().insert(speciality);
             GroupDB.getInstance().insert(dataGroup(speciality));
         } else {
             AlertMaker.showErrorMessage("Ошибка при добовлении", "Проверьте все поля");
         }
-    }
-
-    private void closeStage(ActionEvent event) {
-        Node node = (Node) event.getSource();
-        Stage stage = (Stage) node.getScene().getWindow();
-        stage.close();
     }
 
 }

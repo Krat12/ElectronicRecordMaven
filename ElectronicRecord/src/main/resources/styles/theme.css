@@ -36,17 +36,17 @@
     -fx-font-size: 14px;
 }
 
-/*.button:hover, .button:focused{
-    -fx-border-color: #1E90FF;
-    -fx-background-color: #1E90FF;
-    -fx-text-fill: white;
-}*/
 .toolBarButton{
     -fx-background-color:#2D75E8;
     -fx-border-color:white;
     -fx-font-size: 12px;   
 }
 
+.menuButton{
+     -fx-font-size: 11px;
+     -fx-border-radius:20px;
+    
+}
 
 /*Login Screen Specific*/
 

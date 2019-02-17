@@ -1,5 +1,6 @@
 package com.mycompany.javafx.electronicrecord.controllers;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
 import com.mycompany.javafx.electronicrecord.dao.impl.GroupDB;
 import com.mycompany.javafx.electronicrecord.dao.impl.SubjectTeacherGroupDB;
@@ -27,6 +28,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -91,6 +94,30 @@ public class SubjectListController implements Initializable {
     private ComboBox<Groupstud> groupComboBox;
 
     @FXML
+    private MenuItem con_edit;
+
+    @FXML
+    private MenuItem con_deleteSubject;
+
+    @FXML
+    private MenuItem con_addSubject;
+
+    @FXML
+    private Label text;
+
+    @FXML
+    private JFXButton btn_apply;
+
+    @FXML
+    private JFXButton btn_edit;
+
+    @FXML
+    private JFXButton btn_addSubject;
+
+    @FXML
+    private JFXButton btn_deleteSubject;
+
+    @FXML
     void SelectGroup(MouseEvent event) {
 
     }
@@ -127,8 +154,6 @@ public class SubjectListController implements Initializable {
     void handleRefresh(ActionEvent event) {
         loadData();
     }
-
-
 
     @FXML
     void handleSubjectAdd(ActionEvent event) {
@@ -213,6 +238,7 @@ public class SubjectListController implements Initializable {
         loadGroupList();
         loadData();
         settingsTable();
+        checkTeacher();
 
     }
 
@@ -338,6 +364,23 @@ public class SubjectListController implements Initializable {
 
     public static Integer getGroupId() {
         return groupIdTarget;
+    }
+
+    private void checkTeacher() {
+        if (LoginController.getUserType().equals("Teacher")) {
+            rollback.setVisible(false);
+            commit.setVisible(false);
+            con_edit.setVisible(false);
+            con_addSubject.setVisible(false);
+            con_deleteSubject.setVisible(false);
+            btn_apply.setVisible(false);
+            text.setVisible(false);
+            btn_deleteSubject.setVisible(false);
+            btn_edit.setVisible(false);
+            groupComboBox.setVisible(false);
+            btn_addSubject.setVisible(false);
+   
+        }
     }
 
     public static class SubjectTeacherModel {

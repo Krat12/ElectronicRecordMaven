@@ -38,14 +38,11 @@
                         <DropShadow />
                      </effect>
                      <children>
-                        <Text smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20px; -fx-fill: #3498DB;" text="Авторизация" textAlignment="CENTER" wrappingWidth="308.24609375">
-                           <font>
-                              <Font name="Arial Black" size="20.0" />
-                           </font>
+                        <FontAwesomeIconView fill="#a8a8a8" glyphName="LOCK" size="50">
                            <VBox.margin>
-                              <Insets top="10.0" />
+                              <Insets top="15.0" />
                            </VBox.margin>
-                        </Text>
+                        </FontAwesomeIconView>
                         <HBox alignment="CENTER_RIGHT" maxWidth="-Infinity" prefHeight="51.0" prefWidth="290.0" style="-fx-background-color: white;">
                            <children>
                               <FontAwesomeIconView fill="#a19d9d" glyphName="USER" size="25" style="-fx-fill: #b2b2b2;" wrappingWidth="19.64285659790039">
@@ -63,7 +60,7 @@
                               </JFXTextField>
                            </children>
                            <VBox.margin>
-                              <Insets top="50.0" />
+                              <Insets top="30.0" />
                            </VBox.margin>
                         </HBox>
                         <HBox alignment="CENTER_RIGHT" maxWidth="-Infinity" prefHeight="28.0" prefWidth="290.0" style="-fx-background-color: white;">
@@ -82,7 +79,7 @@
                               <Insets top="20.0" />
                            </VBox.margin>
                         </HBox>
-                        <HBox prefHeight="75.0" prefWidth="330.0">
+                        <HBox prefHeight="87.0" prefWidth="330.0">
                            <children>
                               <JFXButton alignment="CENTER" onAction="#input" prefHeight="39.0" prefWidth="198.0" style="-fx-border-color: #2B6FDD; -fx-background-radius: 20px; -fx-border-radius: 20px;" styleClass="login-button" text="Войти" textFill="#2b6fdd">
                                  <font>
@@ -97,6 +94,11 @@
                               </JFXButton>
                            </children>
                         </HBox>
+                        <Text fx:id="UserIsNull" fill="#ff515a" strokeType="OUTSIDE" strokeWidth="0.0" text="Пользователя не существует" textAlignment="CENTER" visible="false">
+                           <VBox.margin>
+                              <Insets left="8.0" />
+                           </VBox.margin>
+                        </Text>
                      </children>
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

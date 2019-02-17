@@ -36,7 +36,7 @@ public class SpecialityDB extends AbstractObject<Speciality> implements Speciali
        Session session = HibernateSessionFactoryUtill.getSessionFactory().openSession();
         List<Speciality> specialitys = null;
         try {
-            Query query = session.createQuery("SELECT s FROM Speciality AS s");
+            Query query = session.createQuery("SELECT s FROM Speciality AS s ORDER BY s.nameSpeciality");
             specialitys = query.getResultList();
         } catch (Exception e) {
             System.out.println(e);

@@ -27,6 +27,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -35,14 +36,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
 public class GroupListController implements Initializable {
 
     ObservableList<Group> groups = FXCollections.observableArrayList();
-    ObservableList<Group> sortGroups = FXCollections.observableArrayList();
+    ObservableList<Group> filterGroups = FXCollections.observableArrayList();
 
     @FXML
     private StackPane rootPane;
@@ -71,6 +72,23 @@ public class GroupListController implements Initializable {
     @FXML
     private TextField txt_serch;
 
+    @FXML
+    private MenuItem con_edit;
+
+    @FXML
+    private MenuItem con_deleteGroup;
+
+    @FXML
+    private MenuItem con_addGroup;
+
+    @FXML
+    private JFXButton btn_addGroup;
+
+    @FXML
+    private JFXButton btn_delteGroup;
+
+    @FXML
+    private JFXButton btn_edit;
 
     @FXML
     void closeStage(ActionEvent event) {
@@ -143,32 +161,26 @@ public class GroupListController implements Initializable {
 
     @FXML
     void handleGroupAdd(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/fxml/AddGroup.fxml"));
-            Stage stage = new Stage();
-            ElectronicRecordUtill.setStageIcon(stage);
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(GroupListController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Stage stage = new Stage();
+        stage.setResizable(false);
+        ElectronicRecordUtill.loadWindowModality(getClass().getResource("/fxml/AddGroup.fxml"), "Добавление группы", stage);
+        stage.setOnHidden((WindowEvent event1) -> {
+            handleRefresh(new ActionEvent());
+        });
     }
 
     @FXML
     void serch(ActionEvent event) {
-        sortGroups.clear();
+        filterGroups.clear();
 
         for (Groupstud groupstud : GroupDB.getInstance().getSortGroupstudsByNameGroup(txt_serch.getText())) {
             String groupName = groupstud.getGroupname();
             Short year = groupstud.getSetYear();
             Integer id = groupstud.getGroupid();
             String SpecName = groupstud.getSpecialityId().getNameSpeciality();
-            sortGroups.add(new Group(groupName, year, SpecName, id));
+            filterGroups.add(new Group(groupName, year, SpecName, id));
         }
-        tableView.setItems(sortGroups);
+        tableView.setItems(filterGroups);
     }
 
     @Override
@@ -176,6 +188,7 @@ public class GroupListController implements Initializable {
         initCol();
         loadData();
         initDrawer();
+        checkTeacher();
 
     }
 
@@ -189,18 +202,32 @@ public class GroupListController implements Initializable {
     private void loadData() {
 
         groups.clear();
+        if (LoginController.getUserType().equals("Admin")) {
+            for (Groupstud groupstud : GroupDB.getInstance().getAllGroups()) {
+                setDateInTable(groupstud);
+            }
 
-        for (Groupstud groupstud : GroupDB.getInstance().getAllGroups()) {
+        }
 
-            String groupName = groupstud.getGroupname();
-            Short year = groupstud.getSetYear();
-            Integer id = groupstud.getGroupid();
-            String SpecName = groupstud.getSpecialityId().getNameSpeciality();
-            groups.add(new Group(groupName, year, SpecName, id));
+        if (LoginController.getUserType().equals("Teacher")) {
+            for(Groupstud groupstud : GroupDB.getInstance().getGroupstudsByTeacher(LoginController.getUserId())){
+                setDateInTable(groupstud);
+            }
         }
         tableView.setItems(groups);
     }
 
+    
+    
+    private void setDateInTable(Groupstud groupstud) {
+        String groupName = groupstud.getGroupname();
+        Short year = groupstud.getSetYear();
+        Integer id = groupstud.getGroupid();
+        String SpecName = groupstud.getSpecialityId().getNameSpeciality();
+        groups.add(new Group(groupName, year, SpecName, id));
+    }
+
+//<editor-fold defaultstate="collapsed" desc="ToolMenu">
     private void initDrawer() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/toolbar.fxml"));
@@ -226,6 +253,7 @@ public class GroupListController implements Initializable {
             task.play();
         });
     }
+//</editor-fold>
 
     @FXML
     void handleStudentList(ActionEvent event) {
@@ -274,6 +302,17 @@ public class GroupListController implements Initializable {
         ElectronicRecordUtill.loadWindow(getClass().getResource("/fxml/SubjectList.fxml"), "Список предметов" + " "
                 + GroupListController.Group.getNameGroup(), new Stage());
 
+    }
+
+    private void checkTeacher() {
+        if (LoginController.getUserType().equals("Teacher")) {
+            btn_addGroup.setVisible(false);
+            btn_delteGroup.setVisible(false);
+            btn_edit.setVisible(false);
+            con_addGroup.setVisible(false);
+            con_edit.setVisible(false);
+            con_deleteGroup.setVisible(false);
+        }
     }
 
     public static class Group {

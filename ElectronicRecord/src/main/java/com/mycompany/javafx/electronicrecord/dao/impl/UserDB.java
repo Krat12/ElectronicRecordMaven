@@ -38,7 +38,7 @@ public class UserDB extends AbstractObject<User> implements UserDAO {
         User user = null;
         
         try {
-            Query query = session.createQuery("SELECT u FROM User u WHERE u.login = :login and u.password = :password");
+            Query query = session.createQuery("SELECT u FROM User u LEFT OUTER JOIN FETCH u.teacher LEFT OUTER JOIN FETCH u.admin LEFT OUTER JOIN FETCH u.student WHERE u.login = :login and u.password = :password");
             query.setParameter("login",login);
             query.setParameter("password", password);
             user = (User) query.uniqueResult();

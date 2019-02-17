@@ -23,4 +23,6 @@ public interface GroupDAO extends ObjectDAO<Groupstud>{
     Groupstud getGroupstudsByName(String name);
     
      List<Groupstud> getGroupsExceptForTarget(int groupId);
+     
+     List<Groupstud> getGroupstudsByTeacher(int teacherId);
 }

@@ -26,7 +26,7 @@ public class CreateMarkController implements Initializable {
     private static final String[] TYPE_MARK = {"Зачет", "Дифференцированный зачет", "Дипломная работа", "Курсовая работа"};
     ObservableList<String> typeList = FXCollections.observableArrayList(TYPE_MARK);
     ObservableList<Subject> subjects = FXCollections.observableArrayList(SubjectDB.getInstance().
-            getSubjectsByGroupAndTeacher(6, 33));
+            getSubjectsByGroupAndTeacher(StudentsListController.getGroupIdForStudent(), LoginController.getUserId()));
     private static String selectTypeMark;
     private static int statementId;
 
@@ -53,12 +53,12 @@ public class CreateMarkController implements Initializable {
     void save(ActionEvent event) {
         if (checkData()) {
             try {
-                ReatingDB.getInstance().insertBySelect(getStatement().getStatementId(), 6);
-                selectTypeMark = cmb_typeMark.getSelectionModel().getSelectedItem();
+                ReatingDB.getInstance().insertBySelect(getStatement().getStatementId(),StudentsListController.getGroupIdForStudent());
+                setSelectTypeMark(cmb_typeMark.getSelectionModel().getSelectedItem());
+                ElectronicRecordUtill.loadWindow(getClass().getResource("/fxml/MarkList.fxml"), "", null);
                 Node node = (Node) event.getSource();
                 Stage stage = (Stage) node.getScene().getWindow();
-                ElectronicRecordUtill.loadWindow(getClass().getResource("/fxml/MarkList.fxml"), "", stage);
-
+                stage.close();
             } catch (Exception e) {
                 System.out.println(e);
                 ElectronicRecordUtill.loadAlertError(getClass().getResource("/fxml/AlertError.fxml"), new Stage(), "Ooops...", "Что то пошло не так ");
@@ -100,8 +100,9 @@ public class CreateMarkController implements Initializable {
         statement.setDate(date);
         statement.setHours(Integer.valueOf(txt_hours.getText()));
         statement.setType(cmb_typeMark.getSelectionModel().getSelectedItem());
-        StatementDB.getInstance().insertById(cmb_subject.getSelectionModel().getSelectedItem().getSubjectId(), 33, 6, statement);
-        statementId = statement.getStatementId();
+        StatementDB.getInstance().insertById(cmb_subject.getSelectionModel().getSelectedItem().getSubjectId(), LoginController.getUserId(), 
+                StudentsListController.getGroupIdForStudent(), statement);
+        setStatementId(statement.getStatementId());
         return statement;
     }
 
@@ -111,6 +112,14 @@ public class CreateMarkController implements Initializable {
 
     public static int getStatementId() {
         return statementId;
+    }
+    
+    public static void setStatementId(int statement){
+        statementId = statement;
+    }
+    
+    public static void setSelectTypeMark(String type){
+        selectTypeMark = type;
     }
 
     private boolean checkData() {

@@ -1,5 +1,6 @@
 package com.mycompany.javafx.electronicrecord.utill;
 
+import com.jfoenix.controls.JFXButton;
 import com.mycompany.javafx.electronicrecord.controllers.AlertConfrimController;
 import com.mycompany.javafx.electronicrecord.controllers.AlertErrorController;
 import com.mycompany.javafx.electronicrecord.controllers.StudentsListController;
@@ -7,6 +8,7 @@ import com.mycompany.javafx.electronicrecord.model.Student;
 import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.HeaderColumnNameMappingStrategy;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileReader;
@@ -63,6 +65,78 @@ public class ElectronicRecordUtill {
         }
         return controller;
     }
+    
+        public static Object loadWindow(URL loc, String title, Stage parentStage,int width, int height) {
+        Object controller = null;
+        try {
+            FXMLLoader loader = new FXMLLoader(loc);
+            Parent parent = loader.load();
+            controller = loader.getController();
+            Stage stage = null;
+            if (parentStage != null) {
+                stage = parentStage;
+            } else {
+                stage = new Stage(StageStyle.DECORATED);
+            }
+            stage.setTitle(title);
+            stage.setMinWidth(width);
+            stage.setMinHeight(height);
+            stage.setScene(new Scene(parent));
+            stage.show();
+            setStageIcon(stage);
+        } catch (IOException ex) {
+            Logger.getLogger(ElectronicRecordUtill.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return controller;
+    }
+    
+       public static Object loadWindowModality(URL loc, String title, Stage parentStage) {
+        Object controller = null;
+        try {
+            FXMLLoader loader = new FXMLLoader(loc);
+            Parent parent = loader.load();
+            controller = loader.getController();
+            Stage stage = null;
+            if (parentStage != null) {
+                stage = parentStage;
+            } else {
+                stage = new Stage(StageStyle.DECORATED);
+            }
+            stage.setTitle(title);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene(parent));
+            stage.show();
+            setStageIcon(stage);
+        } catch (IOException ex) {
+            Logger.getLogger(ElectronicRecordUtill.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return controller;
+    }
+     
+        public static Object loadWindow(URL loc, String title, Stage parentStage,boolean resizable) {
+        Object controller = null;
+        try {
+            FXMLLoader loader = new FXMLLoader(loc);
+            Parent parent = loader.load();
+            controller = loader.getController();
+            Stage stage = null;
+            if (parentStage != null) {
+                stage = parentStage;
+            } else {
+                stage = new Stage(StageStyle.DECORATED);
+            }
+            stage.setTitle(title);
+            if(resizable){
+                stage.setResizable(true);
+            }
+            stage.setScene(new Scene(parent));
+            stage.show();
+            setStageIcon(stage);
+        } catch (IOException ex) {
+            Logger.getLogger(ElectronicRecordUtill.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return controller;
+    }
 
     public static List<Student> parseCSVWithHeader(String URL) throws IOException {
         CSVReader reader = new CSVReader(new FileReader(URL), ';');
@@ -93,8 +167,8 @@ public class ElectronicRecordUtill {
         return "";
 
     }
-    
-        public static String initCSVExport(Stage stage) {
+
+    public static String initCSVExport(Stage stage) {
         final FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter
                 = new FileChooser.ExtensionFilter("CSV (разделители - точка с запятой) (*.csv)", "*.csv");
@@ -124,7 +198,7 @@ public class ElectronicRecordUtill {
             Parent parent = loader.load();
             AlertConfrimController acc = loader.getController();
             acc.setField(title, content);
-            loadWindowAlert(parent,parentStage);
+            loadWindowAlert(parent, parentStage);
         } catch (IOException ex) {
             Logger.getLogger(ElectronicRecordUtill.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -136,13 +210,13 @@ public class ElectronicRecordUtill {
             Parent parent = loader.load();
             AlertErrorController acc = loader.getController();
             acc.setField(title, content);
-            loadWindowAlert(parent,parentStage);
+            loadWindowAlert(parent, parentStage);
         } catch (IOException ex) {
             Logger.getLogger(ElectronicRecordUtill.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public static void loadWindowAlert(Parent parent,Stage parentStage) {
+    public static void loadWindowAlert(Parent parent, Stage parentStage) {
         Stage stage = new Stage(StageStyle.TRANSPARENT);
         stage.initModality(Modality.APPLICATION_MODAL);
         Scene scene = new Scene(parent);
@@ -175,22 +249,41 @@ public class ElectronicRecordUtill {
         Stage stage = (Stage) node.getScene().getWindow();
         stage.close();
     }
-    
-   public static void exportStudentCSV(String url,List<StudentsListController.StudentModelTable> students) throws IOException{
+
+    public static void exportStudentCSV(String url, List<StudentsListController.StudentModelTable> students) throws IOException {
         FileWriter writer = new FileWriter(url);
-        CSVUtils.writeLine(writer, Arrays.asList("ФИО","Номер зачетки"),';');
-        
+        CSVUtils.writeLine(writer, Arrays.asList("ФИО", "Номер зачетки"), ';');
+
         for (StudentsListController.StudentModelTable d : students) {
 
             List<String> list = new ArrayList<>();
             list.add(d.getFullName());
             list.add(String.valueOf(d.getNumberRecord()));
-            CSVUtils.writeLine(writer, list,';');
+            CSVUtils.writeLine(writer, list, ';');
         }
 
         writer.flush();
         writer.close();
-   }
-   
-  
+    }
+
+    public static void setColorCommitAndRollBack(FontAwesomeIconView commit, FontAwesomeIconView rollback, JFXButton btn_commit, JFXButton btn_rollback) {
+        commit.setStyle("-fx-fill:#70ff7e");
+        rollback.setStyle("-fx-fill:#ff6161");
+
+        btn_commit.setStyle("-fx-text-fill:#70ff7e");
+        btn_rollback.setStyle("-fx-text-fill:#ff6161");
+
+        commit.setOpacity(1);
+        rollback.setOpacity(1);
+    }
+
+    public static void resetColorCommitAndRollBack(FontAwesomeIconView commit, FontAwesomeIconView rollback, JFXButton btn_commit, JFXButton btn_rollback) {
+        commit.setStyle("-fx-fill:#FFFF");
+        rollback.setStyle("-fx-fill:#FFFF");
+        btn_commit.setStyle("-fx-text-fill:white");
+        btn_rollback.setStyle("-fx-text-fill:white");
+    }
+
+ 
+
 }

@@ -18,9 +18,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="rootPane" prefHeight="725.0" prefWidth="577.0" stylesheets="@../styles/theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javafx.electronicrecord.controllers.StudentsListController">
+<StackPane fx:id="rootPane" prefHeight="725.0" prefWidth="602.0" stylesheets="@../styles/theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javafx.electronicrecord.controllers.StudentsListController">
    <children>
-      <AnchorPane id="AnchorPane" fx:id="contentPane" prefHeight="685.0" prefWidth="598.0" style="-fx-background-color: #2D75E8 #2D75E8;">
+      <AnchorPane id="AnchorPane" fx:id="contentPane" prefHeight="725.0" prefWidth="635.0" style="-fx-background-color: #2D75E8 #2D75E8;">
          <children>
             <TableView fx:id="tableView" layoutY="180.0" onMouseClicked="#handleMouseClicked" prefHeight="545.0" prefWidth="577.0" stylesheets="@../styles/table.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="180.0">
               <columns>
@@ -38,9 +38,9 @@
                   <ContextMenu style="-fx-base: #0e67f7;" styleClass="table-context">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#handleRefresh" text="Обновить" />
-                      <MenuItem mnemonicParsing="false" onAction="#handleStudentEditOption" text="Изменить" />
-                        <MenuItem mnemonicParsing="false" onAction="#handleStudentAddOption" text="Добавить" />
-                        <MenuItem mnemonicParsing="false" onAction="#handleStudentDeleteOption" text="Удалить" />
+                      <MenuItem fx:id="con_edit" mnemonicParsing="false" onAction="#handleStudentEditOption" text="Изменить" />
+                        <MenuItem fx:id="con_addStudent" mnemonicParsing="false" onAction="#handleStudentAddOption" text="Добавить" />
+                        <MenuItem fx:id="con_delete" mnemonicParsing="false" onAction="#handleStudentDeleteOption" text="Удалить" />
                     </items>
                   </ContextMenu>
                </contextMenu>
@@ -70,27 +70,27 @@
                   <Insets />
                </opaqueInsets>
                <items>
-                  <JFXButton fx:id="btn_edit" contentDisplay="TOP" onAction="#handleStudentEditOption" prefHeight="62.0" prefWidth="83.0" styleClass="toolBarButton" text="Изменить" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
-                     <graphic>
-                        <FontAwesomeIconView glyphName="EDIT" size="30" strokeLineJoin="ROUND" style="-fx-fill: white;" />
-                     </graphic>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </JFXButton>
-                  <Separator orientation="VERTICAL" prefHeight="10.0" prefWidth="0.0" scaleX="0.0" style="-fx-background-color: white;" />
-                  <JFXButton contentDisplay="TOP" onAction="#handleStudentAddOption" prefHeight="65.0" prefWidth="83.0" styleClass="toolBarButton" text="Добавить" textFill="WHITE">
-                     <graphic>
-                        <FontAwesomeIconView glyphName="PLUS" size="30" strokeLineJoin="ROUND" style="-fx-fill: white;" />
-                     </graphic>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </JFXButton>
-                  <Separator orientation="VERTICAL" prefHeight="10.0" prefWidth="0.0" scaleX="0.0" style="-fx-background-color: white;" />
                   <JFXButton contentDisplay="TOP" onAction="#handleRefresh" prefHeight="64.0" prefWidth="83.0" style="-fx-border-color: white;" styleClass="toolBarButton" text="Обновить" textFill="WHITE">
                      <graphic>
                         <FontAwesomeIconView glyphName="REFRESH" size="30" strokeLineJoin="ROUND" style="-fx-fill: white;" />
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+                  <Separator orientation="VERTICAL" prefHeight="10.0" prefWidth="0.0" scaleX="0.0" style="-fx-background-color: white;" />
+                  <JFXButton fx:id="btn_edit" contentDisplay="TOP" onAction="#handleStudentEditOption" prefHeight="62.0" prefWidth="83.0" styleClass="toolBarButton" text="Изменить" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+                     <graphic>
+                        <FontAwesomeIconView fx:id="iconStatement" glyphName="EDIT" size="30" strokeLineJoin="ROUND" style="-fx-fill: white;" />
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+                  <Separator orientation="VERTICAL" prefHeight="10.0" prefWidth="0.0" scaleX="0.0" style="-fx-background-color: white;" />
+                  <JFXButton fx:id="btn_addStudent" contentDisplay="TOP" onAction="#handleStudentAddOption" prefHeight="65.0" prefWidth="83.0" styleClass="toolBarButton" text="Добавить" textFill="WHITE">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="PLUS" size="30" strokeLineJoin="ROUND" style="-fx-fill: white;" />
                      </graphic>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -106,7 +106,7 @@
                      </cursor>
                   </JFXButton>
                   <Separator orientation="VERTICAL" prefHeight="10.0" prefWidth="0.0" scaleX="0.0" style="-fx-background-color: white;" />
-                  <JFXButton contentDisplay="TOP" onAction="#handleIsNullGroup" prefHeight="65.0" prefWidth="83.0" style="-fx-border-color: white;" styleClass="toolBarButton" text="Без групп" textFill="WHITE">
+                  <JFXButton fx:id="bnt_NullGroup" contentDisplay="TOP" onAction="#handleIsNullGroup" prefHeight="65.0" prefWidth="83.0" style="-fx-border-color: white;" styleClass="toolBarButton" text="Без групп" textFill="WHITE">
                      <graphic>
                         <FontAwesomeIconView glyphName="USER" size="30" strokeLineJoin="ROUND" style="-fx-fill: white;" />
                      </graphic>
@@ -129,7 +129,7 @@
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <JFXButton id="autoGenerationButton" onAction="#handleGenerateLogin" prefHeight="32.0" prefWidth="181.0" style="-fx-border-color: #FFFF; -fx-border-radius: 20px; -fx-background-radius: 20px;" styleClass="autoGenerationButton" stylesheets="@../styles/theme.css" text="Автогенерация логина" textFill="WHITE">
+                  <JFXButton id="autoGenerationButton" fx:id="btn_autoGenerateLogin" onAction="#handleGenerateLogin" prefHeight="32.0" prefWidth="181.0" style="-fx-border-color: #FFFF; -fx-border-radius: 20px; -fx-background-radius: 20px;" styleClass="autoGenerationButton" stylesheets="@../styles/theme.css" text="Автогенерация логина" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -156,6 +156,14 @@
                         <Insets bottom="20.0" left="10.0" right="20.0" top="20.0" />
                      </HBox.margin>
                   </FontAwesomeIconView>
+                  <JFXButton fx:id="btn_statement" contentDisplay="TOP" onAction="#handleCreateStatement" prefHeight="62.0" prefWidth="0.0" scaleX="0.0" style="-fx-border-color: white;" styleClass="toolBarButton" text="Ведомость" textFill="WHITE" visible="false">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="FILE_TEXT" size="30" strokeLineJoin="ROUND" style="-fx-fill: white;" />
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
                </children>
             </HBox>
          </children>

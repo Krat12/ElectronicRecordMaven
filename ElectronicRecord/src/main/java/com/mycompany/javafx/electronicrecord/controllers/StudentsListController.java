@@ -28,6 +28,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -36,9 +37,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class StudentsListController implements Initializable {
 
@@ -46,7 +45,6 @@ public class StudentsListController implements Initializable {
     ObservableList<StudentModelTable> sortStudents = FXCollections.observableArrayList();
     protected static String groupName;
     private static int groupId;
-    protected static int indexSelectRow;
     private static List<StudentModelTable> studentsOnUpdateOrInsert;
     private List<Student> studentsParseCSV;
 
@@ -88,8 +86,38 @@ public class StudentsListController implements Initializable {
 
     @FXML
     private TextField txt_serch;
+
     @FXML
     private JFXButton btn_edit;
+
+    @FXML
+    private JFXButton btn_addStudent;
+
+    @FXML
+    private JFXButton bnt_NullGroup;
+
+    @FXML
+    private JFXButton btn_statement;
+
+    @FXML
+    private JFXButton btn_autoGenerateLogin;
+
+    @FXML
+    private FontAwesomeIconView iconStatement;
+
+    @FXML
+    private MenuItem con_edit;
+
+    @FXML
+    private MenuItem con_addStudent;
+
+    @FXML
+    private MenuItem con_delete;
+
+    @FXML
+    void handleCreateStatement(ActionEvent event) {
+        ElectronicRecordUtill.loadWindowModality(getClass().getResource("/fxml/AddStatement.fxml"), "Создание ведомости", null);
+    }
 
     @FXML
     void handleGenerateLogin(ActionEvent event) {
@@ -110,7 +138,8 @@ public class StudentsListController implements Initializable {
         }
         if (amount == 0) {
             JFXButton button = new JFXButton("OK");
-            AlertMaker.showMaterialDialog(rootPane, contentPane, Arrays.asList(button), "Логин(-ы) и парол(-ь/-и) не были сгенерированы", "Нет пустых полей для автогенерации");
+            AlertMaker.showMaterialDialog(rootPane, contentPane, Arrays.asList(button),
+                    "Логин(-ы) и парол(-ь/-и) не были сгенерированы", "Нет пустых полей для автогенерации");
         }
 
     }
@@ -159,7 +188,7 @@ public class StudentsListController implements Initializable {
                 String fullname = student.getFullName();
                 smt.setFullName(fullname);
                 splitFullName(smt);
-                smt.setNumberRecord(1);
+                smt.setNumberRecord(student.getNumberBook());
                 smt.setNumberStudent(index);
                 smt.setLogin("");
                 smt.setPassword("");
@@ -197,6 +226,8 @@ public class StudentsListController implements Initializable {
         commit.setOpacity(0.5);
         rollback.setFill(Color.web("#b2b2b2"));
         rollback.setOpacity(0.5);
+        btn_edit.setStyle("-fx-border-color:white");
+        btn_delete.setStyle("-fx-border-color:white");
     }
 
     private void updateOrInsertStudents() {
@@ -312,30 +343,36 @@ public class StudentsListController implements Initializable {
 
     @FXML
     void handleStudentEditOption(ActionEvent event) {
-        StudentModelTable selectedForEdit = tableView.getSelectionModel().getSelectedItem();
-        if (selectedForEdit == null) {
-            JFXButton button = new JFXButton("Ok");
-            AlertMaker.showMaterialDialog(rootPane, contentPane, Arrays.asList(button), "Студент не выбран!", "Пожалуйста, выберите студента");
-            return;
+        if (LoginController.getUserType().equals("Admin")) {
+            StudentModelTable selectedForEdit = tableView.getSelectionModel().getSelectedItem();
+            if (selectedForEdit == null) {
+                JFXButton button = new JFXButton("Ok");
+                AlertMaker.showMaterialDialog(rootPane, contentPane, Arrays.asList(button), "Студент не выбран!", "Пожалуйста, выберите студента");
+                return;
+            }
+            showEditDiolog(selectedForEdit);
+        } else {
+            handleCreateStatement(event);
         }
-        showEditDiolog(selectedForEdit);
 
     }
 
     private void showEditDiolog(StudentModelTable student) {
-        indexSelectRow = tableView.getSelectionModel().getSelectedIndex();
+        int indexSelectRow = tableView.getSelectionModel().getSelectedIndex();
         try {
-            Stage stage = new Stage(StageStyle.DECORATED);
-            stage.initModality(Modality.WINDOW_MODAL);
-            StudentCreateController createController = (StudentCreateController) ElectronicRecordUtill.loadWindow(getClass().getResource("/fxml/AddStudent.fxml"), "Редоктирование студента", stage);
+            Stage stage = new Stage();
+            stage.setResizable(false);
+            StudentCreateController createController = (StudentCreateController) ElectronicRecordUtill.loadWindowModality(getClass().getResource("/fxml/AddStudent.fxml"), "Редоктирование студента", stage);
             createController.mappingUI(student);
             if (student.getId() != -1) {
                 stage.setOnHiding((e) -> {
                     handleRefresh(new ActionEvent());
+                    btn_edit.setStyle("-fx-border-color:white");
+                    btn_delete.setStyle("-fx-border-color:white");
                 });
             } else {
                 stage.setOnHiding((e) -> {
-                    
+
                     listStudents.set(indexSelectRow, StudentCreateController.getModelTableStudent());
                     if (!checkLoginAndPasswordIsEmpty()) {
                         setColor();
@@ -353,11 +390,13 @@ public class StudentsListController implements Initializable {
     @FXML
     void handleStudentAddOption(ActionEvent event) {
         try {
-
-            Stage stage = new Stage(StageStyle.DECORATED);
-            ElectronicRecordUtill.loadWindow(getClass().getResource("/fxml/AddStudent.fxml"), "Добавление студента", stage);
+            Stage stage = new Stage();
+            stage.setResizable(false);
+            ElectronicRecordUtill.loadWindowModality(getClass().getResource("/fxml/AddStudent.fxml"), "Добавление студента", stage);
             stage.setOnHiding((e) -> {
                 handleRefresh(new ActionEvent());
+                btn_edit.setStyle("-fx-border-color:white");
+                btn_delete.setStyle("-fx-border-color:white");
             });
 
         } catch (Exception e) {
@@ -377,6 +416,7 @@ public class StudentsListController implements Initializable {
         groupId = Group.getIdGroup();
         initCol();
         loadData();
+        checkTeacherOrAmdin();
     }
 
     @FXML
@@ -430,9 +470,25 @@ public class StudentsListController implements Initializable {
         }
         return studentsOnUpdateOrInsert;
     }
-    
-    public static int getGroupIdForStudent(){
+
+    public static int getGroupIdForStudent() {
         return groupId;
+    }
+
+    private void checkTeacherOrAmdin() {
+        if (LoginController.getUserType().equals("Teacher")) {
+            bnt_NullGroup.setVisible(false);
+            btn_addStudent.setVisible(false);
+            btn_delete.setVisible(false);
+            rollback.setVisible(false);
+            commit.setVisible(false);
+            con_addStudent.setVisible(false);
+            con_delete.setVisible(false);
+            con_edit.setVisible(false);
+            btn_autoGenerateLogin.setVisible(false);
+            iconStatement.setGlyphName("FILE_TEXT");
+            btn_edit.setText("Ведомость");
+        }
     }
 
     public static class StudentModelTable {

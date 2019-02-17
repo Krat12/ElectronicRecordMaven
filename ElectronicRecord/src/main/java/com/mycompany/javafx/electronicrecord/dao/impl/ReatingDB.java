@@ -99,7 +99,7 @@ public class ReatingDB extends AbstractObject<Reating> implements ReatingDAO {
         List<Reating> reatings = new ArrayList();
         try {
             Query query = session.createQuery("SELECT u.name,u.surname,u.midleName,s.studentid,r.mark,r.reatingId,d.thesis "
-                    + "FROM Reating r JOIN r.studentid s JOIN r.diplom d JOIN r.statementId st JOIN s.user u "
+                    + "FROM Reating r JOIN r.studentid s LEFT JOIN r.diplom d JOIN r.statementId st JOIN s.user u "
                     + "WHERE st.statementId = :statementId ORDER BY u.surname");
 
             query.setParameter("statementId", statementId);
@@ -117,8 +117,9 @@ public class ReatingDB extends AbstractObject<Reating> implements ReatingDAO {
                 student.setUser(user);
 
                 Diplom diplom = new Diplom();
-                diplom.setThesis(String.valueOf(obj[6]));
-                System.out.println(String.valueOf(obj[6]) + " FDAAFAFASFas");
+                if (obj[6] != null) {
+                    diplom.setThesis(String.valueOf(obj[6]));
+                }
 
                 Reating reating = new Reating(Integer.valueOf(String.valueOf(obj[5])));
                 if (obj[4] != null) {
@@ -144,8 +145,9 @@ public class ReatingDB extends AbstractObject<Reating> implements ReatingDAO {
         Session session = HibernateSessionFactoryUtill.getSessionFactory().openSession();
         List<Reating> reatings = new ArrayList();
         try {
-            Query query = session.createQuery("SELECT u.name,u.surname,u.midleName,s.studentid,r.mark,r.reatingId,course.fullNameBoss,course.placePracticle "
-                    + "FROM Reating r JOIN r.studentid s JOIN r.coursework course JOIN r.statementId st JOIN s.user u "
+            Query query = session.createQuery("SELECT u.name,u.surname,u.midleName,s.studentid,r.mark,r.reatingId,"
+                    + "course.fullNameBoss,course.placePracticle "
+                    + "FROM Reating r JOIN r.studentid s LEFT JOIN r.coursework course JOIN r.statementId st JOIN s.user u "
                     + "WHERE st.statementId = :statementId ORDER BY u.surname");
 
             query.setParameter("statementId", statementId);
@@ -163,8 +165,12 @@ public class ReatingDB extends AbstractObject<Reating> implements ReatingDAO {
                 student.setUser(user);
 
                 Coursework coursework = new Coursework();
-                coursework.setFullNameBoss(String.valueOf(obj[6]));
-                coursework.setPlacePracticle(String.valueOf(obj[7]));
+                if (obj[6] != null) {
+                    coursework.setFullNameBoss(String.valueOf(obj[6]));
+                }
+                if (obj[7] != null) {
+                    coursework.setPlacePracticle(String.valueOf(obj[7]));
+                }
 
                 Reating reating = new Reating(Integer.valueOf(String.valueOf(obj[5])));
                 if (obj[4] != null) {
@@ -172,7 +178,6 @@ public class ReatingDB extends AbstractObject<Reating> implements ReatingDAO {
                 }
                 reating.setStudentid(student);
                 reating.setCoursework(coursework);
-               
 
                 reatings.add(reating);
             }

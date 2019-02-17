@@ -5,17 +5,14 @@
  */
 package com.mycompany.javafx.electronicrecord.dao.interfaces;
 
+import com.mycompany.javafx.electronicrecord.model.Coursework;
+
 /**
  *
- * @author user07
+ * @author Admin
  */
-public interface ObjectDAO <Entity> {
+public interface CourseWorkDAO extends ObjectDAO<Coursework> {
     
-    void insert(Entity entity);
-    
-    void update(Entity entity);
-    
-    void insertOrUpdate(Entity entity);
     
     
 }

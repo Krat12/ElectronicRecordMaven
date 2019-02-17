@@ -42,9 +42,9 @@
                   <ContextMenu style="-fx-base: #0e67f7;" styleClass="table-context">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#handleRefresh" text="Обновить" />
-                      <MenuItem mnemonicParsing="false" onAction="#handleSubjectEditOption" text="Изменить" />
-                        <MenuItem mnemonicParsing="false" onAction="#handleSubjectDeleteOption" text="Удалить" />
-                        <MenuItem mnemonicParsing="false" onAction="#handleSubjectAdd" text="Добавить" />
+                      <MenuItem fx:id="con_edit" mnemonicParsing="false" onAction="#handleSubjectEditOption" text="Изменить" />
+                        <MenuItem fx:id="con_deleteSubject" mnemonicParsing="false" onAction="#handleSubjectDeleteOption" text="Удалить" />
+                        <MenuItem fx:id="con_addSubject" mnemonicParsing="false" onAction="#handleSubjectAdd" text="Добавить" />
                     </items>
                   </ContextMenu>
                </contextMenu>
@@ -73,7 +73,7 @@
                   </TextField>
                   <VBox prefHeight="77.0" prefWidth="194.0">
                      <children>
-                        <Label contentDisplay="CENTER" prefHeight="20.0" prefWidth="197.0" text="Скопировать предметы из:" textAlignment="CENTER" textFill="#fffbfb">
+                        <Label fx:id="text" contentDisplay="CENTER" prefHeight="20.0" prefWidth="197.0" text="Скопировать предметы из:" textAlignment="CENTER" textFill="#fffbfb">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
@@ -88,7 +88,7 @@
                         </ComboBox>
                      </children>
                   </VBox>
-                  <JFXButton onAction="#handleCopySubjectGroup" prefHeight="31.0" prefWidth="89.0" styleClass="autoGenerationButton" text="OK" textFill="WHITE">
+                  <JFXButton fx:id="btn_apply" onAction="#handleCopySubjectGroup" prefHeight="31.0" prefWidth="89.0" styleClass="autoGenerationButton" text="OK" textFill="WHITE">
                      <HBox.margin>
                         <Insets left="10.0" top="25.0" />
                      </HBox.margin>
@@ -119,24 +119,6 @@
                   <Insets />
                </opaqueInsets>
                <items>
-                  <JFXButton contentDisplay="TOP" onAction="#handleSubjectEditOption" prefHeight="62.0" prefWidth="83.0" styleClass="toolBarButton" text="Изменить" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
-                     <graphic>
-                        <FontAwesomeIconView glyphName="EDIT" size="30" strokeLineJoin="ROUND" style="-fx-fill: white;" />
-                     </graphic>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </JFXButton>
-                  <Separator orientation="VERTICAL" prefHeight="10.0" prefWidth="0.0" scaleX="0.0" style="-fx-background-color: white;" />
-                  <JFXButton contentDisplay="TOP" onAction="#handleSubjectAdd" prefHeight="65.0" prefWidth="83.0" styleClass="toolBarButton" text="Добавить" textFill="WHITE">
-                     <graphic>
-                        <FontAwesomeIconView glyphName="PLUS" size="30" strokeLineJoin="ROUND" style="-fx-fill: white;" />
-                     </graphic>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </JFXButton>
-                  <Separator orientation="VERTICAL" prefHeight="10.0" prefWidth="0.0" scaleX="0.0" style="-fx-background-color: white;" />
                   <JFXButton contentDisplay="TOP" onAction="#handleRefresh" prefHeight="64.0" prefWidth="83.0" style="-fx-border-color: white;" styleClass="toolBarButton" text="Обновить" textFill="WHITE">
                      <graphic>
                         <FontAwesomeIconView glyphName="REFRESH" size="30" strokeLineJoin="ROUND" style="-fx-fill: white;" />
@@ -146,7 +128,25 @@
                      </cursor>
                   </JFXButton>
                   <Separator orientation="VERTICAL" prefHeight="10.0" prefWidth="0.0" scaleX="0.0" style="-fx-background-color: white;" />
-                  <JFXButton contentDisplay="TOP" onAction="#handleSubjectDeleteOption" prefHeight="65.0" prefWidth="83.0" style="-fx-border-color: white;" styleClass="toolBarButton" text="Удалить" textFill="WHITE">
+                  <JFXButton fx:id="btn_edit" contentDisplay="TOP" onAction="#handleSubjectEditOption" prefHeight="62.0" prefWidth="83.0" styleClass="toolBarButton" text="Изменить" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="EDIT" size="30" strokeLineJoin="ROUND" style="-fx-fill: white;" />
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+                  <Separator orientation="VERTICAL" prefHeight="10.0" prefWidth="0.0" scaleX="0.0" style="-fx-background-color: white;" />
+                  <JFXButton fx:id="btn_addSubject" contentDisplay="TOP" onAction="#handleSubjectAdd" prefHeight="65.0" prefWidth="83.0" styleClass="toolBarButton" text="Добавить" textFill="WHITE">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="PLUS" size="30" strokeLineJoin="ROUND" style="-fx-fill: white;" />
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+                  <Separator orientation="VERTICAL" prefHeight="10.0" prefWidth="0.0" scaleX="0.0" style="-fx-background-color: white;" />
+                  <JFXButton fx:id="btn_deleteSubject" contentDisplay="TOP" onAction="#handleSubjectDeleteOption" prefHeight="65.0" prefWidth="83.0" style="-fx-border-color: white;" styleClass="toolBarButton" text="Удалить" textFill="WHITE">
                      <graphic>
                         <FontAwesomeIconView glyphName="CLOSE" size="30" strokeLineJoin="ROUND" style="-fx-fill: white;" />
                      </graphic>

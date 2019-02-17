@@ -29,13 +29,13 @@ public class MarkController implements Initializable{
 
     @FXML
     void handlePutMark(ActionEvent event) {
-     if(!cmb_Mark.getSelectionModel().getSelectedItem().equals("Оценка")){
+     if(cmb_Mark.getSelectionModel().getSelectedItem() != null ){
         mark = cmb_Mark.getSelectionModel().getSelectedItem();
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
         stage.close();
         }else{
-            AlertMaker.showErrorMessage("Оценка не выбрана", "При выстовлении оценки выберите оценку");
+            AlertMaker.showErrorMessage("Оценка не выбрана", "");
         }
     }
 
@@ -45,7 +45,7 @@ public class MarkController implements Initializable{
             markList.addAll(STRING_MARKS);
             cmb_Mark.setItems(markList);
         }
-        if(getSelectTypeMark().equals("Дифференцированный зачет")){
+        if(!getSelectTypeMark().equals("Зачет")){
             markList.addAll(NUMBER_MARKS); 
             cmb_Mark.setItems(markList);
         }

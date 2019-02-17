@@ -3,7 +3,10 @@ package com.mycompany.javafx.electronicrecord.dao.impl;
 import com.mycompany.javafx.electronicrecord.dao.interfaces.AbstractObject;
 import com.mycompany.javafx.electronicrecord.dao.interfaces.GroupDAO;
 import com.mycompany.javafx.electronicrecord.model.Groupstud;
+import com.mycompany.javafx.electronicrecord.model.Speciality;
 import com.mycompany.javafx.electronicrecord.utill.HibernateSessionFactoryUtill;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -106,5 +109,38 @@ public class GroupDB extends AbstractObject<Groupstud> implements GroupDAO {
         }
         return groups;
     }
-}
 
+    @Override
+    public List<Groupstud> getGroupstudsByTeacher(int teacherId) {
+        Session session = HibernateSessionFactoryUtill.getSessionFactory().openSession();
+        String sql = "SELECT g.Group_name,g.setYear,g.Group_id,s.nameSpeciality FROM groupstud g "
+                + "INNER JOIN speciality s "
+                + "     ON s.Speciality_id = g.speciality_id\n"
+                + "WHERE g.Group_id  IN \n"
+                + "(SELECT sub.group_id FROM subject_teacher_group sub WHERE sub.teacher_id = " + teacherId + ") GROUP BY g.Group_name;";
+        List<Groupstud> groupstuds = new ArrayList<>();
+        try {
+            Query query = session.createSQLQuery(sql);
+            List<Object> objects = query.list();
+            Iterator itr = objects.iterator();
+            while (itr.hasNext()) {
+                Object[] obj = (Object[]) itr.next();
+                Speciality speciality = new Speciality();
+                speciality.setNameSpeciality(String.valueOf(obj[3]));
+                
+                Groupstud groupstud = new Groupstud(Integer.valueOf(String.valueOf(obj[2])));
+                groupstud.setSetYear(Short.valueOf(String.valueOf(obj[1])));
+                groupstud.setGroupname(String.valueOf(obj[0]));
+                groupstud.setSpecialityId(speciality);
+                
+                groupstuds.add(groupstud);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            throw e;
+        } finally {
+            session.close();
+        }
+        return groupstuds;
+    }
+}

@@ -33,7 +33,7 @@
             <TableView fx:id="tableView" layoutY="168.0" onMouseClicked="#SelectGroup" prefHeight="581.0" prefWidth="574.0" stylesheets="@../styles/table.css" AnchorPane.bottomAnchor="-6.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="168.0">
               <columns>
                   <TableColumn fx:id="groupCol" prefWidth="271.3411865234375" text="Группа" />
-                  <TableColumn fx:id="yearCol" prefWidth="204.2645263671875" text="Год создание" />
+                  <TableColumn fx:id="yearCol" prefWidth="204.2645263671875" text="Год создания" />
                   <TableColumn fx:id="id" maxWidth="2800.0" prefWidth="75.0" text="Id" visible="false" />
               </columns>
                <columnResizePolicy>
@@ -43,9 +43,9 @@
                   <ContextMenu style="-fx-base: #0e67f7;" styleClass="table-context">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#handleRefresh" text="Обновить" />
-                      <MenuItem mnemonicParsing="false" onAction="#handleGroupEditOption" text="Изменить" />
-                        <MenuItem mnemonicParsing="false" onAction="#handleGroupDeleteOption" text="Удалить" />
-                        <MenuItem mnemonicParsing="false" onAction="#handleGroupAdd" text="Добавить" />
+                      <MenuItem fx:id="con_edit" mnemonicParsing="false" onAction="#handleGroupEditOption" text="Изменить" />
+                        <MenuItem fx:id="con_deleteGroup" mnemonicParsing="false" onAction="#handleGroupDeleteOption" text="Удалить" />
+                        <MenuItem fx:id="con_addGroup" mnemonicParsing="false" onAction="#handleGroupAdd" text="Добавить" />
                         <MenuItem mnemonicParsing="false" onAction="#handleStudentList" text="Список студентов" />
                         <MenuItem mnemonicParsing="false" onAction="#handleSubjectList" text="Список предметов" />
                     </items>
@@ -108,7 +108,7 @@
                      </cursor>
                   </JFXButton>
                   <Separator orientation="VERTICAL" prefHeight="10.0" prefWidth="0.0" scaleX="0.0" style="-fx-background-color: white;" />
-                  <JFXButton contentDisplay="TOP" onAction="#handleGroupAdd" prefHeight="65.0" prefWidth="79.0" style="-fx-border-color: white;" styleClass="toolBarButton" text="Добавить" textFill="WHITE">
+                  <JFXButton fx:id="btn_addGroup" contentDisplay="TOP" onAction="#handleGroupAdd" prefHeight="65.0" prefWidth="79.0" style="-fx-border-color: white;" styleClass="toolBarButton" text="Добавить" textFill="WHITE">
                      <graphic>
                         <FontAwesomeIconView glyphName="PLUS" size="30" strokeLineJoin="ROUND" style="-fx-fill: white;" />
                      </graphic>
@@ -117,7 +117,7 @@
                      </cursor>
                   </JFXButton>
                   <Separator orientation="VERTICAL" prefHeight="10.0" prefWidth="0.0" scaleX="0.0" style="-fx-background-color: white;" />
-                  <JFXButton contentDisplay="TOP" onAction="#handleGroupDeleteOption" prefHeight="65.0" prefWidth="79.0" style="-fx-border-color: white;" styleClass="toolBarButton" text="Удалить" textFill="WHITE">
+                  <JFXButton fx:id="btn_delteGroup" contentDisplay="TOP" onAction="#handleGroupDeleteOption" prefHeight="65.0" prefWidth="79.0" style="-fx-border-color: white;" styleClass="toolBarButton" text="Удалить" textFill="WHITE">
                      <graphic>
                         <FontAwesomeIconView glyphName="CLOSE" size="30" strokeLineJoin="ROUND" style="-fx-fill: white;" />
                      </graphic>
@@ -126,7 +126,7 @@
                      </cursor>
                   </JFXButton>
                   <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="0.0" scaleX="0.0" style="-fx-background-color: white;" />
-                  <JFXButton contentDisplay="TOP" onAction="#handleGroupEditOption" prefHeight="65.0" prefWidth="79.0" style="-fx-border-color: white;" styleClass="toolBarButton" text="Изменить" textFill="WHITE">
+                  <JFXButton fx:id="btn_edit" contentDisplay="TOP" onAction="#handleGroupEditOption" prefHeight="65.0" prefWidth="79.0" style="-fx-border-color: white;" styleClass="toolBarButton" text="Изменить" textFill="WHITE">
                      <graphic>
                         <FontAwesomeIconView glyphName="EDIT" size="30" strokeLineJoin="ROUND" style="-fx-fill: white;" />
                      </graphic>

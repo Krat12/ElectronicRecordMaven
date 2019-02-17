@@ -53,6 +53,24 @@ public abstract class AbstractObject<Entity> implements ObjectDAO<Entity> {
             session.close();
         }
     }
+    
+    @Override
+    public void insertOrUpdate(Entity entity) {
+
+        Session session = HibernateSessionFactoryUtill.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            session.saveOrUpdate(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            System.out.println("Exeption " + e);
+            transaction.rollback();
+        } finally {
+            session.close();
+        }
+
+    }
 
     
 
