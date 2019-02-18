@@ -238,18 +238,18 @@ public class GroupListController implements Initializable {
             Logger.getLogger(GroupListController.class.getName()).log(Level.SEVERE, null, ex);
         }
         HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
-        task.setRate(-1);
+        task.setRate(-1.5);
         hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, (Event event) -> {
             drawer.toggle();
         });
         drawer.setOnDrawerOpening((event) -> {
-            task.setRate(task.getRate() * -1);
+            task.setRate(task.getRate()*-1);
             task.play();
             drawer.toFront();
         });
         drawer.setOnDrawerClosed((event) -> {
             drawer.toBack();
-            task.setRate(task.getRate() * -1);
+            task.setRate(task.getRate()*-1);
             task.play();
         });
     }

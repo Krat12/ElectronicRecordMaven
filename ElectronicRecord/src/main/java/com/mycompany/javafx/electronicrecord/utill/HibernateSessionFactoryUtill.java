@@ -26,7 +26,7 @@ import org.hibernate.cfg.Configuration;
  *
  * @author user07
  */
-public class HibernateSessionFactoryUtill {
+public class HibernateSessionFactoryUtill{
     private static SessionFactory sessionFactory;
     
     public static SessionFactory getSessionFactory(){
@@ -49,5 +49,7 @@ public class HibernateSessionFactoryUtill {
         }
         return sessionFactory;
     }
+
+
     
 }

@@ -14,15 +14,16 @@ import javafx.stage.Stage;
 public class MainApp extends Application {
 
     @Override
-    public void start(Stage stage) throws Exception {    
+    public void start(Stage stage) throws Exception {
+        HibernateSessionFactoryUtill.getSessionFactory();
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/Login.fxml"));
         ElectronicRecordUtill.setStageIcon(stage);
-        HibernateSessionFactoryUtill.getSessionFactory();
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.setMinHeight(310);
+        stage.setMinHeight(280);
         stage.setMinWidth(275);
         stage.show();
+        
     }
 
     /**
@@ -37,5 +38,6 @@ public class MainApp extends Application {
        
         launch(args);
     }
+
 
 }
