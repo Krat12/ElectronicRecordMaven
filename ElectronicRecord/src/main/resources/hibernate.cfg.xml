@@ -45,7 +45,7 @@ Contributor(s):
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/Diplom?serverTimezone = UTC</property>
     <property name="hibernate.connection.username">root</property>
-    <property name="hibernate.connection.password">18lulego123</property>
+    <property name="hibernate.connection.password">1234</property>
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.format_sql">true</property>
   </session-factory>

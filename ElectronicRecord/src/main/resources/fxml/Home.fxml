@@ -72,7 +72,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../styles/button.css" text="Список ведомостей" GridPane.columnIndex="1">
+                  <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#handleOpenStatement" prefHeight="181.0" prefWidth="242.0" stylesheets="@../styles/button.css" text="Список ведомостей" GridPane.columnIndex="1">
                      <graphic>
                         <FontAwesomeIconView fx:id="Idente" fill="#2d75e8" glyphName="FILE_TEXT" size="50" />
                      </graphic>

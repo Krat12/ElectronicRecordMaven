@@ -16,4 +16,5 @@ public interface StatementDAO extends ObjectDAO<Statement>{
     void insertById(int subjectId,int teacherId,int groupId,Statement statement);
     
     
+    
 }
