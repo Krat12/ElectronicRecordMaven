@@ -89,7 +89,7 @@
                   <Insets />
                </opaqueInsets>
                <items>
-                  <JFXButton fx:id="btn_addSubject" contentDisplay="TOP" onAction="#handleSubjectAdd" prefHeight="68.0" prefWidth="91.0" style="-fx-border-color: white;" text="День" textFill="WHITE">
+                  <JFXButton fx:id="btn_addSubject" contentDisplay="TOP" onAction="#handleSubjectAdd" prefHeight="68.0" prefWidth="91.0" style="-fx-border-color: white; -fx-font-size: 14;" text="День" textFill="WHITE">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -98,7 +98,7 @@
                      </graphic>
                   </JFXButton>
                   <Separator orientation="VERTICAL" prefHeight="10.0" prefWidth="0.0" scaleX="0.0" style="-fx-background-color: white;" />
-                  <JFXButton contentDisplay="TOP" onAction="#handleRefresh" prefHeight="69.0" prefWidth="91.0" style="-fx-border-color: white;" text="Дней" textFill="WHITE">
+                  <JFXButton contentDisplay="TOP" onAction="#handleRefresh" prefHeight="69.0" prefWidth="91.0" style="-fx-border-color: white; -fx-font-size: 14;" text="Дней" textFill="WHITE">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -107,7 +107,7 @@
                      </graphic>
                   </JFXButton>
                   <Separator orientation="VERTICAL" prefHeight="10.0" prefWidth="0.0" scaleX="0.0" style="-fx-background-color: white;" />
-                  <JFXButton fx:id="btn_edit" contentDisplay="TOP" onAction="#handleSubjectEditOption" prefHeight="68.0" prefWidth="91.0" style="-fx-border-color: white;" text="Дней" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+                  <JFXButton fx:id="btn_edit" contentDisplay="TOP" onAction="#handleSubjectEditOption" prefHeight="51.0" prefWidth="96.0" style="-fx-border-color: white; -fx-font-size: 14;" text="Дней" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
