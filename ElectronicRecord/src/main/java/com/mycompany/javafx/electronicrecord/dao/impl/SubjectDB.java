@@ -8,7 +8,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
-public class SubjectDB extends AbstractObject<Subject> implements SubjectDAO{
+public class SubjectDB extends AbstractObject<Subject> implements SubjectDAO {
 
     private static SubjectDB instance;
 
@@ -24,7 +24,7 @@ public class SubjectDB extends AbstractObject<Subject> implements SubjectDAO{
 
     @Override
     public List<Subject> getAllSubjects() {
-       Session session = HibernateSessionFactoryUtill.getSessionFactory().openSession();
+        Session session = HibernateSessionFactoryUtill.getSessionFactory().openSession();
         List<Subject> subjects = null;
         try {
             Query query = session.createQuery("from Subject s ORDER BY s.nameSubject");
@@ -48,6 +48,26 @@ public class SubjectDB extends AbstractObject<Subject> implements SubjectDAO{
                     + "WHERE t.teacherid = :teacherId AND g.groupid = :groupId");
             query.setParameter("teacherId", teacherId);
             query.setParameter("groupId", groupId);
+            subjects = query.getResultList();
+        } catch (Exception e) {
+            System.out.println(e);
+            throw e;
+        } finally {
+            session.close();
+        }
+        return subjects;
+    }
+
+    @Override
+    public List<Subject> getSubjectsByTeacher(int teacherId) {
+        Session session = HibernateSessionFactoryUtill.getSessionFactory().openSession();
+        List<Subject> subjects = null;
+        try {
+            Query query = session.createQuery("SELECT s FROM Subject s "
+                    + "join fetch s.subjectTeacherGroupList stg join fetch stg.teacher t join fetch stg.groupstud g "
+                    + "WHERE t.teacherid = :teacherId");
+            query.setParameter("teacherId", teacherId);
+          
             subjects = query.getResultList();
         } catch (Exception e) {
             System.out.println(e);

@@ -17,4 +17,6 @@ public interface SubjectDAO extends ObjectDAO<Subject>{
     List<Subject> getAllSubjects();
     
     List<Subject> getSubjectsByGroupAndTeacher(int groupId,int teacherId);
+    
+    List<Subject>getSubjectsByTeacher(int teacherId);
 }

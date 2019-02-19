@@ -406,7 +406,16 @@ public class MarkListController implements Initializable {
         if (reating.getMark() == null) {
             model.setMark("");
         } else {
-            model.setMark(String.valueOf(reating.getMark()));
+            if (getSelectTypeMark().equals("Зачет")) {
+                if (reating.getMark() == 0) {
+                    model.setMark("Незачет");
+                } else if (reating.getMark() == 1) {
+                    model.setMark("Зачет");
+                }
+            } else {
+                model.setMark(String.valueOf(reating.getMark()));
+            }
+
         }
     }
 

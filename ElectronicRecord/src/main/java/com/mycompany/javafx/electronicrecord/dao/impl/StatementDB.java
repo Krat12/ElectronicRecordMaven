@@ -89,7 +89,7 @@ public class StatementDB extends AbstractObject<Statement> implements StatementD
             isFirst = false;
         }
         if(typeUser.equals("Teacher")){
-            query = isFirst ? query.append("where t.teacherId = "+teacherId+""):query.append("and t.teacherId = "+teacherId+"");
+            query = isFirst ? query.append("where t.teacherid = "+teacherId+" "):query.append("and t.teacherid = "+teacherId+" ");
             isFirst = false;
         }
         try {

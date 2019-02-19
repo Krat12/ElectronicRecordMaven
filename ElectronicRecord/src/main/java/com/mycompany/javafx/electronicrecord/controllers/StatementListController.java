@@ -32,6 +32,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import sun.security.jgss.LoginConfigImpl;
 
 public class StatementListController implements Initializable {
 
@@ -108,13 +109,14 @@ public class StatementListController implements Initializable {
             Subject subject = cmb_subject.getSelectionModel().getSelectedItem();
             String type = cmb_typeСertification.getSelectionModel().getSelectedItem();
             Groupstud groupstud = cmb_group.getSelectionModel().getSelectedItem();
-            if(LoginController.getUserType().equals("Admin")){
-                 List<Statement> statements = StatementDB.getInstance().getStatementsByCriteria(type, subject, groupstud, getStartDate(), getEndDate(),null,0);
-            }else{
-                List<Statement> statements = StatementDB.getInstance().getStatementsByCriteria(type, subject, groupstud, getStartDate(), getEndDate(),
-                        LoginController.getUserType(),LoginController.getUserId());
+            List<Statement> statements = null;
+            if (LoginController.getUserType().equals("Admin")) {
+                statements = StatementDB.getInstance().getStatementsByCriteria(type, subject, groupstud, getStartDate(), getEndDate(), "", 0);
+            } else {
+                statements = StatementDB.getInstance().getStatementsByCriteria(type, subject, groupstud, getStartDate(), getEndDate(),
+                        LoginController.getUserType(), LoginController.getUserId());
             }
-           
+
             if (!StatementListIsEmpty(statements)) {
                 loadDataInTable(statements);
             }
@@ -130,13 +132,13 @@ public class StatementListController implements Initializable {
         StatementModel model = tableView.getSelectionModel().getSelectedItem();
         if (model != null) {
             if (event.getClickCount() == 2) {
-                 Stage stage = new Stage(StageStyle.DECORATED);
+                Stage stage = new Stage(StageStyle.DECORATED);
                 MarkListController.setStatementMode();
                 CreateMarkController.setSelectTypeMark(model.getTypeСertification());
                 CreateMarkController.setStatementId(model.getStatementId());
                 ElectronicRecordUtill.loadWindow(getClass().getResource("/fxml/MarkList.fxml"), "Список студентов", stage);
                 System.out.println(model.getStatementId());
-              
+
             }
         }
 
@@ -161,7 +163,13 @@ public class StatementListController implements Initializable {
         Date currentDate = new Date();
         LocalDate thirtyDaysAgo = LocalDate.now().minusDays(day);
         Date confertDate = Date.from(thirtyDaysAgo.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        List<Statement> statements = StatementDB.getInstance().getStatementsByCriteria(null, null, null, confertDate, currentDate);
+        List<Statement> statements = null;
+        if (LoginController.getUserType().equals("Admin")) {
+            statements = StatementDB.getInstance().getStatementsByCriteria(null, null, null, confertDate, currentDate, "", 0);
+        }else{
+            statements = StatementDB.getInstance().getStatementsByCriteria(null, null, null, confertDate, currentDate, LoginController.getUserType(), LoginController.getUserId());
+        }
+
         if (!StatementListIsEmpty(statements)) {
             loadDataInTable(statements);
         }
@@ -182,7 +190,8 @@ public class StatementListController implements Initializable {
             listGroups.addAll(GroupDB.getInstance().getAllGroups());
         }
         if (LoginController.getUserType().equals("Teacher")) {
-            
+            listGroups.addAll(GroupDB.getInstance().getGroupstudsByTeacher(LoginController.getUserId()));
+            listSubjects.addAll(SubjectDB.getInstance().getSubjectsByTeacher(LoginController.getUserId()));
         }
     }
 
