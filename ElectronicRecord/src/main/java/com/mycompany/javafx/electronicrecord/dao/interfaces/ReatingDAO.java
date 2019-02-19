@@ -6,6 +6,7 @@
 package com.mycompany.javafx.electronicrecord.dao.interfaces;
 
 import com.mycompany.javafx.electronicrecord.model.Reating;
+import com.mycompany.javafx.electronicrecord.model.SprReating;
 import java.util.List;
 
 /**
@@ -16,10 +17,7 @@ public interface ReatingDAO extends ObjectDAO<Reating>{
     
     void insertBySelect(int statementId, int groupId);
     
-    List<Reating> getReatingByStatement(int statementId);
+    List<SprReating> getReatingByStatement(int statementId);
     
-    List<Reating> getReatingByDiplom(int statementId);
-    
-    List<Reating> getReatingByCoursework(int statementId);
     
 }

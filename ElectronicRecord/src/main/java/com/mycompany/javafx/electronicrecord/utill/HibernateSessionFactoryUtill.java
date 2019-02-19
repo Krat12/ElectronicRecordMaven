@@ -11,6 +11,8 @@ import com.mycompany.javafx.electronicrecord.model.Diplom;
 import com.mycompany.javafx.electronicrecord.model.Groupstud;
 import com.mycompany.javafx.electronicrecord.model.Reating;
 import com.mycompany.javafx.electronicrecord.model.Speciality;
+import com.mycompany.javafx.electronicrecord.model.SprReating;
+import com.mycompany.javafx.electronicrecord.model.SprSubjectTeacherGroup;
 import com.mycompany.javafx.electronicrecord.model.Statement;
 import com.mycompany.javafx.electronicrecord.model.Student;
 import com.mycompany.javafx.electronicrecord.model.Subject;
@@ -44,6 +46,8 @@ public class HibernateSessionFactoryUtill{
             configuration.addAnnotatedClass(SubjectTeacherGroup.class);
             configuration.addAnnotatedClass(Diplom.class);
             configuration.addAnnotatedClass(Coursework.class);
+            configuration.addAnnotatedClass(SprSubjectTeacherGroup.class);
+            configuration.addAnnotatedClass(SprReating.class);
             StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
             sessionFactory = configuration.buildSessionFactory(builder.build());
         }

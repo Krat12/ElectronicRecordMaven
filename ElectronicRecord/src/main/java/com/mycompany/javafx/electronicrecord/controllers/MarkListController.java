@@ -9,6 +9,7 @@ import com.mycompany.javafx.electronicrecord.dao.impl.ReatingDB;
 import com.mycompany.javafx.electronicrecord.model.Coursework;
 import com.mycompany.javafx.electronicrecord.model.Diplom;
 import com.mycompany.javafx.electronicrecord.model.Reating;
+import com.mycompany.javafx.electronicrecord.model.SprReating;
 import com.mycompany.javafx.electronicrecord.model.Statement;
 import com.mycompany.javafx.electronicrecord.model.Student;
 import com.mycompany.javafx.electronicrecord.utill.AlertMaker;
@@ -242,16 +243,14 @@ public class MarkListController implements Initializable {
         if (getSelectTypeMark().equals("Зачет") || getSelectTypeMark().equals("Дифференцированный зачет")) {
             reatingList.clear();
             int amount = 1;
-            for (Reating reating : ReatingDB.getInstance().getReatingByStatement(getStatementId())) {
+            for (SprReating reating : ReatingDB.getInstance().getReatingByStatement(getStatementId())) {
                 ReatingModel model = new ReatingModel();
-                model.setFullName(reating.getStudentid().getUser().getSurname() + " "
-                        + reating.getStudentid().getUser().getName() + " "
-                        + reating.getStudentid().getUser().getMidleName() + " ");
+                model.setFullName(reating.getSurname() + " "+ reating.getName() + " "+ reating.getMidleName() + " ");
                 checkIsNullMark(reating, model);
                 checkIsNullThesis(reating, model);
                 checkIsNullFullNameBoss(reating, model);
                 checkIsNullPlacePractice(reating, model);
-                model.setStudentId(reating.getStudentid().getStudentid());
+                model.setStudentId(reating.getStudentid());
                 model.setNumberStudent(amount);
                 model.setReatingId(reating.getReatingId());
                 amount++;
@@ -270,15 +269,13 @@ public class MarkListController implements Initializable {
             thesis.setVisible(true);
 
             int amount = 1;
-            for (Reating reating : ReatingDB.getInstance().getReatingByDiplom(getStatementId())) {
+            for (SprReating reating : ReatingDB.getInstance().getReatingByStatement(getStatementId())) {
                 ReatingModel model = new ReatingModel();
-                model.setFullName(reating.getStudentid().getUser().getSurname() + " "
-                        + reating.getStudentid().getUser().getName() + " "
-                        + reating.getStudentid().getUser().getMidleName() + " ");
+                model.setFullName(reating.getSurname() + " "+ reating.getName() + " "+ reating.getMidleName() + " ");
 
                 checkIsNullMark(reating, model);
                 checkIsNullThesis(reating, model);
-                model.setStudentId(reating.getStudentid().getStudentid());
+                model.setStudentId(reating.getStudentid());
                 model.setNumberStudent(amount);
                 model.setReatingId(reating.getReatingId());
                 amount++;
@@ -298,16 +295,14 @@ public class MarkListController implements Initializable {
             colFullNameBoss.setVisible(true);
 
             int amount = 1;
-            for (Reating reating : ReatingDB.getInstance().getReatingByCoursework(getStatementId())) {
+            for (SprReating reating : ReatingDB.getInstance().getReatingByStatement(getStatementId())) {
                 ReatingModel model = new ReatingModel();
-                model.setFullName(reating.getStudentid().getUser().getSurname() + " "
-                        + reating.getStudentid().getUser().getName() + " "
-                        + reating.getStudentid().getUser().getMidleName() + " ");
+                model.setFullName(reating.getSurname() + " "+ reating.getName() + " "+ reating.getMidleName() + " ");
 
                 checkIsNullMark(reating, model);
                 checkIsNullFullNameBoss(reating, model);
                 checkIsNullPlacePractice(reating, model);
-                model.setStudentId(reating.getStudentid().getStudentid());
+                model.setStudentId(reating.getStudentid());
                 model.setNumberStudent(amount);
                 model.setReatingId(reating.getReatingId());
                 amount++;
@@ -402,7 +397,7 @@ public class MarkListController implements Initializable {
 
     }
 
-    private void checkIsNullMark(Reating reating, ReatingModel model) {
+    private void checkIsNullMark(SprReating reating, ReatingModel model) {
         if (reating.getMark() == null) {
             model.setMark("");
         } else {
@@ -419,27 +414,27 @@ public class MarkListController implements Initializable {
         }
     }
 
-    private void checkIsNullFullNameBoss(Reating reating, ReatingModel model) {
-        if (reating.getCoursework() == null) {
+    private void checkIsNullFullNameBoss(SprReating reating, ReatingModel model) {
+        if (reating.getFullNameBoss() == null) {
             model.setFullNameBoss("");
         } else {
-            model.setFullNameBoss(reating.getCoursework().getFullNameBoss());
+            model.setFullNameBoss(reating.getFullNameBoss());
         }
     }
 
-    private void checkIsNullPlacePractice(Reating reating, ReatingModel model) {
-        if (reating.getCoursework() == null) {
+    private void checkIsNullPlacePractice(SprReating reating, ReatingModel model) {
+        if (reating.getPlacePracticle() == null) {
             model.setPlacePractic("");
         } else {
-            model.setPlacePractic(reating.getCoursework().getPlacePracticle());
+            model.setPlacePractic(reating.getPlacePracticle());
         }
     }
 
-    private void checkIsNullThesis(Reating reating, ReatingModel model) {
-        if (reating.getDiplom() == null) {
+    private void checkIsNullThesis(SprReating reating, ReatingModel model) {
+        if (reating.getThesis() == null) {
             model.setThesis("");
         } else {
-            model.setThesis(reating.getDiplom().getThesis());
+            model.setThesis(reating.getThesis());
         }
     }
 

@@ -2,14 +2,9 @@ package com.mycompany.javafx.electronicrecord.dao.impl;
 
 import com.mycompany.javafx.electronicrecord.dao.interfaces.AbstractObject;
 import com.mycompany.javafx.electronicrecord.dao.interfaces.ReatingDAO;
-import com.mycompany.javafx.electronicrecord.model.Coursework;
-import com.mycompany.javafx.electronicrecord.model.Diplom;
 import com.mycompany.javafx.electronicrecord.model.Reating;
-import com.mycompany.javafx.electronicrecord.model.Student;
-import com.mycompany.javafx.electronicrecord.model.User;
+import com.mycompany.javafx.electronicrecord.model.SprReating;
 import com.mycompany.javafx.electronicrecord.utill.HibernateSessionFactoryUtill;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -53,141 +48,20 @@ public class ReatingDB extends AbstractObject<Reating> implements ReatingDAO {
     }
 
     @Override
-    public List<Reating> getReatingByStatement(int statementId) {
+    public List<SprReating> getReatingByStatement(int statementId) {
         Session session = HibernateSessionFactoryUtill.getSessionFactory().openSession();
-        List<Reating> reatings = new ArrayList();
+        List<SprReating> reatings = null;
         try {
-            Query query = session.createQuery("SELECT u.name,u.surname,u.midleName,s.studentid,r.mark,r.reatingId "
-                    + "FROM Reating r JOIN r.studentid s JOIN r.statementId st JOIN s.user u "
-                    + "WHERE st.statementId = :statementId ORDER BY u.surname");
-
+            Query query = session.createQuery("SELECT sr FROM SprReating sr WHERE sr.statementId = :statementId ORDER BY sr.surname");
             query.setParameter("statementId", statementId);
-            List<Object> objects = query.list();
-            Iterator itr = objects.iterator();
-            while (itr.hasNext()) {
-                Object[] obj = (Object[]) itr.next();
-
-                User user = new User();
-                user.setName(String.valueOf(obj[0]));
-                user.setMidleName(String.valueOf(obj[2]));
-                user.setSurname(String.valueOf(obj[1]));
-
-                Student student = new Student(Integer.valueOf(String.valueOf(obj[3])));
-                student.setUser(user);
-
-                Reating reating = new Reating(Integer.valueOf(String.valueOf(obj[5])));
-                if (obj[4] != null) {
-                    reating.setMark(Integer.valueOf(String.valueOf(obj[4])));
-                }
-                reating.setStudentid(student);
-
-                reatings.add(reating);
-            }
-
-        } catch (Exception e) {
-            System.out.println(e);
-            throw e;
+            reatings = query.list();
+        } catch (Exception exception) {
+            System.out.println(exception);
         } finally {
             session.close();
         }
         return reatings;
     }
 
-    @Override
-    public List<Reating> getReatingByDiplom(int statementId) {
-        Session session = HibernateSessionFactoryUtill.getSessionFactory().openSession();
-        List<Reating> reatings = new ArrayList();
-        try {
-            Query query = session.createQuery("SELECT u.name,u.surname,u.midleName,s.studentid,r.mark,r.reatingId,d.thesis "
-                    + "FROM Reating r JOIN r.studentid s LEFT JOIN r.diplom d JOIN r.statementId st JOIN s.user u "
-                    + "WHERE st.statementId = :statementId ORDER BY u.surname");
 
-            query.setParameter("statementId", statementId);
-            List<Object> objects = query.list();
-            Iterator itr = objects.iterator();
-            while (itr.hasNext()) {
-                Object[] obj = (Object[]) itr.next();
-
-                User user = new User();
-                user.setName(String.valueOf(obj[0]));
-                user.setMidleName(String.valueOf(obj[2]));
-                user.setSurname(String.valueOf(obj[1]));
-
-                Student student = new Student(Integer.valueOf(String.valueOf(obj[3])));
-                student.setUser(user);
-
-                Diplom diplom = new Diplom();
-                if (obj[6] != null) {
-                    diplom.setThesis(String.valueOf(obj[6]));
-                }
-
-                Reating reating = new Reating(Integer.valueOf(String.valueOf(obj[5])));
-                if (obj[4] != null) {
-                    reating.setMark(Integer.valueOf(String.valueOf(obj[4])));
-                }
-                reating.setStudentid(student);
-                reating.setDiplom(diplom);
-
-                reatings.add(reating);
-            }
-
-        } catch (Exception e) {
-            System.out.println(e);
-            throw e;
-        } finally {
-            session.close();
-        }
-        return reatings;
-    }
-
-    @Override
-    public List<Reating> getReatingByCoursework(int statementId) {
-        Session session = HibernateSessionFactoryUtill.getSessionFactory().openSession();
-        List<Reating> reatings = new ArrayList();
-        try {
-            Query query = session.createQuery("SELECT u.name,u.surname,u.midleName,s.studentid,r.mark,r.reatingId,"
-                    + "course.fullNameBoss,course.placePracticle "
-                    + "FROM Reating r JOIN r.studentid s LEFT JOIN r.coursework course JOIN r.statementId st JOIN s.user u "
-                    + "WHERE st.statementId = :statementId ORDER BY u.surname");
-
-            query.setParameter("statementId", statementId);
-            List<Object> objects = query.list();
-            Iterator itr = objects.iterator();
-            while (itr.hasNext()) {
-                Object[] obj = (Object[]) itr.next();
-
-                User user = new User();
-                user.setName(String.valueOf(obj[0]));
-                user.setMidleName(String.valueOf(obj[2]));
-                user.setSurname(String.valueOf(obj[1]));
-
-                Student student = new Student(Integer.valueOf(String.valueOf(obj[3])));
-                student.setUser(user);
-
-                Coursework coursework = new Coursework();
-                if (obj[6] != null) {
-                    coursework.setFullNameBoss(String.valueOf(obj[6]));
-                }
-                if (obj[7] != null) {
-                    coursework.setPlacePracticle(String.valueOf(obj[7]));
-                }
-
-                Reating reating = new Reating(Integer.valueOf(String.valueOf(obj[5])));
-                if (obj[4] != null) {
-                    reating.setMark(Integer.valueOf(String.valueOf(obj[4])));
-                }
-                reating.setStudentid(student);
-                reating.setCoursework(coursework);
-
-                reatings.add(reating);
-            }
-
-        } catch (Exception e) {
-            System.out.println(e);
-            throw e;
-        } finally {
-            session.close();
-        }
-        return reatings;
-    }
 }

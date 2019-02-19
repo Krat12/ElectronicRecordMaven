@@ -3,8 +3,10 @@ package com.mycompany.javafx.electronicrecord.controllers;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
 import com.mycompany.javafx.electronicrecord.dao.impl.GroupDB;
+import com.mycompany.javafx.electronicrecord.dao.impl.SprSubjectTeacherGroupDB;
 import com.mycompany.javafx.electronicrecord.dao.impl.SubjectTeacherGroupDB;
 import com.mycompany.javafx.electronicrecord.model.Groupstud;
+import com.mycompany.javafx.electronicrecord.model.SprSubjectTeacherGroup;
 import com.mycompany.javafx.electronicrecord.model.SubjectTeacherGroup;
 import com.mycompany.javafx.electronicrecord.utill.AlertMaker;
 import com.mycompany.javafx.electronicrecord.utill.ElectronicRecordUtill;
@@ -271,19 +273,18 @@ public class SubjectListController implements Initializable {
         listSubject.clear();
 
         int amount = 1;
-        for (SubjectTeacherGroup stg : SubjectTeacherGroupDB.getInstance().getSubjectAndTeacherByGroup(groupName)) {
+        for (SprSubjectTeacherGroup stg : SprSubjectTeacherGroupDB.getInstance().getSubjectAndTeacherByGroup(groupName)) {
 
             SubjectTeacherModel modelTable = new SubjectTeacherModel();
 
-            modelTable.setFullNameTeacher(stg.getTeacher().getUser().getSurname()
-                    + " " + stg.getTeacher().getUser().getName() + " " + stg.getTeacher().getUser().getMidleName());
-            modelTable.setSubjectName(stg.getSubjectId().getNameSubject());
+            modelTable.setFullNameTeacher(stg.getSurname()+ " " + stg.getName() + " " + stg.getMidleName());
+            modelTable.setSubjectName(stg.getNameSubject());
             modelTable.setHours(stg.getHours());
             modelTable.setNumberSubject(amount);
             modelTable.setId(stg.getIdsubjectTeacherGroup());
-            modelTable.setNameTeaher(stg.getTeacher().getUser().getName());
-            modelTable.setSurnameTeaher(stg.getTeacher().getUser().getSurname());
-            modelTable.setMidleNameTeaher(stg.getTeacher().getUser().getMidleName());
+            modelTable.setNameTeaher(stg.getName());
+            modelTable.setSurnameTeaher(stg.getSurname());
+            modelTable.setMidleNameTeaher(stg.getMidleName());
             amount++;
 
             listSubject.add(modelTable);

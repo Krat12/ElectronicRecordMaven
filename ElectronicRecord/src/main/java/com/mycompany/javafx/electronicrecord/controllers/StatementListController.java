@@ -32,7 +32,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import sun.security.jgss.LoginConfigImpl;
 
 public class StatementListController implements Initializable {
 

@@ -6,15 +6,12 @@
 package com.mycompany.javafx.electronicrecord.dao.interfaces;
 
 import com.mycompany.javafx.electronicrecord.model.SubjectTeacherGroup;
-import java.util.List;
 
 /**
  *
  * @author Admin
  */
 public interface SubjectTeacherGroupDAO extends ObjectDAO<SubjectTeacherGroup>{
-    
-    List<SubjectTeacherGroup> getSubjectAndTeacherByGroup(String name);
     
     void copyByInsert(int sourse, int targer);
     
