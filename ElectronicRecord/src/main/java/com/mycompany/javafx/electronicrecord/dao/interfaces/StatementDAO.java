@@ -19,6 +19,6 @@ public interface StatementDAO extends ObjectDAO<Statement>{
     
     void insertById(int subjectId,int teacherId,int groupId,Statement statement);
     
-    List<Statement> getStatementsByCriteria(String type,Subject subject, Groupstud groupstud,Date startDate, Date endDate);
+    List<Statement> getStatementsByCriteria(String type,Subject subject, Groupstud groupstud,Date startDate, Date endDate,String typeUser,int teacherId);
     
 }

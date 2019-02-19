@@ -49,14 +49,14 @@ public class StatementDB extends AbstractObject<Statement> implements StatementD
     }
 
     @Override
-    public List<Statement> getStatementsByCriteria(String type,Subject subject, Groupstud groupstud,Date startDate, Date endDate) {
+    public List<Statement> getStatementsByCriteria(String type,Subject subject, Groupstud groupstud,Date startDate, Date endDate,String typeUser,int teacherId) {
         
         Session session = HibernateSessionFactoryUtill.getSessionFactory().openSession();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         List<Statement> statements = null;
         boolean isFirst = true;
 
-        StringBuilder query = new StringBuilder("from Statement st join fetch st.subjectId s join fetch st.groupId g join fetch st.teacherId ");
+        StringBuilder query = new StringBuilder("from Statement st join fetch st.subjectId s join fetch st.groupId g join fetch st.teacherId t ");
 
         if (type != null) {
             
@@ -86,6 +86,10 @@ public class StatementDB extends AbstractObject<Statement> implements StatementD
             query = isFirst ? query.append("where st.date <= '" + simpleDateFormat.format(endDate.getTime()) +"' ") : 
                               query.append("and st.date <= '" +simpleDateFormat.format(endDate.getTime())+"' ");
             
+            isFirst = false;
+        }
+        if(typeUser.equals("Teacher")){
+            query = isFirst ? query.append("where t.teacherId = "+teacherId+""):query.append("and t.teacherId = "+teacherId+"");
             isFirst = false;
         }
         try {
