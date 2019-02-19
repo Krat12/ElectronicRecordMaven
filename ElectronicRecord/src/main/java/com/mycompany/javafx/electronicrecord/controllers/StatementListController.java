@@ -108,8 +108,13 @@ public class StatementListController implements Initializable {
             Subject subject = cmb_subject.getSelectionModel().getSelectedItem();
             String type = cmb_typeСertification.getSelectionModel().getSelectedItem();
             Groupstud groupstud = cmb_group.getSelectionModel().getSelectedItem();
-
-            List<Statement> statements = StatementDB.getInstance().getStatementsByCriteria(type, subject, groupstud, getStartDate(), getEndDate());
+            if(LoginController.getUserType().equals("Admin")){
+                 List<Statement> statements = StatementDB.getInstance().getStatementsByCriteria(type, subject, groupstud, getStartDate(), getEndDate(),null,0);
+            }else{
+                List<Statement> statements = StatementDB.getInstance().getStatementsByCriteria(type, subject, groupstud, getStartDate(), getEndDate(),
+                        LoginController.getUserType(),LoginController.getUserId());
+            }
+           
             if (!StatementListIsEmpty(statements)) {
                 loadDataInTable(statements);
             }
@@ -177,7 +182,7 @@ public class StatementListController implements Initializable {
             listGroups.addAll(GroupDB.getInstance().getAllGroups());
         }
         if (LoginController.getUserType().equals("Teacher")) {
-
+            
         }
     }
 
