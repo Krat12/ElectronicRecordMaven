@@ -61,7 +61,7 @@ public class HomeController {
 
     @FXML
     void handleOpenStatement(ActionEvent event) {
-        ElectronicRecordUtill.loadWindow(getClass().getResource("/fxml/StatementList.fxml"), "Список ведомостей", null);
+        ElectronicRecordUtill.loadWindow(getClass().getResource("/fxml/StatementList.fxml"), "Список ведомостей",null,360,200);
         ElectronicRecordUtill.closeStage(event);
 
     }

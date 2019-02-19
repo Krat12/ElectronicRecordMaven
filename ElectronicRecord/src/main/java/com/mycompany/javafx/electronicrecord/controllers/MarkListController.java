@@ -37,6 +37,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -44,6 +46,7 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
+import javafx.scene.control.ToolBar;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -63,6 +66,7 @@ public class MarkListController implements Initializable {
     private static final String[] STRING_MARKS = {"Зачет", "Незачет"};
     private final ObservableList<ReatingModel> reatingList = FXCollections.observableArrayList();
     private static Set<Integer> edtitListIndex;
+    private static Boolean isStatementMode = Boolean.FALSE;
 
     @FXML
     private StackPane rootPane;
@@ -104,6 +108,18 @@ public class MarkListController implements Initializable {
     private JFXButton btn_rollback;
 
     @FXML
+    private ToolBar toolBar;
+
+    @FXML
+    private MenuItem con_refresh;
+
+    @FXML
+    private MenuItem con_add;
+
+    @FXML
+    private MenuItem con_addMark;
+
+    @FXML
     void exportAsPDF(ActionEvent event) {
 
     }
@@ -120,7 +136,7 @@ public class MarkListController implements Initializable {
 
     @FXML
     void handleMouseClicked(MouseEvent event) {
-    
+
     }
 
     @FXML
@@ -137,7 +153,7 @@ public class MarkListController implements Initializable {
 
     @FXML
     void handleStudentAddOption(ActionEvent event) {
-        
+
         Stage stage = new Stage(StageStyle.DECORATED);
         ElectronicRecordUtill.loadWindow(getClass().getResource("/fxml/AddStudent.fxml"), "Добавление студента", stage);
         stage.setOnHiding((e) -> {
@@ -422,12 +438,21 @@ public class MarkListController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initCol();
+        if (LoginController.getUserType().equals("Admin")) {
+            tableView.setEditable(false);
+            toolBar.setVisible(false);
+            con_add.setVisible(false);
+            con_refresh.setVisible(false);
+            con_addMark.setVisible(false);
+        }
+        if (LoginController.getUserType().equals("Teacher")) {
+            settingsEditColoumnTable();
+            tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        }
+
         loadDataDiplom();
         loadDataCourserwork();
         loadDataByStetment();
-
-        settingsEditColoumnTable();
-        tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
     }
 
@@ -439,6 +464,10 @@ public class MarkListController implements Initializable {
         settingColoumnMark();
         settingColoumnMarkPassed();
 
+    }
+
+    protected static void setStatementMode() {
+        isStatementMode = Boolean.TRUE;
     }
 
     private void settingColoumnThesis() {
@@ -566,7 +595,7 @@ public class MarkListController implements Initializable {
                     ElectronicRecordUtill.setColorCommitAndRollBack(commit, rollback, btn_commit, btn_rollback);
                     reatingList.set(index, reatingModel);
                 }
-                if (event.getCode().getName().equals("0")) {
+                if (event.getCode().getName().equals("2")) {
 
                     int index = tableView.getSelectionModel().getSelectedIndex();
                     edtitListIndex.add(index);

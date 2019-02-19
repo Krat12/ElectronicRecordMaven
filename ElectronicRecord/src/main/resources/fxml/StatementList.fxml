@@ -24,12 +24,12 @@
          <children>
             <AnchorPane id="AnchorPane" fx:id="contentPane" prefHeight="525.0" prefWidth="798.0" style="-fx-background-color: #2D75E8;">
                <children>
-                  <TableView fx:id="tableView" layoutY="141.0" prefHeight="546.0" prefWidth="1050.0" stylesheets="@../styles/table.css" AnchorPane.bottomAnchor="-6.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="141.0">
+                  <TableView fx:id="tableView" layoutY="141.0" onMouseClicked="#SelectRow" prefHeight="546.0" prefWidth="1050.0" stylesheets="@../styles/table.css" AnchorPane.bottomAnchor="-6.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="141.0">
                     <columns>
                         <TableColumn fx:id="numberStatement" maxWidth="150.0" minWidth="30.0" prefWidth="40.0" resizable="false" text="№" />
                         <TableColumn fx:id="colGrpoup" editable="true" maxWidth="3000.0" prefWidth="157.0" styleClass="table-columnSubject" text="Группа" />
                         <TableColumn fx:id="colSubject" prefWidth="219.0" text="Предмет" />
-                        <TableColumn fx:id="colTeacher" prefWidth="148.0" text="Преподователь" />
+                        <TableColumn fx:id="colTeacher" prefWidth="148.0" text="Преподователь" visible="false" />
                         <TableColumn fx:id="colType" prefWidth="242.0" text="Тип" />
                         <TableColumn fx:id="colHours" maxWidth="2000.0" prefWidth="174.0" text="Часы" />
                         <TableColumn fx:id="colDate" prefWidth="138.0" text="Дата" />

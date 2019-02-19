@@ -19,7 +19,7 @@
    <children>
       <AnchorPane id="AnchorPane" fx:id="contentPane" prefHeight="685.0" prefWidth="598.0" style="-fx-background-color: #2D75E8 #2D75E8;">
          <children>
-            <TableView fx:id="tableView" layoutY="136.0" onMouseClicked="#handleMouseClicked" prefHeight="590.0" prefWidth="577.0" stylesheets="@../styles/table.css" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="136.0">
+            <TableView fx:id="tableView" layoutY="115.0" onMouseClicked="#handleMouseClicked" prefWidth="577.0" stylesheets="@../styles/table.css" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="115.0">
               <columns>
                 <TableColumn fx:id="numberStudent" maxWidth="308.0" minWidth="0.0" prefWidth="34.0" resizable="false" text="№" />
                 <TableColumn fx:id="fullName" maxWidth="2500.0" prefWidth="314.0" text="ФИО" />
@@ -34,9 +34,9 @@
                <contextMenu>
                   <ContextMenu style="-fx-base: #0e67f7;" styleClass="table-context">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#handleRefresh" text="Обновить" />
-                        <MenuItem mnemonicParsing="false" onAction="#handleStudentAddOption" text="Добавить" />
-                        <MenuItem mnemonicParsing="false" onAction="#handleMarkOption" text="Выставить оценку" />
+                        <MenuItem fx:id="con_refresh" mnemonicParsing="false" onAction="#handleRefresh" text="Обновить" />
+                        <MenuItem fx:id="con_add" mnemonicParsing="false" onAction="#handleStudentAddOption" text="Добавить" />
+                        <MenuItem fx:id="con_addMark" mnemonicParsing="false" onAction="#handleMarkOption" text="Выставить оценку" />
                     </items>
                   </ContextMenu>
                </contextMenu>
@@ -61,7 +61,7 @@
                   </Menu>
                </menus>
             </MenuBar>
-            <ToolBar layoutX="1.0" layoutY="30.0" prefHeight="49.0" prefWidth="577.0" style="-fx-background-color: #2D75E8;">
+            <ToolBar fx:id="toolBar" layoutX="1.0" layoutY="30.0" prefHeight="49.0" prefWidth="577.0" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="0.0">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>

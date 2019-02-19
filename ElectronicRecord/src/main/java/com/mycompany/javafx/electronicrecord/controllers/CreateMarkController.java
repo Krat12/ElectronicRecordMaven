@@ -97,6 +97,7 @@ public class CreateMarkController implements Initializable {
     private Statement getStatement() {
         Statement statement = new Statement();
         Date date = Date.from(creationDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+        System.out.println(date);
         statement.setDate(date);
         statement.setHours(Integer.valueOf(txt_hours.getText()));
         statement.setType(cmb_typeMark.getSelectionModel().getSelectedItem());
