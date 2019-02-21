@@ -1,0 +1,26 @@
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`%` 
+    SQL SECURITY DEFINER
+VIEW `spr_reting` AS
+    SELECT 
+        `reating0_`.`reating_id` AS `reating_1_4_0_`,
+        `reating0_`.`mark` AS `mark2_4_0_`,
+        `reating0_`.`Student_id` AS `Student_4_4_0_`,
+        `statement1_`.`type` AS `type4_9_1_`,
+        `subject2_`.`name_subject` AS `name_sub2_11_2_`,
+        `d`.`Thesis` AS `Thesis`,
+        `c`.`fullNameBoss` AS `fullNameBoss`,
+        `c`.`placePracticle` AS `placePracticle`,
+        `u`.`midleName` AS `midleName`,
+        `u`.`surname` AS `surname`,
+        `u`.`name` AS `name`,
+        `statement1_`.`statement_id` AS `statement_id`
+    FROM
+        ((((((`reating` `reating0_`
+        JOIN `statement` `statement1_` ON ((`reating0_`.`statement_id` = `statement1_`.`statement_id`)))
+        JOIN `subject` `subject2_` ON ((`statement1_`.`subject_id` = `subject2_`.`subject_id`)))
+        JOIN `student` `student3_` ON ((`reating0_`.`Student_id` = `student3_`.`Student_id`)))
+        JOIN `user` `u` ON ((`u`.`user_id` = `student3_`.`Student_id`)))
+        LEFT JOIN `diplom` `d` ON ((`reating0_`.`reating_id` = `d`.`Diplom_id`)))
+        LEFT JOIN `coursework` `c` ON ((`c`.`Coursework_id` = `reating0_`.`reating_id`)))

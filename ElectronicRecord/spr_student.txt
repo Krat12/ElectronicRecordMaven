@@ -1,0 +1,15 @@
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`%` 
+    SQL SECURITY DEFINER
+VIEW `spr_students` AS
+    SELECT DISTINCT
+        `u`.`surname` AS `surname`,
+        `u`.`name` AS `name`,
+        `u`.`midleName` AS `midleName`,
+        `s`.`Student_id` AS `Student_id`,
+        `stg`.`teacher_id` AS `teacher_id`
+    FROM
+        ((`student` `s`
+        JOIN `user` `u` ON ((`s`.`Student_id` = `u`.`user_id`)))
+        JOIN `subject_teacher_group` `stg` ON ((`stg`.`group_id` = `s`.`Group_id`)))
