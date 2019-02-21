@@ -117,7 +117,7 @@
                   </Text>
                   <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Разработана студентом Романовым Игорем" wrappingWidth="260.5693359375">
                      <VBox.margin>
-                        <Insets left="5.0" />
+                        <Insets left="5.0" top="-6.0" />
                      </VBox.margin>
                   </Text>
                </children>

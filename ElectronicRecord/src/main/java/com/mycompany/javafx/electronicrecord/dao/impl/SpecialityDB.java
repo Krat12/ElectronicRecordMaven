@@ -10,8 +10,8 @@ import com.mycompany.javafx.electronicrecord.dao.interfaces.SpecialityDAO;
 import com.mycompany.javafx.electronicrecord.model.Speciality;
 import com.mycompany.javafx.electronicrecord.utill.HibernateSessionFactoryUtill;
 import java.util.List;
+import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.query.Query;
 
 /**
  *
@@ -37,7 +37,7 @@ public class SpecialityDB extends AbstractObject<Speciality> implements Speciali
         List<Speciality> specialitys = null;
         try {
             Query query = session.createQuery("SELECT s FROM Speciality AS s ORDER BY s.nameSpeciality");
-            specialitys = query.getResultList();
+            specialitys = query.list();
         } catch (Exception e) {
             System.out.println(e);
         } finally {

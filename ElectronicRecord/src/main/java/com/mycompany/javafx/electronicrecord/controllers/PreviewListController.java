@@ -54,7 +54,7 @@ public class PreviewListController implements Initializable {
         
         try {
             if(listPreview.isEmpty()){
-                  AlertMaker.showMaterialDialog(rootPanePriview, panePreview, null, "Нет данных для добавления", "Пожалуйста, выберите какие поля вы хотите добавить");
+                  AlertMaker.showMaterialDialog(rootPanePriview, panePreview, null, "Нет данных для добавления", "Пожалуйста, выберите поля, которые хотите добавить");
                   return;
             }
             for (SubjectListController.SubjectTeacherModel subjectTeacherModel : listPreview) {

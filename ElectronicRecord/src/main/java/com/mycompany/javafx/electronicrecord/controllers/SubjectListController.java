@@ -7,7 +7,6 @@ import com.mycompany.javafx.electronicrecord.dao.impl.SprSubjectTeacherGroupDB;
 import com.mycompany.javafx.electronicrecord.dao.impl.SubjectTeacherGroupDB;
 import com.mycompany.javafx.electronicrecord.model.Groupstud;
 import com.mycompany.javafx.electronicrecord.model.SprSubjectTeacherGroup;
-import com.mycompany.javafx.electronicrecord.model.SubjectTeacherGroup;
 import com.mycompany.javafx.electronicrecord.utill.AlertMaker;
 import com.mycompany.javafx.electronicrecord.utill.ElectronicRecordUtill;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;

@@ -10,9 +10,9 @@ import com.mycompany.javafx.electronicrecord.utill.HibernateSessionFactoryUtill;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 public class StatementDB extends AbstractObject<Statement> implements StatementDAO {
 

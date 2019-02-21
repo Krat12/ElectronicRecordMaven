@@ -45,18 +45,14 @@
                <menus>
                   <Menu mnemonicParsing="false" text="File">
                      <items>
-                        <Menu mnemonicParsing="false" text="Загрузить">
-                           <items>
-                              <MenuItem mnemonicParsing="false" onAction="#handleImportCSV" text="Import CSV" />
-                           </items>
-                        </Menu>
-                        <Menu mnemonicParsing="false" text="Выгрузить">
+                        <Menu mnemonicParsing="false" text="Сохранить как">
                           <items>
                               <MenuItem mnemonicParsing="false" onAction="#exportAsPDF" text="Expert as PDF" />
                               <MenuItem mnemonicParsing="false" onAction="#exportCSV" text="Expert as CSV" />
                               <MenuItem mnemonicParsing="false" onAction="#exportAsPDF" text="Expert as XML" />
                           </items>
                         </Menu>
+                        <MenuItem mnemonicParsing="false" onAction="#closeStage" text="Выйти" />
                      </items>
                   </Menu>
                </menus>

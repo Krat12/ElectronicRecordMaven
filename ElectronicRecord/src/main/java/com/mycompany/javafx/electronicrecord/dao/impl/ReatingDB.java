@@ -6,9 +6,10 @@ import com.mycompany.javafx.electronicrecord.model.Reating;
 import com.mycompany.javafx.electronicrecord.model.SprReating;
 import com.mycompany.javafx.electronicrecord.utill.HibernateSessionFactoryUtill;
 import java.util.List;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
+
 
 public class ReatingDB extends AbstractObject<Reating> implements ReatingDAO {
 
@@ -62,6 +63,23 @@ public class ReatingDB extends AbstractObject<Reating> implements ReatingDAO {
         }
         return reatings;
     }
+
+    @Override
+    public List<SprReating> getReatingsByStudentId(int studentId) {
+       Session session = HibernateSessionFactoryUtill.getSessionFactory().openSession();
+        List<SprReating> reatings = null;
+        try {
+            Query query = session.createQuery("SELECT sr FROM SprReating sr WHERE sr.studentid = :studentId");
+            query.setParameter("studentId", studentId);
+            reatings = query.list();
+        } catch (Exception exception) {
+            System.out.println(exception);
+        } finally {
+            session.close();
+        }
+        return reatings;
+    }    
+   
 
 
 }

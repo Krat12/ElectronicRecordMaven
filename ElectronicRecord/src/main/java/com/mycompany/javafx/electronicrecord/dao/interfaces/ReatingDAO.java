@@ -13,11 +13,12 @@ import java.util.List;
  *
  * @author Admin
  */
-public interface ReatingDAO extends ObjectDAO<Reating>{
-    
+public interface ReatingDAO extends ObjectDAO<Reating> {
+
     void insertBySelect(int statementId, int groupId);
-    
+
     List<SprReating> getReatingByStatement(int statementId);
-    
-    
+
+    List<SprReating> getReatingsByStudentId(int studentId);
+
 }

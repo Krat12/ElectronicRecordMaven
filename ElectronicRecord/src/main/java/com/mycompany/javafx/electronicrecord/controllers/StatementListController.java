@@ -2,6 +2,8 @@ package com.mycompany.javafx.electronicrecord.controllers;
 
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXDrawer;
+import com.jfoenix.controls.JFXHamburger;
+import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import com.mycompany.javafx.electronicrecord.dao.impl.GroupDB;
 import com.mycompany.javafx.electronicrecord.dao.impl.StatementDB;
 import com.mycompany.javafx.electronicrecord.dao.impl.SubjectDB;
@@ -10,18 +12,23 @@ import com.mycompany.javafx.electronicrecord.model.Statement;
 import com.mycompany.javafx.electronicrecord.model.Subject;
 import com.mycompany.javafx.electronicrecord.utill.AlertMaker;
 import com.mycompany.javafx.electronicrecord.utill.ElectronicRecordUtill;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
@@ -30,6 +37,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -49,6 +57,9 @@ public class StatementListController implements Initializable {
 
     @FXML
     private JFXDrawer drawer;
+
+    @FXML
+    private JFXHamburger hamburger;
 
     @FXML
     private AnchorPane contentPane;
@@ -132,7 +143,6 @@ public class StatementListController implements Initializable {
         if (model != null) {
             if (event.getClickCount() == 2) {
                 Stage stage = new Stage(StageStyle.DECORATED);
-                MarkListController.setStatementMode();
                 CreateMarkController.setSelectTypeMark(model.getTypeСertification());
                 CreateMarkController.setStatementId(model.getStatementId());
                 ElectronicRecordUtill.loadWindow(getClass().getResource("/fxml/MarkList.fxml"), "Список студентов", stage);
@@ -165,7 +175,7 @@ public class StatementListController implements Initializable {
         List<Statement> statements = null;
         if (LoginController.getUserType().equals("Admin")) {
             statements = StatementDB.getInstance().getStatementsByCriteria(null, null, null, confertDate, currentDate, "", 0);
-        }else{
+        } else {
             statements = StatementDB.getInstance().getStatementsByCriteria(null, null, null, confertDate, currentDate, LoginController.getUserType(), LoginController.getUserId());
         }
 
@@ -178,9 +188,12 @@ public class StatementListController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         checkTeacherOrAdmin();
         initCol();
+       
         cmb_group.setItems(listGroups);
         cmb_subject.setItems(listSubjects);
-        cmb_typeСertification.setItems(listTypeCertification);
+        cmb_typeСertification.setItems(listTypeCertification); 
+        initDrawer();
+
     }
 
     private void checkTeacherOrAdmin() {
@@ -253,6 +266,32 @@ public class StatementListController implements Initializable {
                 && (dp_To.getValue() == null);
 
         return result;
+    }
+
+    private void initDrawer() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/toolbar.fxml"));
+             VBox toolbar = loader.load();
+            drawer.setSidePane(toolbar);
+
+        } catch (IOException ex) {
+            Logger.getLogger(StatementListController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
+        task.setRate(-1);
+        hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, (Event event) -> {
+            drawer.toggle();
+        });
+        drawer.setOnDrawerOpening((event) -> {
+            task.setRate(task.getRate() * -1);
+            task.play();
+            drawer.toFront();
+        });
+        drawer.setOnDrawerClosed((event) -> {
+            drawer.toBack();
+            task.setRate(task.getRate() * -1);
+            task.play();
+        });
     }
 
     public static class StatementModel {

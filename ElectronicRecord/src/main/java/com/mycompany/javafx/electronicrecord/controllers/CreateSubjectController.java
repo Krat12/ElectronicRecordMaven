@@ -1,8 +1,10 @@
 package com.mycompany.javafx.electronicrecord.controllers;
 
 import com.mycompany.javafx.electronicrecord.dao.impl.SubjectDB;
+import com.mycompany.javafx.electronicrecord.dao.impl.SubjectTeacherGroupDB;
 import com.mycompany.javafx.electronicrecord.dao.impl.TeacherDB;
 import com.mycompany.javafx.electronicrecord.model.Subject;
+import com.mycompany.javafx.electronicrecord.model.SubjectTeacherGroup;
 import com.mycompany.javafx.electronicrecord.model.Teacher;
 import com.mycompany.javafx.electronicrecord.utill.AlertMaker;
 import com.mycompany.javafx.electronicrecord.utill.ElectronicRecordUtill;
@@ -11,18 +13,13 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -30,11 +27,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
@@ -81,35 +75,26 @@ public class CreateSubjectController implements Initializable {
     void handleSubjectDeleteOption(ActionEvent event) {
 
     }
-
+    
     @FXML
-    void SelectGroup(MouseEvent event) {
+    void handleSaveDataDB(ActionEvent event) {
+         if(listInsertPreview.isEmpty()){
+                  AlertMaker.showMaterialDialog(rootPane, contentPane, null, "Нет данных для добавления", "Пожалуйста, выберите поля, которые хотите добавить");
+                  return;
+            }
+            for (SubjectListController.SubjectTeacherModel subjectTeacherModel : listInsertPreview) {
+                SubjectTeacherGroup stg = new SubjectTeacherGroup();
+                SubjectTeacherGroupDB.getInstance().insetSubjectTeacherGroup(subjectTeacherModel.getSubjectId(), subjectTeacherModel.getTeacherId(),
+                        SubjectListController.getGroupId(), subjectTeacherModel.getHours(), stg);
 
-    }
-
-    @FXML
-    void closeStage(ActionEvent event) {
-
-    }
-
-    @FXML
-    void exportAsPDF(ActionEvent event) {
-
+            }
+            ElectronicRecordUtill.loadAlertConfrim(getClass().getResource("/fxml/AlertConfrim.fxml"), null, "Успех!", "Было добавлено " + listInsertPreview.size() + " запесей");
+            listInsertPreview.clear();
     }
 
     @FXML
     void handlePreview(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PreviewList.fxml"));
-            Parent parent = loader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(parent)); 
-            stage.initModality(Modality.APPLICATION_MODAL); 
-            ElectronicRecordUtill.setStageIcon(stage);
-            stage.showAndWait();
-        } catch (IOException ex) {
-            Logger.getLogger(GroupListController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        ElectronicRecordUtill.loadWindowModality(getClass().getResource("/fxml/PreviewList.fxml"), "Предворительный просмотр", null);
     }
 
     @FXML

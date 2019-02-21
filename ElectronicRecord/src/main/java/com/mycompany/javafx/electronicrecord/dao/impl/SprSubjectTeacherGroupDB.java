@@ -9,8 +9,8 @@ import com.mycompany.javafx.electronicrecord.dao.interfaces.SprSubjectTeacherGor
 import com.mycompany.javafx.electronicrecord.model.SprSubjectTeacherGroup;
 import com.mycompany.javafx.electronicrecord.utill.HibernateSessionFactoryUtill;
 import java.util.List;
+import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.query.Query;
 
 /**
  *

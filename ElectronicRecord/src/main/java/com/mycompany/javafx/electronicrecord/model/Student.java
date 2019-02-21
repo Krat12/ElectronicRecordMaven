@@ -16,18 +16,18 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-
 @Entity
 @Table(name = "student")
 public class Student implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @Basic(optional = false)
     @Column(name = "Student_id")
     private Integer studentid;
     @Column(name = "number_book")
-     @CsvBindByName(column = "Номер зачетки")
+    @CsvBindByName(column = "Номер зачетки")
     private Integer numberBook;
     @Column(name = "course")
     private Integer course;
@@ -39,12 +39,11 @@ public class Student implements Serializable {
     private User user;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentid", fetch = FetchType.LAZY)
     private List<Reating> reatingList;
-    
+
     @Transient
     @CsvBindByName(column = "ФИО")
     private String fullName;
-    
-    
+
     public Student() {
     }
 
@@ -116,8 +115,6 @@ public class Student implements Serializable {
     public String toString() {
         return "Student{" + "studentid=" + studentid + ", numberBook=" + numberBook + ", course=" + course + ", groupid=" + groupid + ", user=" + user + ", fullName=" + fullName + '}';
     }
-
- 
 
     public String getFullName() {
         return fullName;

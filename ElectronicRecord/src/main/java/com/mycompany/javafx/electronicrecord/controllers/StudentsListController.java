@@ -172,7 +172,7 @@ public class StudentsListController implements Initializable {
     void handleImportCSV(ActionEvent event) {
         try {
             String URL = ElectronicRecordUtill.initCSVImport(new Stage());
-            System.out.println(URL);
+           
             if (URL.equals("")) {
                 return;
             }
@@ -320,8 +320,7 @@ public class StudentsListController implements Initializable {
     @FXML
     void exportCSV(ActionEvent event) {
         String URL = ElectronicRecordUtill.initCSVExport(new Stage());
-        System.out.println(URL);
-        if (URL.equals("")) {
+        if (URL.trim().isEmpty()) {
             return;
         }
         if (listStudents.isEmpty()) {

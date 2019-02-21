@@ -8,9 +8,10 @@ import com.mycompany.javafx.electronicrecord.utill.HibernateSessionFactoryUtill;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
+
 
 public class GroupDB extends AbstractObject<Groupstud> implements GroupDAO {
 
@@ -33,7 +34,7 @@ public class GroupDB extends AbstractObject<Groupstud> implements GroupDAO {
         List<Groupstud> groups = null;
         try {
             Query query = session.createQuery("from Groupstud g join fetch g.specialityId ORDER BY g.groupname");
-            groups = query.getResultList();
+            groups = query.list();
         } catch (Exception e) {
             System.out.println(e);
         } finally {
@@ -49,7 +50,7 @@ public class GroupDB extends AbstractObject<Groupstud> implements GroupDAO {
         try {
             Query query = session.createQuery("from Groupstud g join fetch g.specialityId where g.groupname LIKE CONCAT('%',:name,'%')");
             query.setParameter("name", name);
-            groups = query.getResultList();
+            groups = query.list();
         } catch (Exception e) {
             System.out.println(e);
         } finally {
@@ -101,7 +102,7 @@ public class GroupDB extends AbstractObject<Groupstud> implements GroupDAO {
         try {
             Query query = session.createQuery("from Groupstud g join fetch g.specialityId where g.groupid <> :target ORDER BY g.groupname");
             query.setParameter("target", groupId);
-            groups = query.getResultList();
+            groups = query.list();
         } catch (Exception e) {
             System.out.println(e);
         } finally {

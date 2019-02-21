@@ -5,9 +5,8 @@ import com.mycompany.javafx.electronicrecord.dao.interfaces.SubjectDAO;
 import com.mycompany.javafx.electronicrecord.model.Subject;
 import com.mycompany.javafx.electronicrecord.utill.HibernateSessionFactoryUtill;
 import java.util.List;
+import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.query.Query;
-
 public class SubjectDB extends AbstractObject<Subject> implements SubjectDAO {
 
     private static SubjectDB instance;
@@ -28,7 +27,7 @@ public class SubjectDB extends AbstractObject<Subject> implements SubjectDAO {
         List<Subject> subjects = null;
         try {
             Query query = session.createQuery("from Subject s ORDER BY s.nameSubject");
-            subjects = query.getResultList();
+            subjects = query.list();
         } catch (Exception e) {
             System.out.println(e);
             throw e;
@@ -48,7 +47,7 @@ public class SubjectDB extends AbstractObject<Subject> implements SubjectDAO {
                     + "WHERE t.teacherid = :teacherId AND g.groupid = :groupId");
             query.setParameter("teacherId", teacherId);
             query.setParameter("groupId", groupId);
-            subjects = query.getResultList();
+            subjects = query.list();
         } catch (Exception e) {
             System.out.println(e);
             throw e;
@@ -68,7 +67,7 @@ public class SubjectDB extends AbstractObject<Subject> implements SubjectDAO {
                     + "WHERE t.teacherid = :teacherId");
             query.setParameter("teacherId", teacherId);
           
-            subjects = query.getResultList();
+            subjects = query.list();
         } catch (Exception e) {
             System.out.println(e);
             throw e;

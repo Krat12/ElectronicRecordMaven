@@ -137,10 +137,12 @@ public class StudentCreateController implements Initializable {
             UserDB.getInstance().update(user);
         } else {
             UserDB.getInstance().insert(user);
+            
         }
 
         loadDataStudent(user);
     }
+
 
     private void loadDataStudent(User user) {
         Student student = new Student(user.getUserId());
@@ -154,6 +156,7 @@ public class StudentCreateController implements Initializable {
             Groupstud groupstud = GroupDB.getInstance().getGroupstudsByName(StudentsListController.groupName);
             student.setGroupid(groupstud);
             StudentDB.getInstance().insert(student);
+            
         }
 
     }
@@ -264,7 +267,7 @@ public class StudentCreateController implements Initializable {
     }
 //</editor-fold>
     
-
+  
 
     private void textFieldIsDigit() {
         txt_numberRecord.textProperty().addListener((observable, oldValue, newValue) -> {

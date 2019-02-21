@@ -18,6 +18,7 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -66,7 +67,6 @@ public class MarkListController implements Initializable {
     private static final String[] STRING_MARKS = {"Зачет", "Незачет"};
     private final ObservableList<ReatingModel> reatingList = FXCollections.observableArrayList();
     private static Set<Integer> edtitListIndex;
-    private static Boolean isStatementMode = Boolean.FALSE;
 
     @FXML
     private StackPane rootPane;
@@ -126,13 +126,22 @@ public class MarkListController implements Initializable {
 
     @FXML
     void exportCSV(ActionEvent event) {
-
+        String URL = ElectronicRecordUtill.initCSVExport(new Stage());
+        if (URL.trim().isEmpty()) {
+            return;
+        }
+        if (reatingList.isEmpty()) {
+            JFXButton fXButton = new JFXButton("OK");
+            AlertMaker.showMaterialDialog(rootPane, contentPane, Arrays.asList(fXButton), "Пустая таблица!", "Выгрузить не удалось, заполните таблицу!");
+            return;
+        }
+        try {
+            ElectronicRecordUtill.exportMarstListCSV(URL,reatingList,getSelectTypeMark());
+        } catch (IOException e) {
+            ElectronicRecordUtill.loadAlertError(getClass().getResource("/fxml/AlertError.fxml"), new Stage(), "Ooops...", "Что то пошло не так ");
+        }
     }
 
-    @FXML
-    void handleImportCSV(ActionEvent event) {
-
-    }
 
     @FXML
     void handleMouseClicked(MouseEvent event) {
@@ -191,7 +200,7 @@ public class MarkListController implements Initializable {
             ElectronicRecordUtill.setStageIcon(stage);
             stage.show();
             stage.setOnHiding((WindowEvent e) -> {
-
+                ElectronicRecordUtill.setColorCommitAndRollBack(commit, rollback, btn_commit, btn_rollback);
                 edtitListIndex = initColletion();
 
                 List<ReatingModel> listModels = new ArrayList<>();
@@ -469,10 +478,6 @@ public class MarkListController implements Initializable {
 
     }
 
-    protected static void setStatementMode() {
-        isStatementMode = Boolean.TRUE;
-    }
-
     private void settingColoumnThesis() {
         thesis.setCellFactory(TextFieldTableCell.<ReatingModel>forTableColumn());
         thesis.setOnEditCommit((CellEditEvent<ReatingModel, String> event) -> {
@@ -648,6 +653,11 @@ public class MarkListController implements Initializable {
             edtitListIndex = new HashSet<>();
         }
         return edtitListIndex;
+    }
+    
+    @FXML
+    void closeStage(ActionEvent event) {
+        ElectronicRecordUtill.closeStage(event);
     }
 
     public static class ReatingModel {

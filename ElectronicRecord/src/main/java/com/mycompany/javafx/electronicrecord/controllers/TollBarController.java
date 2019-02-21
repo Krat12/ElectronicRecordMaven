@@ -38,8 +38,12 @@ public class TollBarController {
 
     }
 
-    @FXML
-    void updateGroup(ActionEvent event) {
+     @FXML
+    void handleListStudents(ActionEvent event) {
+        ElectronicRecordUtill.loadWindow(getClass().getResource("/fxml/StudentTeacher.fxml"), "Home", null);
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+        stage.close();
 
     }
 

@@ -6,14 +6,11 @@ import com.mycompany.javafx.electronicrecord.model.Groupstud;
 import com.mycompany.javafx.electronicrecord.model.Subject;
 import com.mycompany.javafx.electronicrecord.model.SubjectTeacherGroup;
 import com.mycompany.javafx.electronicrecord.model.Teacher;
-import com.mycompany.javafx.electronicrecord.model.User;
 import com.mycompany.javafx.electronicrecord.utill.HibernateSessionFactoryUtill;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
+
 
 public class SubjectTeacherGroupDB extends AbstractObject<SubjectTeacherGroup> implements SubjectTeacherGroupDAO {
 

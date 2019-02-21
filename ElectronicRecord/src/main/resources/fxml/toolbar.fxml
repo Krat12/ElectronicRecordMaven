@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -90,14 +91,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton contentDisplay="TOP" mnemonicParsing="false" onAction="#updateGroup" prefHeight="400.0" prefWidth="160.0" styleClass="toolbar-button" text="Обновить" textAlignment="CENTER">
-         <graphic>
-            <ImageView fitHeight="31.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../image/icons8_Refresh_Shield_104px_2.png" />
-               </image>
-            </ImageView>
-         </graphic>
+      <JFXButton contentDisplay="TOP" mnemonicParsing="false" onAction="#handleListStudents" prefHeight="400.0" prefWidth="160.0" styleClass="toolbar-button" text="Список студентов" textAlignment="CENTER">
          <ripplerFill>
             <LinearGradient cycleMethod="REFLECT" endX="1.0" endY="1.0" startX="0.4809523809523809">
                <stops>
@@ -109,6 +103,9 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
+         <graphic>
+            <FontAwesomeIconView fill="#2d75e8" glyphName="GROUP" size="30" style="-fx-fill: #2d75e8;" />
+         </graphic>
       </JFXButton>
       <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="223.0" mnemonicParsing="false" onAction="#closeGroup" prefHeight="400.0" prefWidth="160.0" styleClass="toolbar-button" text="Выйти" textAlignment="CENTER">
          <graphic>

@@ -9,8 +9,8 @@ import com.mycompany.javafx.electronicrecord.dao.interfaces.AbstractObject;
 import com.mycompany.javafx.electronicrecord.dao.interfaces.UserDAO;
 import com.mycompany.javafx.electronicrecord.model.User;
 import com.mycompany.javafx.electronicrecord.utill.HibernateSessionFactoryUtill;
+import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.query.Query;
 
 /**
  *

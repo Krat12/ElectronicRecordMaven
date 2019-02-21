@@ -5,6 +5,7 @@
  */
 package com.mycompany.javafx.electronicrecord.dao.interfaces;
 
+import com.mycompany.javafx.electronicrecord.model.SprStudents;
 import com.mycompany.javafx.electronicrecord.model.Student;
 import java.util.List;
 
@@ -21,5 +22,7 @@ public interface StudentDAO extends ObjectDAO<Student>{
     List<Student> getStudentsByGroup(String group);
     
     List<Student> getStudentsByNameAndGroup(String name,String group);
+    
+    List<SprStudents> getStudentsByTeacherId(int id);
     
 }

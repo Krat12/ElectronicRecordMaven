@@ -3,6 +3,7 @@ package com.mycompany.javafx.electronicrecord.utill;
 import com.jfoenix.controls.JFXButton;
 import com.mycompany.javafx.electronicrecord.controllers.AlertConfrimController;
 import com.mycompany.javafx.electronicrecord.controllers.AlertErrorController;
+import com.mycompany.javafx.electronicrecord.controllers.MarkListController;
 import com.mycompany.javafx.electronicrecord.controllers.StudentsListController;
 import com.mycompany.javafx.electronicrecord.model.Student;
 import com.opencsv.CSVReader;
@@ -65,8 +66,8 @@ public class ElectronicRecordUtill {
         }
         return controller;
     }
-    
-        public static Object loadWindow(URL loc, String title, Stage parentStage,int width, int height) {
+
+    public static Object loadWindow(URL loc, String title, Stage parentStage, int width, int height) {
         Object controller = null;
         try {
             FXMLLoader loader = new FXMLLoader(loc);
@@ -89,8 +90,8 @@ public class ElectronicRecordUtill {
         }
         return controller;
     }
-    
-       public static Object loadWindowModality(URL loc, String title, Stage parentStage) {
+
+    public static Object loadWindowModality(URL loc, String title, Stage parentStage) {
         Object controller = null;
         try {
             FXMLLoader loader = new FXMLLoader(loc);
@@ -112,8 +113,8 @@ public class ElectronicRecordUtill {
         }
         return controller;
     }
-     
-        public static Object loadWindow(URL loc, String title, Stage parentStage,boolean resizable) {
+
+    public static Object loadWindow(URL loc, String title, Stage parentStage, boolean resizable) {
         Object controller = null;
         try {
             FXMLLoader loader = new FXMLLoader(loc);
@@ -126,7 +127,7 @@ public class ElectronicRecordUtill {
                 stage = new Stage(StageStyle.DECORATED);
             }
             stage.setTitle(title);
-            if(resizable){
+            if (resizable) {
                 stage.setResizable(true);
             }
             stage.setScene(new Scene(parent));
@@ -266,6 +267,39 @@ public class ElectronicRecordUtill {
         writer.close();
     }
 
+    public static void exportMarstListCSV(String url, List<MarkListController.ReatingModel> rms, String type) throws IOException {
+        FileWriter writer = new FileWriter(url);
+        if (type.equals("Зачет") || type.equals("Дифференцированный зачет")) {
+            CSVUtils.writeLine(writer, Arrays.asList("№","ФИО", "Оценка"), ';');
+        }
+        if (type.equals("Дипломная работа")) {
+            CSVUtils.writeLine(writer, Arrays.asList("№","ФИО", "Оценка","Тема диплома"), ';');
+        }
+        if (type.equals("Курсовая работа")) {
+            CSVUtils.writeLine(writer, Arrays.asList("№","ФИО", "Оценка","Место прохождение практике","Руководитель"), ';');
+        }
+
+        for (MarkListController.ReatingModel reatingModel : rms) {
+
+            List<String> list = new ArrayList<>();
+            list.add(String.valueOf(reatingModel.getNumberStudent()));
+            list.add(reatingModel.getFullName());
+            list.add(reatingModel.getMark());
+            if (type.equals("Дипломная работа")) {
+                list.add(reatingModel.getThesis());
+            }
+            if (type.equals("Курсовая работа")) {
+                list.add(reatingModel.getPlacePractic());
+                list.add(reatingModel.getFullNameBoss());
+            }
+
+            CSVUtils.writeLine(writer, list, ';');
+        }
+
+        writer.flush();
+        writer.close();
+    }
+
     public static void setColorCommitAndRollBack(FontAwesomeIconView commit, FontAwesomeIconView rollback, JFXButton btn_commit, JFXButton btn_rollback) {
         commit.setStyle("-fx-fill:#70ff7e");
         rollback.setStyle("-fx-fill:#ff6161");
@@ -283,7 +317,5 @@ public class ElectronicRecordUtill {
         btn_commit.setStyle("-fx-text-fill:white");
         btn_rollback.setStyle("-fx-text-fill:white");
     }
-
- 
 
 }

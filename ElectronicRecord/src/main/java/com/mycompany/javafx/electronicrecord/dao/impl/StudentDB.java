@@ -2,15 +2,16 @@ package com.mycompany.javafx.electronicrecord.dao.impl;
 
 import com.mycompany.javafx.electronicrecord.dao.interfaces.AbstractObject;
 import com.mycompany.javafx.electronicrecord.dao.interfaces.StudentDAO;
+import com.mycompany.javafx.electronicrecord.model.SprStudents;
 import com.mycompany.javafx.electronicrecord.model.Student;
 import com.mycompany.javafx.electronicrecord.model.User;
 import com.mycompany.javafx.electronicrecord.utill.HibernateSessionFactoryUtill;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import org.hibernate.Query;
 
 import org.hibernate.Session;
-import org.hibernate.query.Query;
 
 public class StudentDB extends AbstractObject<Student> implements StudentDAO {
 
@@ -53,7 +54,7 @@ public class StudentDB extends AbstractObject<Student> implements StudentDAO {
         List<Student> students = null;
         try {
             Query query = session.createQuery("from Student s join fetch s.user u join fetch s.groupid g join fetch g.specialityId");
-            students = query.getResultList();
+            students = query.list();
         } catch (Exception e) {
             System.out.println(e);
         } finally {
@@ -127,6 +128,22 @@ public class StudentDB extends AbstractObject<Student> implements StudentDAO {
                 
                 students.add(student);
             }
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            session.close();
+        }
+        return students;
+    }
+
+    @Override
+    public List<SprStudents> getStudentsByTeacherId(int teacherId) {
+        Session session = HibernateSessionFactoryUtill.getSessionFactory().openSession();
+        List<SprStudents> students = null;
+        try {
+            Query query = session.createQuery("from SprStudents s where s.teacherId = :teacherId ORDER BY s.surname");
+            query.setParameter("teacherId", teacherId);
+            students = query.list();
         } catch (Exception e) {
             System.out.println(e);
         } finally {
