@@ -7,9 +7,9 @@ import com.mycompany.javafx.electronicrecord.model.Subject;
 import com.mycompany.javafx.electronicrecord.model.SubjectTeacherGroup;
 import com.mycompany.javafx.electronicrecord.model.Teacher;
 import com.mycompany.javafx.electronicrecord.utill.HibernateSessionFactoryUtill;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 
 public class SubjectTeacherGroupDB extends AbstractObject<SubjectTeacherGroup> implements SubjectTeacherGroupDAO {
@@ -33,7 +33,7 @@ public class SubjectTeacherGroupDB extends AbstractObject<SubjectTeacherGroup> i
         Transaction transaction = null;
         String sql = "INSERT INTO subject_teacher_group (group_id,subject_id,teacher_id,hours)\n"
                 + "(SELECT " + targer + ", A.subject_id,A.teacher_id,A.hours FROM subject_teacher_group as A where A.group_id = " + sourse + ");";
-        System.out.println(sql);
+        
         try {
             transaction = session.beginTransaction();
             Query query = session.createSQLQuery(sql).addEntity(SubjectTeacherGroup.class);

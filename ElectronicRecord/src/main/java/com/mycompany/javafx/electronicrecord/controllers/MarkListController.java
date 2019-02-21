@@ -57,7 +57,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
@@ -136,12 +135,11 @@ public class MarkListController implements Initializable {
             return;
         }
         try {
-            ElectronicRecordUtill.exportMarstListCSV(URL,reatingList,getSelectTypeMark());
+            ElectronicRecordUtill.exportMarstListCSV(URL, reatingList, getSelectTypeMark());
         } catch (IOException e) {
             ElectronicRecordUtill.loadAlertError(getClass().getResource("/fxml/AlertError.fxml"), new Stage(), "Ooops...", "Что то пошло не так ");
         }
     }
-
 
     @FXML
     void handleMouseClicked(MouseEvent event) {
@@ -163,11 +161,13 @@ public class MarkListController implements Initializable {
     @FXML
     void handleStudentAddOption(ActionEvent event) {
 
-        Stage stage = new Stage(StageStyle.DECORATED);
-        ElectronicRecordUtill.loadWindow(getClass().getResource("/fxml/AddStudent.fxml"), "Добавление студента", stage);
-        stage.setOnHiding((e) -> {
+        int result = ReatingDB.getInstance().insertReatinBySelect(reatingList.get(0).getStatementId());
+        if (result == 0) {
+            AlertMaker.showMaterialDialog(rootPane, contentPane, null, "Дабавить не удалось", "Все студенты находятся в ведомости");
+        } else {
+            ElectronicRecordUtill.loadAlertConfrim(getClass().getResource("/fxml/AlertConfrim.fxml"), null, "Успех", "Было дабавлено " + result + " студентов");
             handleRefresh(new ActionEvent());
-        });
+        }
     }
 
     @FXML
@@ -254,7 +254,7 @@ public class MarkListController implements Initializable {
             int amount = 1;
             for (SprReating reating : ReatingDB.getInstance().getReatingByStatement(getStatementId())) {
                 ReatingModel model = new ReatingModel();
-                model.setFullName(reating.getSurname() + " "+ reating.getName() + " "+ reating.getMidleName() + " ");
+                model.setFullName(reating.getSurname() + " " + reating.getName() + " " + reating.getMidleName() + " ");
                 checkIsNullMark(reating, model);
                 checkIsNullThesis(reating, model);
                 checkIsNullFullNameBoss(reating, model);
@@ -262,6 +262,7 @@ public class MarkListController implements Initializable {
                 model.setStudentId(reating.getStudentid());
                 model.setNumberStudent(amount);
                 model.setReatingId(reating.getReatingId());
+                model.setStatementId(reating.getStatementId());
                 amount++;
                 reatingList.add(model);
             }
@@ -280,7 +281,7 @@ public class MarkListController implements Initializable {
             int amount = 1;
             for (SprReating reating : ReatingDB.getInstance().getReatingByStatement(getStatementId())) {
                 ReatingModel model = new ReatingModel();
-                model.setFullName(reating.getSurname() + " "+ reating.getName() + " "+ reating.getMidleName() + " ");
+                model.setFullName(reating.getSurname() + " " + reating.getName() + " " + reating.getMidleName() + " ");
 
                 checkIsNullMark(reating, model);
                 checkIsNullThesis(reating, model);
@@ -306,7 +307,7 @@ public class MarkListController implements Initializable {
             int amount = 1;
             for (SprReating reating : ReatingDB.getInstance().getReatingByStatement(getStatementId())) {
                 ReatingModel model = new ReatingModel();
-                model.setFullName(reating.getSurname() + " "+ reating.getName() + " "+ reating.getMidleName() + " ");
+                model.setFullName(reating.getSurname() + " " + reating.getName() + " " + reating.getMidleName() + " ");
 
                 checkIsNullMark(reating, model);
                 checkIsNullFullNameBoss(reating, model);
@@ -654,7 +655,7 @@ public class MarkListController implements Initializable {
         }
         return edtitListIndex;
     }
-    
+
     @FXML
     void closeStage(ActionEvent event) {
         ElectronicRecordUtill.closeStage(event);

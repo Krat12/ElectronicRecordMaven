@@ -20,5 +20,9 @@ public interface ReatingDAO extends ObjectDAO<Reating> {
     List<SprReating> getReatingByStatement(int statementId);
 
     List<SprReating> getReatingsByStudentId(int studentId);
+    
+    int insertReatinBySelect(int statementId);
+    
+    List<SprReating> getReatingsByNameStudent(String name,int statementId);
 
 }

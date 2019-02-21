@@ -1,22 +1,33 @@
 package com.mycompany.javafx.electronicrecord.controllers;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
-import static com.mycompany.javafx.electronicrecord.controllers.CreateMarkController.getSelectTypeMark;
+import static com.mycompany.javafx.electronicrecord.controllers.CreateMarkController.getStatementId;
 import com.mycompany.javafx.electronicrecord.dao.impl.ReatingDB;
 import com.mycompany.javafx.electronicrecord.dao.impl.StudentDB;
 import com.mycompany.javafx.electronicrecord.model.Reating;
 import com.mycompany.javafx.electronicrecord.model.SprReating;
 import com.mycompany.javafx.electronicrecord.model.SprStudents;
+import com.mycompany.javafx.electronicrecord.model.Statement;
+import com.mycompany.javafx.electronicrecord.model.Student;
+import com.mycompany.javafx.electronicrecord.utill.ElectronicRecordUtill;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,8 +36,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -37,10 +50,14 @@ import javafx.scene.layout.VBox;
 
 public class StudentsOfTeacher implements Initializable {
 
-    private ObservableList<StudentModel> listStudents = FXCollections.observableArrayList();
-    private ObservableList<StudentModel> sortStudents = FXCollections.observableArrayList();
-    private ObservableList<ReatingModel> reatingModels = FXCollections.observableArrayList();
+    private final ObservableList<StudentModel> listStudents = FXCollections.observableArrayList();
+    private final ObservableList<StudentModel> sortStudents = FXCollections.observableArrayList();
+    private final ObservableList<ReatingModel> reatingModels = FXCollections.observableArrayList();
+    ObservableList<String> pass = FXCollections.observableArrayList();
     private static String typeCertification;
+    private static final String[] STRING_MARKS = {"Зачет", "Незачет"};
+    private static final String[] NUMBER_MARKS = {"5", "4", "3", "2", "1", "н/a"};
+    private static Set<Integer> edtitListIndex;
 
     @FXML
     private StackPane rootPane;
@@ -121,12 +138,36 @@ public class StudentsOfTeacher implements Initializable {
     private TableColumn<ReatingModel, String> col_fullNameBossCourseWork;
 
     @FXML
-    void handleCommit(ActionEvent event) {
+    private JFXButton btn_commit;
 
+    @FXML
+    private FontAwesomeIconView commit;
+
+    @FXML
+    private JFXButton btn_rollback;
+
+    @FXML
+    private FontAwesomeIconView rollback;
+
+    @FXML
+    void handleCommit(ActionEvent event) {
+        edtitListIndex = initCollection();
+
+        if (edtitListIndex.isEmpty()) {
+            return;
+        }
+        updateReating();
+        edtitListIndex.clear();
+        ElectronicRecordUtill.resetColorCommitAndRollBack(commit, rollback, btn_commit, btn_rollback);
     }
 
     @FXML
     void handleRefresh(ActionEvent event) {
+        StudentModel studentModel = tb_students.getSelectionModel().getSelectedItem();
+        if (studentModel != null) {
+            loadReating(studentModel.getId());
+        }
+        loadStudents();
 
     }
 
@@ -134,10 +175,18 @@ public class StudentsOfTeacher implements Initializable {
     void handleRollBack(ActionEvent event) {
 
     }
+    private void chanegeTextField(){
+        txt_serchStudent.textProperty().addListener(new ChangeListener<String>(){
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                
+            }
+        });
+    }
 
     @FXML
     void serchStudent(ActionEvent event) {
-
+        
     }
 
     @FXML
@@ -149,11 +198,64 @@ public class StudentsOfTeacher implements Initializable {
 
     }
 
+    @FXML
+    void handleSelectAchievement(MouseEvent event) {
+        ReatingModel model = tb_achievement.getSelectionModel().getSelectedItem();
+        if (model.getType().equals("Зачет")) {
+
+            pass.clear();
+            pass.addAll(STRING_MARKS);
+        } else {
+            pass.clear();
+            pass.addAll(NUMBER_MARKS);
+        }
+
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initCol();
         loadStudents();
         initDrawer();
+        settingColoumnMarkPassed();
+        chanegeTextField();
+
+    }
+
+    private void updateReating() {
+
+        Iterator<Integer> it = edtitListIndex.iterator();
+
+        while (it.hasNext()) {
+
+            int index = it.next();
+            Reating reating = new Reating(reatingModels.get(index).getReatingId());
+            System.out.println(reatingModels.get(index).getReatingId());
+            reating.setMark(getConvertedMark(reatingModels.get(index)));
+
+            Statement statement = new Statement(reatingModels.get(index).getStatementId());
+            System.out.println(reatingModels.get(index).getStatementId());
+            reating.setStatementId(statement);
+
+            Student student = new Student(reatingModels.get(index).getStudentId());
+            reating.setStudentid(student);
+
+            ReatingDB.getInstance().update(reating);
+        }
+    }
+
+    private Integer getConvertedMark(ReatingModel model) {
+
+        if (model.getMark().equals("н/а")) {
+            return 0;
+        } else if (model.getMark().equals("Зачет")) {
+            return 1;
+        } else if (model.getMark().equals("Незачет")) {
+            return 0;
+        } else {
+            return Integer.valueOf(model.getMark());
+        }
+
     }
 
     private void initDrawer() {
@@ -216,11 +318,48 @@ public class StudentsOfTeacher implements Initializable {
         tb_students.setItems(listStudents);
     }
 
+    private void settingColoumnMarkPassed() {
+        tb_achievement.setEditable(true);
+        comboBoxMark();
+
+    }
+
+    private void comboBoxMark() {
+
+        col_Mark.setCellValueFactory((TableColumn.CellDataFeatures<ReatingModel, String> param) -> {
+
+            ReatingModel reatingModel = param.getValue();
+            String mark = reatingModel.getMark();
+            return new SimpleObjectProperty<>(mark);
+        });
+
+        col_Mark.setCellFactory(ComboBoxTableCell.forTableColumn(pass));
+
+        col_Mark.setOnEditCommit((TableColumn.CellEditEvent<ReatingModel, String> event) -> {
+
+            String mark = event.getNewValue();
+
+            if (mark != null) {
+
+                if (!mark.trim().isEmpty()) {
+                    edtitListIndex = initCollection();
+                    TablePosition<ReatingModel, String> pos = event.getTablePosition();
+                    int row = pos.getRow();
+                    ReatingModel reatingModel = event.getTableView().getItems().get(row);
+                    reatingModel.setMark(mark);
+                    edtitListIndex.add(row);
+                    ElectronicRecordUtill.setColorCommitAndRollBack(commit, rollback, btn_commit, btn_rollback);
+                }
+            }
+
+        });
+    }
+
     private void loadReating(int studentId) {
         reatingModels.clear();
-       
+
         List<SprReating> reatings = ReatingDB.getInstance().getReatingsByStudentId(studentId);
-     
+
         try {
             typeCertification = reatings.get(0).getType();
         } catch (Exception e) {
@@ -237,24 +376,14 @@ public class StudentsOfTeacher implements Initializable {
             checkIsNullPlacePractice(reating, reatingModel);
             reatingModel.setSubject(reating.getNameSubject());
             reatingModel.setType(reating.getType());
+            reatingModel.setStatementId(reating.getStatementId());
+            reatingModel.setReatingId(reating.getReatingId());
+            reatingModel.setStudentId(reating.getStudentid());
             reatingModels.add(reatingModel);
             amount++;
         }
         tb_achievement.setItems(reatingModels);
         tb_achievement.setVisible(true);
-    }
-
-    private void checkTypeTable() {
-        if (typeCertification.equals("Дипломная работа")) {
-            tb_achievementDiplom.setItems(reatingModels);
-            tb_achievementDiplom.setVisible(true);
-        } else if (typeCertification.equals("Курсовая работа")) {
-            tb_achievementCourseWork.setItems(reatingModels);
-            tb_achievementCourseWork.setVisible(true);
-        } else {
-            tb_achievement.setItems(reatingModels);
-            tb_achievement.setVisible(true);
-        }
     }
 
     private void checkIsNullMark(SprReating reating, ReatingModel model) {
@@ -301,10 +430,10 @@ public class StudentsOfTeacher implements Initializable {
     }
 
     @FXML
-    void handleTest(KeyEvent event) {
+    void handleKeyPressed(KeyEvent event) {
         if (event.getCode() == KeyCode.DOWN) {
             int index = tb_students.getSelectionModel().getSelectedIndex();
-            if (index != listStudents.size()) {
+            if (index != listStudents.size() - 1) {
                 StudentModel model = listStudents.get(index + 1);
                 loadReating(model.getId());
             }
@@ -319,11 +448,20 @@ public class StudentsOfTeacher implements Initializable {
         }
     }
 
+    private static Set<Integer> initCollection() {
+        if (edtitListIndex == null) {
+            edtitListIndex = new HashSet<>();
+        }
+        return edtitListIndex;
+    }
+
     public static class StudentModel {
 
         private SimpleIntegerProperty numberStudent;
         private SimpleStringProperty fullName;
         private SimpleIntegerProperty id;
+        private int statementId;
+        
 
         public StudentModel() {
         }
@@ -357,6 +495,20 @@ public class StudentsOfTeacher implements Initializable {
         @Override
         public String toString() {
             return "StudentModelTable{" + "fullName=" + fullName + '}';
+        }
+
+        /**
+         * @return the statementId
+         */
+        public int getStatementId() {
+            return statementId;
+        }
+
+        /**
+         * @param statementId the statementId to set
+         */
+        public void setStatementId(int statementId) {
+            this.statementId = statementId;
         }
     }
 

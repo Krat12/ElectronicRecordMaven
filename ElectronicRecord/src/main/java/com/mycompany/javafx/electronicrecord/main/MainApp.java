@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 public class MainApp extends Application {
 
     @Override
-    public void start(Stage stage) throws Exception {
+ public void start(Stage stage) throws Exception {
         HibernateSessionFactoryUtill.getSessionFactory();
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/Login.fxml"));
         ElectronicRecordUtill.setStageIcon(stage);

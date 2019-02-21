@@ -303,6 +303,7 @@ public class ElectronicRecordUtill {
     public static void setColorCommitAndRollBack(FontAwesomeIconView commit, FontAwesomeIconView rollback, JFXButton btn_commit, JFXButton btn_rollback) {
         commit.setStyle("-fx-fill:#70ff7e");
         rollback.setStyle("-fx-fill:#ff6161");
+        
 
         btn_commit.setStyle("-fx-text-fill:#70ff7e");
         btn_rollback.setStyle("-fx-text-fill:#ff6161");
